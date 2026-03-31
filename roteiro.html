@@ -1,0 +1,1275 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#1a1208">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Roteiro Europa">
+<link rel="manifest" href="manifest.json">
+<title>Roteiro Europa 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream:#faf7f2; --warm-white:#fff9f2; --ink:#1a1208;
+    --muted:#7a6e60; --accent:#c8864a; --accent-light:#f0dcc8;
+    --lisboa:#3d6b8e; --cascais:#4a8c7a; --sintra:#7a5c8a;
+    --roma:#c04a3a; --florenca:#c87a2e; --siena:#9a6a2a; --veneza:#2e6a9a;
+    --border:#e8dece; --shadow:0 2px 20px rgba(26,18,8,0.08); --done-text:#b0a898;
+    --red:#c0392b; --red-dk:#9b1c1c; --red-lt:#fff0ee;
+    --green:#276749; --green-lt:#edf7f0; --blue:#1e4d8c; --blue-lt:#eef3fc;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:var(--cream);color:var(--ink);font-family:'DM Sans',sans-serif;font-weight:300;min-height:100vh;}
+
+  /* ── HEADER ── */
+  header{background:var(--ink);color:var(--cream);padding:36px 20px 28px;text-align:center;position:relative;overflow:hidden;}
+  header::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(45deg,transparent,transparent 30px,rgba(255,255,255,0.015) 30px,rgba(255,255,255,0.015) 60px);}
+  .header-eyebrow{font-size:11px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:var(--accent);margin-bottom:10px;position:relative;}
+  header h1{font-family:'Playfair Display',serif;font-size:clamp(28px,7vw,44px);font-weight:700;letter-spacing:-0.5px;line-height:1.1;position:relative;}
+  header h1 em{font-style:italic;color:var(--accent);}
+  .header-sub{margin-top:10px;font-size:13px;color:rgba(250,247,242,0.55);letter-spacing:0.5px;position:relative;}
+
+  /* ── EMERGENCY BTN (button, not link) ── */
+  .emergency-btn{position:absolute;top:16px;right:16px;width:40px;height:40px;background:var(--red);border:none;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 12px rgba(192,57,43,0.5);cursor:pointer;transition:transform 0.15s;z-index:10;-webkit-tap-highlight-color:transparent;}
+  .emergency-btn:active{transform:scale(0.92);}
+  .emergency-btn svg{width:22px;height:22px;fill:white;}
+
+  /* ── PWA BANNER ── */
+  #installBanner{display:none;background:var(--accent);color:white;padding:10px 16px;font-size:13px;align-items:center;gap:10px;justify-content:space-between;}
+  #installBanner.show{display:flex;}
+  #installBanner button{background:white;color:var(--accent);border:none;border-radius:20px;padding:5px 14px;font-size:12px;font-weight:500;cursor:pointer;white-space:nowrap;flex-shrink:0;}
+  #installBanner .close-banner{background:transparent;color:white;font-size:18px;padding:0 4px;}
+
+  /* ── FILTER ── */
+  .filter-bar{background:var(--warm-white);border-bottom:1px solid var(--border);padding:14px 16px;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(26,18,8,0.06);}
+  .filter-label{font-size:10px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:10px;}
+  .city-chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none;-ms-overflow-style:none;}
+  .city-chips::-webkit-scrollbar{display:none;}
+  .chip{flex-shrink:0;padding:7px 14px;border-radius:100px;font-size:13px;font-weight:400;border:1.5px solid var(--border);background:white;color:var(--muted);cursor:pointer;transition:all 0.2s ease;white-space:nowrap;-webkit-tap-highlight-color:transparent;}
+  .chip:active{transform:scale(0.95);}
+  .chip.active{border-color:transparent;color:white;font-weight:500;}
+  .chip[data-city="all"].active    {background:var(--ink);}
+  .chip[data-city="Lisboa"].active  {background:var(--lisboa);}
+  .chip[data-city="Cascais"].active {background:var(--cascais);}
+  .chip[data-city="Sintra"].active  {background:var(--sintra);}
+  .chip[data-city="Roma"].active    {background:var(--roma);}
+  .chip[data-city="Florença"].active{background:var(--florenca);}
+  .chip[data-city="Siena"].active   {background:var(--siena);}
+  .chip[data-city="Veneza"].active  {background:var(--veneza);}
+
+  /* ── MAIN ── */
+  main{max-width:680px;margin:0 auto;padding:24px 16px 60px;}
+
+  /* ── DAY CARD ── */
+  .day-card{background:white;border-radius:16px;margin-bottom:16px;overflow:hidden;box-shadow:var(--shadow);border:1px solid var(--border);animation:fadeUp 0.4s ease both;}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+  .day-card.hidden{display:none;}
+
+  /* ── CARD HEADER ── */
+  .card-header{padding:16px 18px 14px;display:flex;align-items:center;gap:14px;border-bottom:1px solid var(--border);}
+  .date-badge{text-align:center;min-width:48px;}
+  .date-day{font-family:'Playfair Display',serif;font-size:28px;font-weight:700;line-height:1;color:var(--ink);}
+  .date-month{font-size:10px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-top:2px;}
+  .header-divider{width:1px;height:40px;background:var(--border);flex-shrink:0;}
+  .header-info{flex:1;min-width:0;}
+  .weekday{font-size:11px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:3px;}
+  .city-name{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;line-height:1;}
+  .weather-badge{display:flex;align-items:center;gap:6px;background:var(--cream);border-radius:10px;padding:6px 10px;flex-shrink:0;min-width:84px;}
+  .weather-badge .w-icon{font-size:18px;line-height:1;}
+  .weather-badge .w-temps{display:flex;flex-direction:column;gap:1px;line-height:1.2;}
+  .weather-badge .w-range{font-size:11px;font-weight:500;color:var(--ink);white-space:nowrap;}
+  .weather-badge .w-rain{font-size:10px;color:#5a8aaa;}
+
+  [data-city="Lisboa"] .city-name  {color:var(--lisboa);}
+  [data-city="Cascais"] .city-name {color:var(--cascais);}
+  [data-city="Sintra"] .city-name  {color:var(--sintra);}
+  [data-city="Roma"] .city-name    {color:var(--roma);}
+  [data-city="Florença"] .city-name{color:var(--florenca);}
+  [data-city="Siena"] .city-name   {color:var(--siena);}
+  [data-city="Veneza"] .city-name  {color:var(--veneza);}
+
+  /* ── PERIODS ── */
+  .periods{padding:6px 0;}
+  /* Left column: icon + check stacked. Right: content */
+  .period{padding:12px 16px 12px 14px;display:flex;gap:12px;align-items:flex-start;}
+  .period+.period{border-top:1px dashed var(--border);}
+
+  .period-left{display:flex;flex-direction:column;align-items:center;gap:8px;flex-shrink:0;}
+  .period-icon{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;}
+  .period.manha .period-icon{background:#fef3e2;}
+  .period.tarde .period-icon{background:#e8f4ea;}
+  .period.noite .period-icon{background:#eae8f4;}
+
+  /* CHECK BTN — now lives in .period-left */
+  .check-btn{width:22px;height:22px;border-radius:50%;border:2px solid var(--border);background:white;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.2s;-webkit-tap-highlight-color:transparent;position:relative;flex-shrink:0;}
+  .check-btn::after{content:'✓';font-size:11px;font-weight:700;color:white;opacity:0;transition:opacity 0.2s;}
+  .check-btn.checked{background:#5aaa7a;border-color:#5aaa7a;}
+  .check-btn.checked::after{opacity:1;}
+
+  .period-content{flex:1;min-width:0;padding-top:2px;}
+  .period-label{font-size:10px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
+
+  /* ── ACTIVITY ITEM ── */
+  .activity-item{display:flex;align-items:baseline;gap:5px;margin-bottom:5px;font-size:14.5px;line-height:1.5;color:#2a2016;font-weight:300;flex-wrap:wrap;}
+  .activity-item:last-child{margin-bottom:0;}
+
+  /* ── MAP CHIP — icon only ── */
+  .place-link{display:inline-flex;align-items:center;color:var(--muted);font-size:13px;text-decoration:none;background:var(--cream);border:1px solid var(--border);border-radius:6px;padding:1px 5px;white-space:nowrap;vertical-align:middle;transition:background 0.15s,border-color 0.15s;-webkit-tap-highlight-color:transparent;flex-shrink:0;cursor:pointer;line-height:1.4;}
+  .place-link:active{background:var(--accent-light);border-color:var(--accent);}
+
+  /* ── DOC LINKS ── */
+  a.doc-link{color:var(--accent);text-decoration:underline;text-decoration-style:dotted;text-underline-offset:3px;font-weight:400;}
+
+  /* ── DONE STATE ── */
+  .period.done{opacity:0.45;}
+  .period.done .activity-item{text-decoration:line-through;color:var(--done-text);}
+  .period.done .activity-item a,.period.done .place-link{pointer-events:none;color:var(--done-text);border-color:transparent;background:transparent;}
+
+  /* ── HOTEL FOOTER ── */
+  .hotel-footer{border-top:1px solid var(--border);padding:12px 18px;background:#fdfbf8;display:flex;align-items:flex-start;gap:12px;}
+  .hotel-icon{font-size:18px;flex-shrink:0;margin-top:1px;}
+  .hotel-info{flex:1;}
+  .hotel-name{font-size:13px;font-weight:500;color:var(--ink);margin-bottom:2px;}
+  .hotel-address{font-size:12px;color:var(--muted);margin-bottom:8px;line-height:1.4;}
+  .hotel-links{display:flex;gap:8px;flex-wrap:wrap;}
+  .hotel-link{display:inline-flex;align-items:center;gap:5px;padding:5px 12px;border-radius:20px;font-size:12px;font-weight:500;text-decoration:none;transition:all 0.2s;border:1.5px solid;-webkit-tap-highlight-color:transparent;}
+  .hotel-link:active{transform:scale(0.95);}
+  .hotel-link.maps{border-color:#3d6b8e;color:#3d6b8e;background:#eef4f9;}
+  .hotel-link.uber{border-color:#1a1208;color:#1a1208;background:#f2f0ed;}
+
+  /* ── EMPTY STATE ── */
+  .empty-state{text-align:center;padding:60px 20px;color:var(--muted);display:none;}
+  .empty-state.visible{display:block;}
+  .empty-state-icon{font-size:40px;margin-bottom:12px;}
+  .empty-state p{font-family:'Playfair Display',serif;font-style:italic;font-size:18px;}
+
+  footer{text-align:center;padding:20px;font-size:11px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;}
+
+  /* ════════════════════════════════════
+     EMERGENCY PANEL (inline, full-screen overlay)
+  ════════════════════════════════════ */
+  #emergencyPanel{
+    display:none;position:fixed;inset:0;z-index:999;
+    background:var(--cream);overflow-y:auto;
+    animation:slideIn 0.25s ease;
+  }
+  #emergencyPanel.open{display:block;}
+  @keyframes slideIn{from{transform:translateX(100%)}to{transform:translateX(0)}}
+
+  .emg-header{background:var(--red-dk);color:white;padding:28px 20px 24px;position:relative;overflow:hidden;}
+  .emg-header::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(45deg,transparent,transparent 24px,rgba(255,255,255,0.03) 24px,rgba(255,255,255,0.03) 48px);}
+  .emg-back{display:inline-flex;align-items:center;gap:6px;color:rgba(255,255,255,0.75);background:none;border:none;font-size:13px;font-weight:400;cursor:pointer;margin-bottom:16px;position:relative;-webkit-tap-highlight-color:transparent;font-family:inherit;}
+  .emg-back svg{width:16px;height:16px;fill:currentColor;}
+  .emg-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,0.12);border-radius:20px;padding:4px 12px;font-size:11px;font-weight:500;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;position:relative;}
+  .emg-header h2{font-family:'Playfair Display',serif;font-size:clamp(22px,6vw,32px);font-weight:700;line-height:1.15;position:relative;}
+  .emg-header h2 em{font-style:italic;opacity:0.75;}
+  .emg-note{margin-top:8px;font-size:12px;color:rgba(255,255,255,0.6);position:relative;}
+
+  .emg-main{max-width:680px;margin:0 auto;padding:20px 16px 60px;}
+  .emg-section{margin-bottom:16px;}
+  .emg-section-header{display:flex;align-items:center;gap:10px;padding:12px 16px;border-radius:12px 12px 0 0;font-size:12px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;}
+  .emg-section-header .s-icon{font-size:18px;}
+  .emg-section-header.red  {background:var(--red);color:white;}
+  .emg-section-header.green{background:var(--green);color:white;}
+  .emg-section-header.blue {background:var(--blue);color:white;}
+  .emg-section-header.amber{background:#92400e;color:white;}
+  .emg-body{background:white;border-radius:0 0 12px 12px;border:1px solid var(--border);border-top:none;box-shadow:var(--shadow);overflow:hidden;}
+
+  /* insured */
+  .insured-card{padding:14px 16px;display:flex;align-items:flex-start;gap:12px;}
+  .insured-card+.insured-card{border-top:1px solid var(--border);}
+  .insured-avatar{width:40px;height:40px;border-radius:50%;background:var(--red-lt);border:2px solid var(--red);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+  .insured-name{font-size:14px;font-weight:500;color:var(--ink);margin-bottom:3px;}
+  .insured-ticket{font-size:11px;color:var(--muted);margin-bottom:6px;font-family:monospace;letter-spacing:0.5px;}
+  .doc-btn{display:inline-flex;align-items:center;gap:5px;padding:5px 12px;border-radius:20px;background:var(--red-lt);border:1.5px solid var(--red);color:var(--red);font-size:12px;font-weight:500;text-decoration:none;-webkit-tap-highlight-color:transparent;}
+  .doc-btn:active{background:var(--red);color:white;}
+  .validity-bar{padding:10px 16px;background:#fdfbf8;border-top:1px dashed var(--border);font-size:12px;color:var(--muted);display:flex;align-items:center;gap:6px;}
+
+  /* coverage */
+  .cov-grid{display:grid;grid-template-columns:1fr 1fr;}
+  .cov-item{padding:12px 14px;border-right:1px solid var(--border);border-bottom:1px solid var(--border);}
+  .cov-item:nth-child(2n){border-right:none;}
+  .cov-item:nth-last-child(-n+2){border-bottom:none;}
+  .cov-item:last-child:nth-child(odd){grid-column:1/-1;border-right:none;}
+  .cov-label{font-size:11px;color:var(--muted);margin-bottom:4px;line-height:1.3;}
+  .cov-value{font-size:14px;font-weight:500;color:var(--green);}
+
+  /* phones */
+  .phone-section{padding:12px 16px;}
+  .phone-section+.phone-section{border-top:1px solid var(--border);}
+  .phone-section-title{font-size:11px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
+  .phone-row{display:flex;align-items:center;justify-content:space-between;padding:6px 0;}
+  .phone-row+.phone-row{border-top:1px dashed #f0ebe3;}
+  .phone-label{font-size:13px;color:var(--ink);flex:1;}
+  .phone-link{display:inline-flex;align-items:center;gap:5px;padding:6px 14px;border-radius:20px;background:var(--green-lt);border:1.5px solid var(--green);color:var(--green);font-size:13px;font-weight:500;text-decoration:none;white-space:nowrap;-webkit-tap-highlight-color:transparent;}
+  .phone-link:active{background:var(--green);color:white;}
+  .web-link{display:inline-flex;align-items:center;gap:5px;padding:6px 14px;border-radius:20px;background:var(--blue-lt);border:1.5px solid var(--blue);color:var(--blue);font-size:13px;font-weight:500;text-decoration:none;-webkit-tap-highlight-color:transparent;}
+  .web-link:active{background:var(--blue);color:white;}
+
+  /* emergency numbers */
+  .universal-box{padding:14px 16px;background:var(--red-lt);display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
+  .universal-num{font-size:42px;font-weight:700;color:var(--red);font-family:monospace;line-height:1;text-decoration:none;}
+  .universal-info{flex:1;min-width:160px;}
+  .universal-title{font-size:13px;font-weight:500;color:var(--red-dk);}
+  .universal-sub{font-size:12px;color:var(--muted);margin-top:2px;}
+  .call-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:20px;background:var(--red);color:white;font-size:13px;font-weight:500;text-decoration:none;margin-top:10px;-webkit-tap-highlight-color:transparent;}
+  .call-btn:active{opacity:0.85;}
+  .emerg-section{padding:12px 16px;}
+  .emerg-section+.emerg-section{border-top:1px solid var(--border);}
+  .emerg-country{font-size:12px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
+  .emerg-row{display:flex;align-items:center;justify-content:space-between;padding:5px 0;}
+  .emerg-row+.emerg-row{border-top:1px dashed #f0ebe3;}
+  .emerg-label{font-size:13px;color:var(--ink);}
+  .emerg-num{font-size:20px;font-weight:500;color:var(--red);font-family:monospace;text-decoration:none;padding:4px 10px;background:var(--red-lt);border-radius:8px;-webkit-tap-highlight-color:transparent;}
+
+  /* hospitals */
+  .hosp-section{padding:12px 16px;}
+  .hosp-section+.hosp-section{border-top:1px solid var(--border);}
+  .hosp-country{font-size:12px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
+  .hosp-item{padding:8px 0;}
+  .hosp-item+.hosp-item{border-top:1px dashed #f0ebe3;}
+  .hosp-city{font-size:11px;font-weight:500;color:var(--blue);text-transform:uppercase;letter-spacing:1px;margin-bottom:2px;}
+  .hosp-name{font-size:13px;font-weight:500;color:var(--ink);margin-bottom:1px;}
+  .hosp-addr{font-size:12px;color:var(--muted);margin-bottom:6px;}
+  .hosp-map{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:14px;background:var(--blue-lt);border:1px solid var(--blue);color:var(--blue);font-size:11px;font-weight:500;text-decoration:none;-webkit-tap-highlight-color:transparent;cursor:pointer;}
+  .hosp-map:active{background:var(--blue);color:white;}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════
+     ROTEIRO — página principal
+════════════════════════════════════════ -->
+<div id="roteiroPage">
+
+<header>
+  <div class="header-eyebrow">✈ Maio 2026</div>
+  <h1>Roteiro <em>Europa</em></h1>
+  <p class="header-sub">Lisboa · Roma · Florença · Veneza</p>
+  <button class="emergency-btn" id="openEmergency" title="Guia de Emergência" aria-label="Abrir Guia de Emergência">
+    <svg viewBox="0 0 24 24"><path d="M19 8h-3V5a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v3H5a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h3v3a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-3h3a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1zm-1 6h-3a1 1 0 0 0-1 1v3h-4v-3a1 1 0 0 0-1-1H6v-4h3a1 1 0 0 0 1-1V6h4v3a1 1 0 0 0 1 1h3v4z"/></svg>
+  </button>
+</header>
+
+<div id="installBanner">
+  <span>📲 Salvar para usar sem internet</span>
+  <div style="display:flex;gap:6px">
+    <button id="installBtn">Instalar</button>
+    <button class="close-banner" id="closeBanner">✕</button>
+  </div>
+</div>
+
+<div class="filter-bar">
+  <div class="filter-label">Filtrar por cidade</div>
+  <div class="city-chips">
+    <button class="chip active" data-city="all">Todas</button>
+    <button class="chip" data-city="Lisboa">Lisboa</button>
+    <button class="chip" data-city="Cascais">Cascais</button>
+    <button class="chip" data-city="Sintra">Sintra</button>
+    <button class="chip" data-city="Roma">Roma</button>
+    <button class="chip" data-city="Florença">Florença</button>
+    <button class="chip" data-city="Siena">Siena</button>
+    <button class="chip" data-city="Veneza">Veneza</button>
+  </div>
+</div>
+
+<main>
+
+<!-- ── DIA 15 ── -->
+<div class="day-card" data-city="Lisboa" data-date="2026-05-15" data-lat="38.7169" data-lon="-9.1399">
+  <div class="card-header">
+    <div class="date-badge"><div class="date-day">15</div><div class="date-month">Mai</div></div>
+    <div class="header-divider"></div>
+    <div class="header-info"><div class="weekday">Sexta-feira</div><div class="city-name">Lisboa</div></div>
+    <div class="weather-badge" id="wx-2026-05-15"><div class="w-icon">🌤</div><div class="w-temps"><div class="w-range">--/--°</div><div class="w-rain">💧 --%</div></div></div>
+  </div>
+  <div class="periods">
+    <div class="period manha" data-id="15-m">
+      <div class="period-left"><div class="period-icon">🌅</div><button class="check-btn" data-id="15-m"></button></div>
+      <div class="period-content">
+        <div class="period-label">Manhã</div>
+        <div class="activity-item">Chegada ao Aeroporto de Lisboa (11:20). <a class="place-link" data-q="Aeroporto Humberto Delgado Lisboa">🗺</a></div>
+        <div class="activity-item">Almoço comemorativo na Praça do Comércio (Terreiro do Paço). <a class="place-link" data-q="Praça do Comércio Lisboa">🗺</a></div>
+      </div>
+    </div>
+    <div class="period tarde" data-id="15-t">
+      <div class="period-left"><div class="period-icon">☀️</div><button class="check-btn" data-id="15-t"></button></div>
+      <div class="period-content">
+        <div class="period-label">Tarde</div>
+        <div class="activity-item">Arco da Rua Augusta. <a class="place-link" data-q="Arco da Rua Augusta Lisboa">🗺</a></div>
+        <div class="activity-item">Sé de Lisboa (Catedral de Santa Maria Maior). <a class="place-link" data-q="Sé de Lisboa">🗺</a></div>
+        <div class="activity-item">Pôr do sol no Castelo de São Jorge. <a class="place-link" data-q="Castelo de São Jorge Lisboa">🗺</a></div>
+      </div>
+    </div>
+    <div class="period noite" data-id="15-n">
+      <div class="period-left"><div class="period-icon">🌙</div><button class="check-btn" data-id="15-n"></button></div>
+      <div class="period-content">
+        <div class="period-label">Noite</div>
+        <div class="activity-item">Jantar com Fado no bairro de Alfama (reserva essencial). <a class="place-link" data-q="Alfama Lisboa">🗺</a></div>
+      </div>
+    </div>
+  </div>
+  <div class="hotel-footer">
+    <div class="hotel-icon">🏨</div>
+    <div class="hotel-info">
+      <div class="hotel-name">Hotel Olissippo Marquês de Sá</div>
+      <div class="hotel-address">Av. Miguel Bombarda, 130 — Avenidas Novas, Lisboa</div>
+      <div class="hotel-links">
+        <a class="hotel-link maps" href="https://www.google.com/maps/search/?api=1&query=Hotel+Olissippo+Marques+de+Sa+Lisboa" target="_blank">🗺 Maps</a>
+        <a class="hotel-link uber" href="uber://?action=setPickup&pickup=my_location&dropoff[formatted_address]=Avenida+Miguel+Bombarda+130+Lisboa" target="_blank">🚗 Uber</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── DIA 16 ── -->
+<div class="day-card" data-city="Lisboa" data-date="2026-05-16" data-lat="38.7169" data-lon="-9.1399">
+  <div class="card-header">
+    <div class="date-badge"><div class="date-day">16</div><div class="date-month">Mai</div></div>
+    <div class="header-divider"></div>
+    <div class="header-info"><div class="weekday">Sábado</div><div class="city-name">Lisboa</div></div>
+    <div class="weather-badge" id="wx-2026-05-16"><div class="w-icon">🌤</div><div class="w-temps"><div class="w-range">--/--°</div><div class="w-rain">💧 --%</div></div></div>
+  </div>
+  <div class="periods">
+    <div class="period manha" data-id="16-m">
+      <div class="period-left"><div class="period-icon">🌅</div><button class="check-btn" data-id="16-m"></button></div>
+      <div class="period-content">
+        <div class="period-label">Manhã</div>
+        <div class="activity-item"><a class="doc-link" href="https://drive.google.com/file/d/1Hes8xhyDSBnQFX9DjXKpIJvMsPVk8qKz/view?usp=drive_link" target="_blank">Mosteiro dos Jerónimos</a> (9:30h). <a class="place-link" data-q="Mosteiro dos Jerónimos Lisboa">🗺</a></div>
+        <div class="activity-item">Torre de Belém. <a class="place-link" data-q="Torre de Belém Lisboa">🗺</a></div>
+        <div class="activity-item">Pastéis de Belém. <a class="place-link" data-q="Pastéis de Belém Lisboa">🗺</a></div>
+      </div>
+    </div>
+    <div class="period tarde" data-id="16-t">
+      <div class="period-left"><div class="period-icon">☀️</div><button class="check-btn" data-id="16-t"></button></div>
+      <div class="period-content">
+        <div class="period-label">Tarde</div>
+        <div class="activity-item">MAAT — Museu de Arte, Arquitetura e Tecnologia. <a class="place-link" data-q="MAAT Lisboa">🗺</a></div>
+        <div class="activity-item">LX Factory / Livraria Ler Devagar. <a class="place-link" data-q="LX Factory Lisboa">🗺</a></div>
+      </div>
+    </div>
+    <div class="period noite" data-id="16-n">
+      <div class="period-left"><div class="period-icon">🌙</div><button class="check-btn" data-id="16-n"></button></div>
+      <div class="period-content">
+        <div class="period-label">Noite</div>
+        <div class="activity-item">Jantar no Time Out Market (Mercado da Ribeira). <a class="place-link" data-q="Time Out Market Lisboa">🗺</a></div>
+        <div class="activity-item">Rua Cor de Rosa (Cais do Sodré). <a class="place-link" data-q="Rua Cor de Rosa Cais do Sodré Lisboa">🗺</a></div>
+      </div>
+    </div>
+  </div>
+  <div class="hotel-footer">
+    <div class="hotel-icon">🏨</div>
+    <div class="hotel-info">
+      <div class="hotel-name">Hotel Olissippo Marquês de Sá</div>
+      <div class="hotel-address">Av. Miguel Bombarda, 130 — Avenidas Novas, Lisboa</div>
+      <div class="hotel-links">
+        <a class="hotel-link maps" href="https://www.google.com/maps/search/?api=1&query=Hotel+Olissippo+Marques+de+Sa+Lisboa" target="_blank">🗺 Maps</a>
+        <a class="hotel-link uber" href="uber://?action=setPickup&pickup=my_location&dropoff[formatted_address]=Avenida+Miguel+Bombarda+130+Lisboa" target="_blank">🚗 Uber</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── DIA 17 ── -->
+<div class="day-card" data-city="Cascais" data-date="2026-05-17" data-lat="38.6979" data-lon="-9.4215">
+  <div class="card-header">
+    <div class="date-badge"><div class="date-day">17</div><div class="date-month">Mai</div></div>
+    <div class="header-divider"></div>
+    <div class="header-info"><div class="weekday">Domingo</div><div class="city-name">Cascais</div></div>
+    <div class="weather-badge" id="wx-2026-05-17"><div class="w-icon">🌤</div><div class="w-temps"><div class="w-range">--/--°</div><div class="w-rain">💧 --%</div></div></div>
+  </div>
+  <div class="periods">
+    <div class="period manha" data-id="17-m">
+      <div class="period-left"><div class="period-icon">🌅</div><button class="check-btn" data-id="17-m"></button></div>
+      <div class="period-content">
+        <div class="period-label">Manhã</div>
+        <div class="activity-item">Trem para Cascais — Centro Histórico e Orla. <a class="place-link" data-q="Centro Histórico Cascais">🗺</a></div>
+        <div class="activity-item">Boca do Inferno. <a class="place-link" data-q="Boca do Inferno Cascais">🗺</a></div>
+      </div>
+    </div>
+    <div class="period tarde" data-id="17-t">
+      <div class="period-left"><div class="period-icon">☀️</div><button class="check-btn" data-id="17-t"></button></div>
+      <div class="period-content">
+        <div class="period-label">Tarde</div>
+        <div class="activity-item">Almoço em Cascais.</div>
+        <div class="activity-item">Palácio dos Condes de Castro Guimarães. <a class="place-link" data-q="Palácio dos Condes de Castro Guimarães Cascais">🗺</a></div>
+      </div>
+    </div>
+    <div class="period noite" data-id="17-n">
+      <div class="period-left"><div class="period-icon">🌙</div><button class="check-btn" data-id="17-n"></button></div>
+      <div class="period-content">
+        <div class="period-label">Noite</div>
+        <div class="activity-item">Retorno a Lisboa — Park Bar (rooftop). <a class="place-link" data-q="Park Bar Lisboa rooftop">🗺</a></div>
+        <div class="activity-item">ou Java Rooftop. <a class="place-link" data-q="Java Rooftop Lisboa">🗺</a></div>
+      </div>
+    </div>
+  </div>
+  <div class="hotel-footer">
+    <div class="hotel-icon">🏨</div>
+    <div class="hotel-info">
+      <div class="hotel-name">Hotel Olissippo Marquês de Sá</div>
+      <div class="hotel-address">Av. Miguel Bombarda, 130 — Avenidas Novas, Lisboa</div>
+      <div class="hotel-links">
+        <a class="hotel-link maps" href="https://www.google.com/maps/search/?api=1&query=Hotel+Olissippo+Marques+de+Sa+Lisboa" target="_blank">🗺 Maps</a>
+        <a class="hotel-link uber" href="uber://?action=setPickup&pickup=my_location&dropoff[formatted_address]=Avenida+Miguel+Bombarda+130+Lisboa" target="_blank">🚗 Uber</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── DIA 18 ── -->
+<div class="day-card" data-city="Sintra" data-date="2026-05-18" data-lat="38.7977" data-lon="-9.3877">
+  <div class="card-header">
+    <div class="date-badge"><div class="date-day">18</div><div class="date-month">Mai</div></div>
+    <div class="header-divider"></div>
+    <div class="header-info"><div class="weekday">Segunda-feira</div><div class="city-name">Sintra</div></div>
+    <div class="weather-badge" id="wx-2026-05-18"><div class="w-icon">🌤</div><div class="w-temps"><div class="w-range">--/--°</div><div class="w-rain">💧 --%</div></div></div>
+  </div>
+  <div class="periods">
+    <div class="period manha" data-id="18-m">
+      <div class="period-left"><div class="period-icon">🌅</div><button class="check-btn" data-id="18-m"></button></div>
+      <div class="period-content">
+        <div class="period-label">Manhã</div>
+        <div class="activity-item">Quinta da Regaleira — Poço Iniciático e Jardins. <a class="place-link" data-q="Quinta da Regaleira Sintra">🗺</a></div>
+      </div>
+    </div>
+    <div class="period tarde" data-id="18-t">
+      <div class="period-left"><div class="period-icon">☀️</div><button class="check-btn" data-id="18-t"></button></div>
+      <div class="period-content">
+        <div class="period-label">Tarde</div>
+        <div class="activity-item"><a class="doc-link" href="https://drive.google.com/file/d/1ReBWYSonhg1VaeYqIN4JRIlBEnvWQyYR/view?usp=drive_link" target="_blank">Palácio Nacional da Pena</a> (14:30h). <a class="place-link" data-q="Palácio da Pena Sintra">🗺</a></div>
+        <div class="activity-item">Pastelaria Piriquita — "Travesseiros". <a class="place-link" data-q="Pastelaria Piriquita Sintra">🗺</a></div>
+      </div>
+    </div>
+    <div class="period noite" data-id="18-n">
+      <div class="period-left"><div class="period-icon">🌙</div><button class="check-btn" data-id="18-n"></button></div>
+      <div class="period-content">
+        <div class="period-label">Noite</div>
+        <div class="activity-item">Retorno a Lisboa — jantar no Príncipe Real. <a class="place-link" data-q="Príncipe Real Lisboa">🗺</a></div>
+      </div>
+    </div>
+  </div>
+  <div class="hotel-footer">
+    <div class="hotel-icon">🏨</div>
+    <div class="hotel-info">
+      <div class="hotel-name">Hotel Olissippo Marquês de Sá</div>
+      <div class="hotel-address">Av. Miguel Bombarda, 130 — Avenidas Novas, Lisboa</div>
+      <div class="hotel-links">
+        <a class="hotel-link maps" href="https://www.google.com/maps/search/?api=1&query=Hotel+Olissippo+Marques+de+Sa+Lisboa" target="_blank">🗺 Maps</a>
+        <a class="hotel-link uber" href="uber://?action=setPickup&pickup=my_location&dropoff[formatted_address]=Avenida+Miguel+Bombarda+130+Lisboa" target="_blank">🚗 Uber</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── DIA 19 ── -->
+<div class="day-card" data-city="Lisboa" data-date="2026-05-19" data-lat="38.7169" data-lon="-9.1399">
+  <div class="card-header">
+    <div class="date-badge"><div class="date-day">19</div><div class="date-month">Mai</div></div>
+    <div class="header-divider"></div>
+    <div class="header-info"><div class="weekday">Terça-feira</div><div class="city-name">Lisboa</div></div>
+    <div class="weather-badge" id="wx-2026-05-19"><div class="w-icon">🌤</div><div class="w-temps"><div class="w-range">--/--°</div><div class="w-rain">💧 --%</div></div></div>
+  </div>
+  <div class="periods">
+    <div class="period manha" data-id="19-m">
+      <div class="period-left"><div class="period-icon">🌅</div><button class="check-btn" data-id="19-m"></button></div>
+      <div class="period-content">
+        <div class="period-label">Manhã</div>
+        <div class="activity-item">Bairro da Mouraria. <a class="place-link" data-q="Mouraria Lisboa">🗺</a></div>
+        <div class="activity-item">Miradouro da Senhora do Monte. <a class="place-link" data-q="Miradouro da Senhora do Monte Lisboa">🗺</a></div>
+      </div>
+    </div>
+    <div class="period tarde" data-id="19-t">
+      <div class="period-left"><div class="period-icon">☀️</div><button class="check-btn" data-id="19-t"></button></div>
+      <div class="period-content">
+        <div class="period-label">Tarde</div>
+        <div class="activity-item">Oceanário de Lisboa. <a class="place-link" data-q="Oceanário de Lisboa">🗺</a></div>
+        <div class="activity-item">Pavilhão de Portugal (Parque das Nações). <a class="place-link" data-q="Parque das Nações Lisboa">🗺</a></div>
+      </div>
+    </div>
+    <div class="period noite" data-id="19-n">
+      <div class="period-left"><div class="period-icon">🌙</div><button class="check-btn" data-id="19-n"></button></div>
+      <div class="period-content">
+        <div class="period-label">Noite</div>
+        <div class="activity-item">Check-in Aeroporto Lisboa (18h) — voo para Roma (20:15). <a class="place-link" data-q="Aeroporto Humberto Delgado Lisboa">🗺</a></div>
+      </div>
+    </div>
+  </div>
+  <div class="hotel-footer">
+    <div class="hotel-icon">🏨</div>
+    <div class="hotel-info">
+      <div class="hotel-name">Hotel Olissippo Marquês de Sá</div>
+      <div class="hotel-address">Av. Miguel Bombarda, 130 — Avenidas Novas, Lisboa</div>
+      <div class="hotel-links">
+        <a class="hotel-link maps" href="https://www.google.com/maps/search/?api=1&query=Hotel+Olissippo+Marques+de+Sa+Lisboa" target="_blank">🗺 Maps</a>
+        <a class="hotel-link uber" href="uber://?action=setPickup&pickup=my_location&dropoff[formatted_address]=Avenida+Miguel+Bombarda+130+Lisboa" target="_blank">🚗 Uber</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── DIA 20 ── -->
+<div class="day-card" data-city="Roma" data-date="2026-05-20" data-lat="41.9028" data-lon="12.4964">
+  <div class="card-header">
+    <div class="date-badge"><div class="date-day">20</div><div class="date-month">Mai</div></div>
+    <div class="header-divider"></div>
+    <div class="header-info"><div class="weekday">Quarta-feira</div><div class="city-name">Roma</div></div>
+    <div class="weather-badge" id="wx-2026-05-20"><div class="w-icon">🌤</div><div class="w-temps"><div class="w-range">--/--°</div><div class="w-rain">💧 --%</div></div></div>
+  </div>
+  <div class="periods">
+    <div class="period manha" data-id="20-m">
+      <div class="period-left"><div class="period-icon">🌅</div><button class="check-btn" data-id="20-m"></button></div>
+      <div class="period-content">
+        <div class="period-label">Manhã</div>
+        <div class="activity-item">Descanso após chegada tardia.</div>
+        <div class="activity-item">Basílica Papal de Santa Maria Maggiore. <a class="place-link" data-q="Basilica Santa Maria Maggiore Roma">🗺</a></div>
+      </div>
+    </div>
+    <div class="period tarde" data-id="20-t">
+      <div class="period-left"><div class="period-icon">☀️</div><button class="check-btn" data-id="20-t"></button></div>
+      <div class="period-content">
+        <div class="period-label">Tarde</div>
+        <div class="activity-item">Piazza di Spagna. <a class="place-link" data-q="Piazza di Spagna Roma">🗺</a></div>
+        <div class="activity-item">Fontana di Trevi. <a class="place-link" data-q="Fontana di Trevi Roma">🗺</a></div>
+        <div class="activity-item">Panteão de Roma. <a class="place-link" data-q="Pantheon Roma">🗺</a></div>
+        <div class="activity-item">Piazza della Minerva. <a class="place-link" data-q="Piazza della Minerva Roma">🗺</a></div>
+      </div>
+    </div>
+    <div class="period noite" data-id="20-n">
+      <div class="period-left"><div class="period-icon">🌙</div><button class="check-btn" data-id="20-n"></button></div>
+      <div class="period-content">
+        <div class="period-label">Noite</div>
+        <div class="activity-item">Jantar na Piazza Navona. <a class="place-link" data-q="Piazza Navona Roma">🗺</a></div>
+      </div>
+    </div>
+  </div>
+  <div class="hotel-footer">
+    <div class="hotel-icon">🏨</div>
+    <div class="hotel-info">
+      <div class="hotel-name">Raeli Hotel Lux</div>
+      <div class="hotel-address">Via Gaeta 14 — Estação Central, 00185 Roma</div>
+      <div class="hotel-links">
+        <a class="hotel-link maps" href="https://www.google.com/maps/search/?api=1&query=Raeli+Hotel+Lux+Via+Gaeta+14+Roma" target="_blank">🗺 Maps</a>
+        <a class="hotel-link uber" href="uber://?action=setPickup&pickup=my_location&dropoff[formatted_address]=Via+Gaeta+14+Roma" target="_blank">🚗 Uber</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── DIA 21 ── -->
+<div class="day-card" data-city="Roma" data-date="2026-05-21" data-lat="41.9028" data-lon="12.4964">
+  <div class="card-header">
+    <div class="date-badge"><div class="date-day">21</div><div class="date-month">Mai</div></div>
+    <div class="header-divider"></div>
+    <div class="header-info"><div class="weekday">Quinta-feira</div><div class="city-name">Roma</div></div>
+    <div class="weather-badge" id="wx-2026-05-21"><div class="w-icon">🌤</div><div class="w-temps"><div class="w-range">--/--°</div><div class="w-rain">💧 --%</div></div></div>
+  </div>
+  <div class="periods">
+    <div class="period manha" data-id="21-m">
+      <div class="period-left"><div class="period-icon">🌅</div><button class="check-btn" data-id="21-m"></button></div>
+      <div class="period-content">
+        <div class="period-label">Manhã</div>
+        <div class="activity-item"><a class="doc-link" href="https://drive.google.com/file/d/1_oEpXAsKS-mTDKb__qfUxkcSHbIRJ6xQ/view?usp=drive_link" target="_blank">Museu do Vaticano</a> e Capela Sistina (08h30). <a class="place-link" data-q="Musei Vaticani Roma">🗺</a></div>
+      </div>
+    </div>
+    <div class="period tarde" data-id="21-t">
+      <div class="period-left"><div class="period-icon">☀️</div><button class="check-btn" data-id="21-t"></button></div>
+      <div class="period-content">
+        <div class="period-label">Tarde</div>
+        <div class="activity-item">Basílica de São Pedro. <a class="place-link" data-q="Basilica San Pietro Roma">🗺</a></div>
+        <div class="activity-item">Castel Sant'Angelo. <a class="place-link" data-q="Castel Sant Angelo Roma">🗺</a></div>
+      </div>
+    </div>
+    <div class="period noite" data-id="21-n">
+      <div class="period-left"><div class="period-icon">🌙</div><button class="check-btn" data-id="21-n"></button></div>
+      <div class="period-content">
+        <div class="period-label">Noite</div>
+        <div class="activity-item">Jantar e passeio no bairro de Trastevere. <a class="place-link" data-q="Trastevere Roma">🗺</a></div>
+      </div>
+    </div>
+  </div>
+  <div class="hotel-footer">
+    <div class="hotel-icon">🏨</div>
+    <div class="hotel-info">
+      <div class="hotel-name">Raeli Hotel Lux</div>
+      <div class="hotel-address">Via Gaeta 14 — Estação Central, 00185 Roma</div>
+      <div class="hotel-links">
+        <a class="hotel-link maps" href="https://www.google.com/maps/search/?api=1&query=Raeli+Hotel+Lux+Via+Gaeta+14+Roma" target="_blank">🗺 Maps</a>
+        <a class="hotel-link uber" href="uber://?action=setPickup&pickup=my_location&dropoff[formatted_address]=Via+Gaeta+14+Roma" target="_blank">🚗 Uber</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── DIA 22 ── -->
+<div class="day-card" data-city="Roma" data-date="2026-05-22" data-lat="41.9028" data-lon="12.4964">
+  <div class="card-header">
+    <div class="date-badge"><div class="date-day">22</div><div class="date-month">Mai</div></div>
+    <div class="header-divider"></div>
+    <div class="header-info"><div class="weekday">Sexta-feira</div><div class="city-name">Roma</div></div>
+    <div class="weather-badge" id="wx-2026-05-22"><div class="w-icon">🌤</div><div class="w-temps"><div class="w-range">--/--°</div><div class="w-rain">💧 --%</div></div></div>
+  </div>
+  <div class="periods">
+    <div class="period manha" data-id="22-m">
+      <div class="period-left"><div class="period-icon">🌅</div><button class="check-btn" data-id="22-m"></button></div>
+      <div class="period-content">
+        <div class="period-label">Manhã</div>
+        <div class="activity-item">Coliseu. <a class="place-link" data-q="Colosseo Roma">🗺</a></div>
+        <div class="activity-item">Fórum Romano. <a class="place-link" data-q="Foro Romano Roma">🗺</a></div>
+        <div class="activity-item">Monte Palatino. <a class="place-link" data-q="Monte Palatino Roma">🗺</a></div>
+      </div>
+    </div>
+    <div class="period tarde" data-id="22-t">
+      <div class="period-left"><div class="period-icon">☀️</div><button class="check-btn" data-id="22-t"></button></div>
+      <div class="period-content">
+        <div class="period-label">Tarde</div>
+        <div class="activity-item">Praça do Campidoglio. <a class="place-link" data-q="Piazza del Campidoglio Roma">🗺</a></div>
+        <div class="activity-item">Altar da Pátria (Monumento a Victor Emmanuel II). <a class="place-link" data-q="Altare della Patria Roma">🗺</a></div>
+      </div>
+    </div>
+    <div class="period noite" data-id="22-n">
+      <div class="period-left"><div class="period-icon">🌙</div><button class="check-btn" data-id="22-n"></button></div>
+      <div class="period-content">
+        <div class="period-label">Noite</div>
+        <div class="activity-item">Pizza e vinho no bairro de Monti. <a class="place-link" data-q="Rione Monti Roma">🗺</a></div>
+      </div>
+    </div>
+  </div>
+  <div class="hotel-footer">
+    <div class="hotel-icon">🏨</div>
+    <div class="hotel-info">
+      <div class="hotel-name">Raeli Hotel Lux</div>
+      <div class="hotel-address">Via Gaeta 14 — Estação Central, 00185 Roma</div>
+      <div class="hotel-links">
+        <a class="hotel-link maps" href="https://www.google.com/maps/search/?api=1&query=Raeli+Hotel+Lux+Via+Gaeta+14+Roma" target="_blank">🗺 Maps</a>
+        <a class="hotel-link uber" href="uber://?action=setPickup&pickup=my_location&dropoff[formatted_address]=Via+Gaeta+14+Roma" target="_blank">🚗 Uber</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── DIA 23 ── -->
+<div class="day-card" data-city="Roma" data-date="2026-05-23" data-lat="41.9028" data-lon="12.4964">
+  <div class="card-header">
+    <div class="date-badge"><div class="date-day">23</div><div class="date-month">Mai</div></div>
+    <div class="header-divider"></div>
+    <div class="header-info"><div class="weekday">Sábado</div><div class="city-name">Roma</div></div>
+    <div class="weather-badge" id="wx-2026-05-23"><div class="w-icon">🌤</div><div class="w-temps"><div class="w-range">--/--°</div><div class="w-rain">💧 --%</div></div></div>
+  </div>
+  <div class="periods">
+    <div class="period manha" data-id="23-m">
+      <div class="period-left"><div class="period-icon">🌅</div><button class="check-btn" data-id="23-m"></button></div>
+      <div class="period-content">
+        <div class="period-label">Manhã</div>
+        <div class="activity-item">Via Appia Antica. <a class="place-link" data-q="Via Appia Antica Roma">🗺</a></div>
+        <div class="activity-item">Catacumbas de San Callisto. <a class="place-link" data-q="Catacombe di San Callisto Roma">🗺</a></div>
+      </div>
+    </div>
+    <div class="period tarde" data-id="23-t">
+      <div class="period-left"><div class="period-icon">☀️</div><button class="check-btn" data-id="23-t"></button></div>
+      <div class="period-content">
+        <div class="period-label">Tarde</div>
+        <div class="activity-item"><a class="doc-link" href="https://drive.google.com/file/d/19Q6VnTADVNTlfCpqXHjnQ4nI9fOPx3fI/view?usp=drive_link" target="_blank">Galleria Borghese</a> (14h). <a class="place-link" data-q="Galleria Borghese Roma">🗺</a></div>
+        <div class="activity-item">Villa Borghese. <a class="place-link" data-q="Villa Borghese Roma">🗺</a></div>
+      </div>
+    </div>
+    <div class="period noite" data-id="23-n">
+      <div class="period-left"><div class="period-icon">🌙</div><button class="check-btn" data-id="23-n"></button></div>
+      <div class="period-content">
+        <div class="period-label">Noite</div>
+        <div class="activity-item">Jantar no bairro do Testaccio. <a class="place-link" data-q="Testaccio Roma">🗺</a></div>
+      </div>
+    </div>
+  </div>
+  <div class="hotel-footer">
+    <div class="hotel-icon">🏨</div>
+    <div class="hotel-info">
+      <div class="hotel-name">Raeli Hotel Lux</div>
+      <div class="hotel-address">Via Gaeta 14 — Estação Central, 00185 Roma</div>
+      <div class="hotel-links">
+        <a class="hotel-link maps" href="https://www.google.com/maps/search/?api=1&query=Raeli+Hotel+Lux+Via+Gaeta+14+Roma" target="_blank">🗺 Maps</a>
+        <a class="hotel-link uber" href="uber://?action=setPickup&pickup=my_location&dropoff[formatted_address]=Via+Gaeta+14+Roma" target="_blank">🚗 Uber</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── DIA 24 ── -->
+<div class="day-card" data-city="Florença" data-date="2026-05-24" data-lat="43.7696" data-lon="11.2558">
+  <div class="card-header">
+    <div class="date-badge"><div class="date-day">24</div><div class="date-month">Mai</div></div>
+    <div class="header-divider"></div>
+    <div class="header-info"><div class="weekday">Domingo</div><div class="city-name">Florença</div></div>
+    <div class="weather-badge" id="wx-2026-05-24"><div class="w-icon">🌤</div><div class="w-temps"><div class="w-range">--/--°</div><div class="w-rain">💧 --%</div></div></div>
+  </div>
+  <div class="periods">
+    <div class="period manha" data-id="24-m">
+      <div class="period-left"><div class="period-icon">🌅</div><button class="check-btn" data-id="24-m"></button></div>
+      <div class="period-content">
+        <div class="period-label">Manhã</div>
+        <div class="activity-item"><a class="doc-link" href="https://drive.google.com/file/d/1i0oVfwkCMpRZGiyfyV-egYWzhtFm3vMk/view?usp=drive_link" target="_blank">Trem Roma → Florença</a>. <a class="place-link" data-q="Roma Termini stazione">🗺</a></div>
+        <div class="activity-item">All'Antico Vinaio. <a class="place-link" data-q="All Antico Vinaio Firenze">🗺</a></div>
+      </div>
+    </div>
+    <div class="period tarde" data-id="24-t">
+      <div class="period-left"><div class="period-icon">☀️</div><button class="check-btn" data-id="24-t"></button></div>
+      <div class="period-content">
+        <div class="period-label">Tarde</div>
+        <div class="activity-item">Batistério de São João. <a class="place-link" data-q="Battistero di San Giovanni Firenze">🗺</a></div>
+        <div class="activity-item">Catedral de Santa Maria del Fiore / Campanário de Giotto. <a class="place-link" data-q="Cattedrale di Santa Maria del Fiore Firenze">🗺</a></div>
+        <div class="activity-item">Ponte Vecchio. <a class="place-link" data-q="Ponte Vecchio Firenze">🗺</a></div>
+      </div>
+    </div>
+    <div class="period noite" data-id="24-n">
+      <div class="period-left"><div class="period-icon">🌙</div><button class="check-btn" data-id="24-n"></button></div>
+      <div class="period-content">
+        <div class="period-label">Noite</div>
+        <div class="activity-item">Pôr do sol na Piazzale Michelangelo. <a class="place-link" data-q="Piazzale Michelangelo Firenze">🗺</a></div>
+      </div>
+    </div>
+  </div>
+  <div class="hotel-footer">
+    <div class="hotel-icon">🏠</div>
+    <div class="hotel-info">
+      <div class="hotel-name">Airbnb — Gianluca</div>
+      <div class="hotel-address">Via Lorenzo Il Magnifico, 59 — Florença</div>
+      <div class="hotel-links">
+        <a class="hotel-link maps" href="https://www.google.com/maps/search/?api=1&query=Via+Lorenzo+Il+Magnifico+59+Firenze" target="_blank">🗺 Maps</a>
+        <a class="hotel-link uber" href="uber://?action=setPickup&pickup=my_location&dropoff[formatted_address]=Via+Lorenzo+Il+Magnifico+59+Firenze" target="_blank">🚗 Uber</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── DIA 25 ── -->
+<div class="day-card" data-city="Siena" data-date="2026-05-25" data-lat="43.3186" data-lon="11.3307">
+  <div class="card-header">
+    <div class="date-badge"><div class="date-day">25</div><div class="date-month">Mai</div></div>
+    <div class="header-divider"></div>
+    <div class="header-info"><div class="weekday">Segunda-feira</div><div class="city-name">Siena</div></div>
+    <div class="weather-badge" id="wx-2026-05-25"><div class="w-icon">🌤</div><div class="w-temps"><div class="w-range">--/--°</div><div class="w-rain">💧 --%</div></div></div>
+  </div>
+  <div class="periods">
+    <div class="period manha" data-id="25-m">
+      <div class="period-left"><div class="period-icon">🌅</div><button class="check-btn" data-id="25-m"></button></div>
+      <div class="period-content">
+        <div class="period-label">Manhã</div>
+        <div class="activity-item">Ônibus Rapida para Siena — Piazza del Campo. <a class="place-link" data-q="Piazza del Campo Siena">🗺</a></div>
+        <div class="activity-item">Torre del Mangia e ruelas medievais. <a class="place-link" data-q="Torre del Mangia Siena">🗺</a></div>
+      </div>
+    </div>
+    <div class="period tarde" data-id="25-t">
+      <div class="period-left"><div class="period-icon">☀️</div><button class="check-btn" data-id="25-t"></button></div>
+      <div class="period-content">
+        <div class="period-label">Tarde</div>
+        <div class="activity-item">Catedral de Siena (Duomo). <a class="place-link" data-q="Duomo di Siena">🗺</a></div>
+        <div class="activity-item">Panforte na Confeitaria Nannini. <a class="place-link" data-q="Nannini Siena">🗺</a></div>
+      </div>
+    </div>
+    <div class="period noite" data-id="25-n">
+      <div class="period-left"><div class="period-icon">🌙</div><button class="check-btn" data-id="25-n"></button></div>
+      <div class="period-content">
+        <div class="period-label">Noite</div>
+        <div class="activity-item">Retorno a Florença — jantar na Piazza della Signoria. <a class="place-link" data-q="Piazza della Signoria Firenze">🗺</a></div>
+      </div>
+    </div>
+  </div>
+  <div class="hotel-footer">
+    <div class="hotel-icon">🏠</div>
+    <div class="hotel-info">
+      <div class="hotel-name">Airbnb — Gianluca</div>
+      <div class="hotel-address">Via Lorenzo Il Magnifico, 59 — Florença</div>
+      <div class="hotel-links">
+        <a class="hotel-link maps" href="https://www.google.com/maps/search/?api=1&query=Via+Lorenzo+Il+Magnifico+59+Firenze" target="_blank">🗺 Maps</a>
+        <a class="hotel-link uber" href="uber://?action=setPickup&pickup=my_location&dropoff[formatted_address]=Via+Lorenzo+Il+Magnifico+59+Firenze" target="_blank">🚗 Uber</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── DIA 26 ── -->
+<div class="day-card" data-city="Florença" data-date="2026-05-26" data-lat="43.7696" data-lon="11.2558">
+  <div class="card-header">
+    <div class="date-badge"><div class="date-day">26</div><div class="date-month">Mai</div></div>
+    <div class="header-divider"></div>
+    <div class="header-info"><div class="weekday">Terça-feira</div><div class="city-name">Florença</div></div>
+    <div class="weather-badge" id="wx-2026-05-26"><div class="w-icon">🌤</div><div class="w-temps"><div class="w-range">--/--°</div><div class="w-rain">💧 --%</div></div></div>
+  </div>
+  <div class="periods">
+    <div class="period manha" data-id="26-m">
+      <div class="period-left"><div class="period-icon">🌅</div><button class="check-btn" data-id="26-m"></button></div>
+      <div class="period-content">
+        <div class="period-label">Manhã</div>
+        <div class="activity-item">Galeria Uffizi (Botticelli, Leonardo, Michelangelo). <a class="place-link" data-q="Galleria degli Uffizi Firenze">🗺</a></div>
+      </div>
+    </div>
+    <div class="period tarde" data-id="26-t">
+      <div class="period-left"><div class="period-icon">☀️</div><button class="check-btn" data-id="26-t"></button></div>
+      <div class="period-content">
+        <div class="period-label">Tarde</div>
+        <div class="activity-item">Palazzo Vecchio (Salão dos Quinhentos). <a class="place-link" data-q="Palazzo Vecchio Firenze">🗺</a></div>
+        <div class="activity-item">Loggia dei Lanzi. <a class="place-link" data-q="Loggia dei Lanzi Firenze">🗺</a></div>
+      </div>
+    </div>
+    <div class="period noite" data-id="26-n">
+      <div class="period-left"><div class="period-icon">🌙</div><button class="check-btn" data-id="26-n"></button></div>
+      <div class="period-content">
+        <div class="period-label">Noite</div>
+        <div class="activity-item">Jantar com Bistecca alla Fiorentina.</div>
+      </div>
+    </div>
+  </div>
+  <div class="hotel-footer">
+    <div class="hotel-icon">🏠</div>
+    <div class="hotel-info">
+      <div class="hotel-name">Airbnb — Gianluca</div>
+      <div class="hotel-address">Via Lorenzo Il Magnifico, 59 — Florença</div>
+      <div class="hotel-links">
+        <a class="hotel-link maps" href="https://www.google.com/maps/search/?api=1&query=Via+Lorenzo+Il+Magnifico+59+Firenze" target="_blank">🗺 Maps</a>
+        <a class="hotel-link uber" href="uber://?action=setPickup&pickup=my_location&dropoff[formatted_address]=Via+Lorenzo+Il+Magnifico+59+Firenze" target="_blank">🚗 Uber</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── DIA 27 ── -->
+<div class="day-card" data-city="Florença" data-date="2026-05-27" data-lat="43.7696" data-lon="11.2558">
+  <div class="card-header">
+    <div class="date-badge"><div class="date-day">27</div><div class="date-month">Mai</div></div>
+    <div class="header-divider"></div>
+    <div class="header-info"><div class="weekday">Quarta-feira</div><div class="city-name">Florença</div></div>
+    <div class="weather-badge" id="wx-2026-05-27"><div class="w-icon">🌤</div><div class="w-temps"><div class="w-range">--/--°</div><div class="w-rain">💧 --%</div></div></div>
+  </div>
+  <div class="periods">
+    <div class="period manha" data-id="27-m">
+      <div class="period-left"><div class="period-icon">🌅</div><button class="check-btn" data-id="27-m"></button></div>
+      <div class="period-content">
+        <div class="period-label">Manhã</div>
+        <div class="activity-item"><a class="doc-link" href="https://drive.google.com/file/d/1zytVOBUQSDSbc8EI4v0g0N764KTfzKY6/view?usp=drive_link" target="_blank">Galleria dell'Accademia</a> — David de Michelangelo. <a class="place-link" data-q="Galleria dell Accademia Firenze">🗺</a></div>
+      </div>
+    </div>
+    <div class="period tarde" data-id="27-t">
+      <div class="period-left"><div class="period-icon">☀️</div><button class="check-btn" data-id="27-t"></button></div>
+      <div class="period-content">
+        <div class="period-label">Tarde</div>
+        <div class="activity-item">Basílica de Santa Croce. <a class="place-link" data-q="Basilica di Santa Croce Firenze">🗺</a></div>
+        <div class="activity-item">Jardins de Boboli. <a class="place-link" data-q="Giardino di Boboli Firenze">🗺</a></div>
+      </div>
+    </div>
+    <div class="period noite" data-id="27-n">
+      <div class="period-left"><div class="period-icon">🌙</div><button class="check-btn" data-id="27-n"></button></div>
+      <div class="period-content">
+        <div class="period-label">Noite</div>
+        <div class="activity-item">Gelato na sorveteria Perchè no!... <a class="place-link" data-q="Perché no gelateria Firenze">🗺</a></div>
+      </div>
+    </div>
+  </div>
+  <div class="hotel-footer">
+    <div class="hotel-icon">🏠</div>
+    <div class="hotel-info">
+      <div class="hotel-name">Airbnb — Gianluca</div>
+      <div class="hotel-address">Via Lorenzo Il Magnifico, 59 — Florença</div>
+      <div class="hotel-links">
+        <a class="hotel-link maps" href="https://www.google.com/maps/search/?api=1&query=Via+Lorenzo+Il+Magnifico+59+Firenze" target="_blank">🗺 Maps</a>
+        <a class="hotel-link uber" href="uber://?action=setPickup&pickup=my_location&dropoff[formatted_address]=Via+Lorenzo+Il+Magnifico+59+Firenze" target="_blank">🚗 Uber</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── DIA 28 ── -->
+<div class="day-card" data-city="Veneza" data-date="2026-05-28" data-lat="45.4408" data-lon="12.3155">
+  <div class="card-header">
+    <div class="date-badge"><div class="date-day">28</div><div class="date-month">Mai</div></div>
+    <div class="header-divider"></div>
+    <div class="header-info"><div class="weekday">Quinta-feira</div><div class="city-name">Veneza</div></div>
+    <div class="weather-badge" id="wx-2026-05-28"><div class="w-icon">🌤</div><div class="w-temps"><div class="w-range">--/--°</div><div class="w-rain">💧 --%</div></div></div>
+  </div>
+  <div class="periods">
+    <div class="period manha" data-id="28-m">
+      <div class="period-left"><div class="period-icon">🌅</div><button class="check-btn" data-id="28-m"></button></div>
+      <div class="period-content">
+        <div class="period-label">Manhã</div>
+        <div class="activity-item"><a class="doc-link" href="https://drive.google.com/file/d/1JbIpF6r74ZXrFs1EVqDrvgimJZQDY6Oq/view?usp=drive_link" target="_blank">Trem Florença → Veneza</a> Santa Lucia. <a class="place-link" data-q="Venezia Santa Lucia stazione">🗺</a></div>
+        <div class="activity-item">Check-in no bairro de Cannaregio.</div>
+      </div>
+    </div>
+    <div class="period tarde" data-id="28-t">
+      <div class="period-left"><div class="period-icon">☀️</div><button class="check-btn" data-id="28-t"></button></div>
+      <div class="period-content">
+        <div class="period-label">Tarde</div>
+        <div class="activity-item">Ghetto Novo. <a class="place-link" data-q="Ghetto di Venezia">🗺</a></div>
+        <div class="activity-item">Ponte de Rialto e Cicchetti nos Bacari. <a class="place-link" data-q="Ponte di Rialto Venezia">🗺</a></div>
+      </div>
+    </div>
+    <div class="period noite" data-id="28-n">
+      <div class="period-left"><div class="period-icon">🌙</div><button class="check-btn" data-id="28-n"></button></div>
+      <div class="period-content">
+        <div class="period-label">Noite</div>
+        <div class="activity-item">Vaporetto pelo Canal Grande até a Praça de São Marcos. <a class="place-link" data-q="Piazza San Marco Venezia">🗺</a></div>
+      </div>
+    </div>
+  </div>
+  <div class="hotel-footer">
+    <div class="hotel-icon">🏨</div>
+    <div class="hotel-info">
+      <div class="hotel-name">Hotel Cannaregio 2357</div>
+      <div class="hotel-address">Cannaregio 2357 — 30121 Veneza</div>
+      <div class="hotel-links">
+        <a class="hotel-link maps" href="https://www.google.com/maps/search/?api=1&query=Hotel+Cannaregio+2357+Venezia" target="_blank">🗺 Maps</a>
+        <a class="hotel-link uber" href="uber://?action=setPickup&pickup=my_location&dropoff[formatted_address]=Cannaregio+2357+Venezia" target="_blank">🚗 Uber</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── DIA 29 ── -->
+<div class="day-card" data-city="Veneza" data-date="2026-05-29" data-lat="45.4408" data-lon="12.3155">
+  <div class="card-header">
+    <div class="date-badge"><div class="date-day">29</div><div class="date-month">Mai</div></div>
+    <div class="header-divider"></div>
+    <div class="header-info"><div class="weekday">Sexta-feira</div><div class="city-name">Veneza</div></div>
+    <div class="weather-badge" id="wx-2026-05-29"><div class="w-icon">🌤</div><div class="w-temps"><div class="w-range">--/--°</div><div class="w-rain">💧 --%</div></div></div>
+  </div>
+  <div class="periods">
+    <div class="period manha" data-id="29-m">
+      <div class="period-left"><div class="period-icon">🌅</div><button class="check-btn" data-id="29-m"></button></div>
+      <div class="period-content">
+        <div class="period-label">Manhã</div>
+        <div class="activity-item">Palácio Ducal (Palazzo Ducale) — <a class="doc-link" href="https://drive.google.com/file/d/1lOb4qMVtgiuO8PjUjmXyDBGOhxyHCsKl/view?usp=drive_link" target="_blank">Ingresso Pedro</a> · <a class="doc-link" href="https://drive.google.com/file/d/1oG2W1Lmz9_RYmVEH8IqNm53qtbGwPdp-/view?usp=drive_link" target="_blank">Ingresso Kellem</a>. <a class="place-link" data-q="Palazzo Ducale Venezia">🗺</a></div>
+        <div class="activity-item">Basílica de São Marcos. <a class="place-link" data-q="Basilica di San Marco Venezia">🗺</a></div>
+      </div>
+    </div>
+    <div class="period tarde" data-id="29-t">
+      <div class="period-left"><div class="period-icon">☀️</div><button class="check-btn" data-id="29-t"></button></div>
+      <div class="period-content">
+        <div class="period-label">Tarde</div>
+        <div class="activity-item">Dorsoduro e Ponte da Academia. <a class="place-link" data-q="Dorsoduro Venezia">🗺</a></div>
+        <div class="activity-item">Passeio de Gôndola ao entardecer. <a class="place-link" data-q="gondola Venezia">🗺</a></div>
+      </div>
+    </div>
+    <div class="period noite" data-id="29-n">
+      <div class="period-left"><div class="period-icon">🌙</div><button class="check-btn" data-id="29-n"></button></div>
+      <div class="period-content">
+        <div class="period-label">Noite</div>
+        <div class="activity-item">Jantar de despedida na Fondamenta Misericordia. <a class="place-link" data-q="Fondamenta della Misericordia Venezia">🗺</a></div>
+      </div>
+    </div>
+  </div>
+  <div class="hotel-footer">
+    <div class="hotel-icon">🏨</div>
+    <div class="hotel-info">
+      <div class="hotel-name">Hotel Cannaregio 2357</div>
+      <div class="hotel-address">Cannaregio 2357 — 30121 Veneza</div>
+      <div class="hotel-links">
+        <a class="hotel-link maps" href="https://www.google.com/maps/search/?api=1&query=Hotel+Cannaregio+2357+Venezia" target="_blank">🗺 Maps</a>
+        <a class="hotel-link uber" href="uber://?action=setPickup&pickup=my_location&dropoff[formatted_address]=Cannaregio+2357+Venezia" target="_blank">🚗 Uber</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── DIA 30 ── -->
+<div class="day-card" data-city="Veneza" data-date="2026-05-30" data-lat="45.4408" data-lon="12.3155">
+  <div class="card-header">
+    <div class="date-badge"><div class="date-day">30</div><div class="date-month">Mai</div></div>
+    <div class="header-divider"></div>
+    <div class="header-info"><div class="weekday">Sábado</div><div class="city-name">Veneza</div></div>
+    <div class="weather-badge" id="wx-2026-05-30"><div class="w-icon">🌤</div><div class="w-temps"><div class="w-range">--/--°</div><div class="w-rain">💧 --%</div></div></div>
+  </div>
+  <div class="periods">
+    <div class="period manha" data-id="30-m">
+      <div class="period-left"><div class="period-icon">🌅</div><button class="check-btn" data-id="30-m"></button></div>
+      <div class="period-content">
+        <div class="period-label">Manhã</div>
+        <div class="activity-item">Livraria Acqua Alta. <a class="place-link" data-q="Libreria Acqua Alta Venezia">🗺</a></div>
+        <div class="activity-item">Campanile di San Marco (terraço panorâmico). <a class="place-link" data-q="Campanile di San Marco Venezia">🗺</a></div>
+      </div>
+    </div>
+    <div class="period tarde" data-id="30-t">
+      <div class="period-left"><div class="period-icon">☀️</div><button class="check-btn" data-id="30-t"></button></div>
+      <div class="period-content">
+        <div class="period-label">Tarde</div>
+        <div class="activity-item">Almoço final — Risoto de Frutos do Mar ou Massa ao Nero di Seppia.</div>
+        <div class="activity-item">Aeroporto Marco Polo (partida 15h30). <a class="place-link" data-q="Aeroporto Marco Polo Venezia">🗺</a></div>
+      </div>
+    </div>
+  </div>
+  <div class="hotel-footer">
+    <div class="hotel-icon">🏨</div>
+    <div class="hotel-info">
+      <div class="hotel-name">Hotel Cannaregio 2357</div>
+      <div class="hotel-address">Cannaregio 2357 — 30121 Veneza</div>
+      <div class="hotel-links">
+        <a class="hotel-link maps" href="https://www.google.com/maps/search/?api=1&query=Hotel+Cannaregio+2357+Venezia" target="_blank">🗺 Maps</a>
+        <a class="hotel-link uber" href="uber://?action=setPickup&pickup=my_location&dropoff[formatted_address]=Cannaregio+2357+Venezia" target="_blank">🚗 Uber</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="empty-state" id="emptyState">
+  <div class="empty-state-icon">🗺️</div>
+  <p>Nenhum dia encontrado para esta cidade.</p>
+</div>
+
+</main>
+<footer>Boa viagem! ✈️</footer>
+</div><!-- #roteiroPage -->
+
+
+<!-- ══════════════════════════════════════
+     EMERGENCY PANEL — embutido, sem arquivo separado
+════════════════════════════════════════ -->
+<div id="emergencyPanel">
+  <div class="emg-header">
+    <button class="emg-back" id="closeEmergency">
+      <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+      Voltar ao Roteiro
+    </button>
+    <div class="emg-badge">🚨 Emergência</div>
+    <h2>Guia de <em>Emergência</em></h2>
+    <p class="emg-note">Mastercard Black · AIG · Europa — Maio/Junho 2026</p>
+  </div>
+
+  <div class="emg-main">
+
+    <!-- SEGURADOS -->
+    <div class="emg-section">
+      <div class="emg-section-header red"><span class="s-icon">🪪</span> Informações dos Segurados</div>
+      <div class="emg-body">
+        <div class="insured-card">
+          <div class="insured-avatar">👤</div>
+          <div>
+            <div class="insured-name">Pedro Vinícius Silva Ribeiro Taques</div>
+            <div class="insured-ticket">Bilhete: 16023-0002-69-260218312</div>
+            <a class="doc-btn" href="https://drive.google.com/file/d/1Z5WUn-eWqJlmqIx91FdzQY2_Z3dyF-KO/view?usp=drive_link" target="_blank">📄 Ver Documento</a>
+          </div>
+        </div>
+        <div class="insured-card">
+          <div class="insured-avatar">👤</div>
+          <div>
+            <div class="insured-name">Kellem Cristina de Oliveira Lima</div>
+            <div class="insured-ticket">Bilhete: 16023-0002-69-260218311</div>
+            <a class="doc-btn" href="https://drive.google.com/file/d/1bKfUp5z0B6WaK2KfINdmkAF4vJpo3UA8/view?usp=drive_link" target="_blank">📄 Ver Documento</a>
+          </div>
+        </div>
+        <div class="validity-bar">📅 Vigência (ambos): 28/03/2026 a 28/03/2027</div>
+      </div>
+    </div>
+
+    <!-- COBERTURA -->
+    <div class="emg-section">
+      <div class="emg-section-header green"><span class="s-icon">🛡️</span> Resumo da Cobertura — Por Pessoa</div>
+      <div class="emg-body">
+        <div class="cov-grid">
+          <div class="cov-item"><div class="cov-label">Despesas Médicas e Hospitalares</div><div class="cov-value">$175.000 USD</div></div>
+          <div class="cov-item"><div class="cov-label">Traslado Médico / Regresso Sanitário</div><div class="cov-value">$100.000 USD</div></div>
+          <div class="cov-item"><div class="cov-label">Traslado de Corpo</div><div class="cov-value">$100.000 USD</div></div>
+          <div class="cov-item"><div class="cov-label">Prorrogação de Estadia</div><div class="cov-value">5 × $250 USD</div></div>
+          <div class="cov-item"><div class="cov-label">Atraso de Bagagem (após 4h)</div><div class="cov-value">$600 USD</div></div>
+          <div class="cov-item"><div class="cov-label">Perda de Bagagem</div><div class="cov-value">$3.000 USD</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- COMO ACIONAR -->
+    <div class="emg-section">
+      <div class="emg-section-header amber"><span class="s-icon">📞</span> Como Acionar o Seguro</div>
+      <div class="emg-body">
+        <div class="phone-section">
+          <div class="phone-section-title">⚠️ Contate antes de qualquer procedimento (se possível)</div>
+          <div class="phone-row"><span class="phone-label">🇵🇹 Portugal</span><a class="phone-link" href="tel:800811272">📞 800-8-11-272</a></div>
+          <div class="phone-row"><span class="phone-label">🇮🇹 Itália</span><a class="phone-link" href="tel:800870866">📞 800-870-866</a></div>
+          <div class="phone-row"><span class="phone-label">🇧🇷 Brasil</span><a class="phone-link" href="tel:08008913294">📞 0800-891-3294</a></div>
+        </div>
+        <div class="phone-section">
+          <div class="phone-section-title">🌐 Portal do Segurado</div>
+          <div class="phone-row"><span class="phone-label">mycardbenefits.com</span><a class="web-link" href="https://www.mycardbenefits.com" target="_blank">🔗 Acessar</a></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- EMERGÊNCIA -->
+    <div class="emg-section">
+      <div class="emg-section-header red"><span class="s-icon">🚨</span> Números de Emergência Locais</div>
+      <div class="emg-body">
+        <div class="universal-box">
+          <a href="tel:112" class="universal-num">112</a>
+          <div class="universal-info">
+            <div class="universal-title">Número Universal — União Europeia</div>
+            <div class="universal-sub">Válido em todos os países da UE para qualquer emergência</div>
+            <a class="call-btn" href="tel:112">📞 Ligar 112 agora</a>
+          </div>
+        </div>
+        <div class="emerg-section">
+          <div class="emerg-country">🇵🇹 Portugal — Lisboa, Cascais, Sintra</div>
+          <div class="emerg-row"><span class="emerg-label">Geral</span><a class="emerg-num" href="tel:112">112</a></div>
+          <div class="emerg-row"><span class="emerg-label">SNS 24 — Triagem Médica</span><a class="emerg-num" href="tel:808242424">808 24 24 24</a></div>
+        </div>
+        <div class="emerg-section">
+          <div class="emerg-country">🇮🇹 Itália — Roma, Florença, Siena, Veneza</div>
+          <div class="emerg-row"><span class="emerg-label">Geral</span><a class="emerg-num" href="tel:112">112</a></div>
+          <div class="emerg-row"><span class="emerg-label">Emergência Médica (Ambulância)</span><a class="emerg-num" href="tel:118">118</a></div>
+          <div class="emerg-row"><span class="emerg-label">Polícia (Polizia)</span><a class="emerg-num" href="tel:113">113</a></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- HOSPITAIS -->
+    <div class="emg-section">
+      <div class="emg-section-header blue"><span class="s-icon">🏥</span> Hospitais de Referência</div>
+      <div class="emg-body">
+        <div class="hosp-section">
+          <div class="hosp-country">🇵🇹 Portugal</div>
+          <div class="hosp-item">
+            <div class="hosp-city">Lisboa</div>
+            <div class="hosp-name">Hospital de Santa Maria</div>
+            <div class="hosp-addr">Av. Prof. Egas Moniz, Lisboa</div>
+            <a class="hosp-map" href="#" data-q="Hospital de Santa Maria Lisboa">🗺 Ver no mapa</a>
+          </div>
+          <div class="hosp-item">
+            <div class="hosp-city">Cascais</div>
+            <div class="hosp-name">Hospital de Cascais Dr. José de Almeida</div>
+            <div class="hosp-addr">Alcabideche, Cascais</div>
+            <a class="hosp-map" href="#" data-q="Hospital de Cascais Dr José de Almeida Alcabideche">🗺 Ver no mapa</a>
+          </div>
+          <div class="hosp-item">
+            <div class="hosp-city">Sintra</div>
+            <div class="hosp-name">Hospital CUF Sintra</div>
+            <div class="hosp-addr">Av. Desidério Cambournac, 14 — Sintra</div>
+            <a class="hosp-map" href="#" data-q="Hospital CUF Sintra">🗺 Ver no mapa</a>
+          </div>
+        </div>
+        <div class="hosp-section">
+          <div class="hosp-country">🇮🇹 Itália</div>
+          <div class="hosp-item">
+            <div class="hosp-city">Roma</div>
+            <div class="hosp-name">Policlinico Umberto I</div>
+            <div class="hosp-addr">Viale del Policlinico, 155 — Roma</div>
+            <a class="hosp-map" href="#" data-q="Policlinico Umberto I Roma">🗺 Ver no mapa</a>
+          </div>
+          <div class="hosp-item">
+            <div class="hosp-city">Florença</div>
+            <div class="hosp-name">Ospedale Santa Maria Nuova</div>
+            <div class="hosp-addr">Piazza di Santa Maria Nuova, 1 — Firenze</div>
+            <a class="hosp-map" href="#" data-q="Ospedale Santa Maria Nuova Firenze">🗺 Ver no mapa</a>
+          </div>
+          <div class="hosp-item">
+            <div class="hosp-city">Siena</div>
+            <div class="hosp-name">Ospedale Santa Maria alle Scotte</div>
+            <div class="hosp-addr">Strada delle Scotte, 14 — Siena</div>
+            <a class="hosp-map" href="#" data-q="Ospedale Santa Maria alle Scotte Siena">🗺 Ver no mapa</a>
+          </div>
+          <div class="hosp-item">
+            <div class="hosp-city">Veneza</div>
+            <div class="hosp-name">Ospedale Civile SS. Giovanni e Paolo</div>
+            <div class="hosp-addr">Sestiere Castello, 6777 — Venezia</div>
+            <a class="hosp-map" href="#" data-q="Ospedale Civile SS Giovanni e Paolo Venezia">🗺 Ver no mapa</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- emg-main -->
+</div><!-- #emergencyPanel -->
+
+
+<script>
+// ── MAP HELPER ──
+function openMap(q){
+  const enc=encodeURIComponent(q);
+  const isIOS=/iP(hone|ad|od)/.test(navigator.userAgent);
+  window.open(isIOS?`maps://?q=${enc}`:`https://www.google.com/maps/search/?api=1&query=${enc}`,'_blank');
+}
+
+// ── PLACE LINKS (roteiro) ──
+document.querySelectorAll('.place-link').forEach(el=>{
+  el.addEventListener('click',e=>{e.preventDefault();openMap(el.dataset.q);});
+});
+
+// ── HOSPITAL MAP LINKS (emergency) ──
+document.querySelectorAll('.hosp-map').forEach(el=>{
+  el.addEventListener('click',e=>{e.preventDefault();openMap(el.dataset.q);});
+});
+
+// ── EMERGENCY PANEL ──
+const panel=document.getElementById('emergencyPanel');
+document.getElementById('openEmergency').addEventListener('click',()=>{
+  panel.classList.add('open');
+  panel.scrollTop=0;
+  document.body.style.overflow='hidden'; // prevent background scroll
+});
+document.getElementById('closeEmergency').addEventListener('click',()=>{
+  panel.classList.remove('open');
+  document.body.style.overflow='';
+});
+
+// ── WEATHER ──
+async function fetchWeather(lat,lon,date){
+  try{
+    const r=await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&daily=temperature_2m_max,temperature_2m_min,precipitation_probability_max,weathercode&timezone=auto&start_date=${date}&end_date=${date}`);
+    const d=await r.json();
+    if(!d.daily||d.daily.temperature_2m_max[0]==null)return null;
+    return{max:Math.round(d.daily.temperature_2m_max[0]),min:Math.round(d.daily.temperature_2m_min[0]),rain:d.daily.precipitation_probability_max[0]??0,code:d.daily.weathercode[0]};
+  }catch{return null;}
+}
+function wIcon(c){if(c===0)return'☀️';if(c<=2)return'⛅';if(c<=3)return'☁️';if(c<=48)return'🌫️';if(c<=67)return'🌧️';if(c<=77)return'❄️';if(c<=82)return'🌦️';return'⛈️';}
+async function loadWeather(){
+  for(const card of document.querySelectorAll('.day-card[data-date]')){
+    const{date,lat,lon}=card.dataset;
+    const b=document.getElementById('wx-'+date);if(!b)continue;
+    const d=await fetchWeather(lat,lon,date);
+    if(d){b.querySelector('.w-icon').textContent=wIcon(d.code);b.querySelector('.w-range').textContent=`${d.min}°–${d.max}°`;b.querySelector('.w-rain').textContent=`💧 ${d.rain}%`;}
+  }
+}
+loadWeather();
+
+// ── CHECK / DONE ──
+const SK='roteiro_done_v2';
+const getDone=()=>{try{return JSON.parse(localStorage.getItem(SK)||'{}');}catch{return{};}};
+const saveDone=d=>localStorage.setItem(SK,JSON.stringify(d));
+function applyDone(){
+  const done=getDone();
+  document.querySelectorAll('.check-btn').forEach(btn=>{
+    if(done[btn.dataset.id]){btn.classList.add('checked');btn.closest('.period')?.classList.add('done');}
+  });
+}
+document.querySelectorAll('.check-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const id=btn.dataset.id,done=getDone(),now=!done[id];
+    done[id]=now;saveDone(done);
+    btn.classList.toggle('checked',now);
+    btn.closest('.period')?.classList.toggle('done',now);
+  });
+});
+applyDone();
+
+// ── FILTER ──
+const chips=document.querySelectorAll('.chip');
+const cards=document.querySelectorAll('.day-card');
+const empty=document.getElementById('emptyState');
+chips.forEach(chip=>{
+  chip.addEventListener('click',()=>{
+    chips.forEach(c=>c.classList.remove('active'));chip.classList.add('active');
+    const sel=chip.dataset.city;let v=0;
+    cards.forEach(card=>{
+      const m=sel==='all'||card.dataset.city===sel;
+      card.classList.toggle('hidden',!m);
+      if(m){card.style.animationDelay=(v*0.05)+'s';card.style.animation='none';requestAnimationFrame(()=>card.style.animation='');v++;}
+    });
+    empty.classList.toggle('visible',v===0);
+  });
+});
+
+// ── PWA ──
+let dp=null;
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();dp=e;document.getElementById('installBanner').classList.add('show');});
+document.getElementById('installBtn').addEventListener('click',async()=>{if(!dp)return;dp.prompt();await dp.userChoice;dp=null;document.getElementById('installBanner').classList.remove('show');});
+document.getElementById('closeBanner').addEventListener('click',()=>document.getElementById('installBanner').classList.remove('show'));
+if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
+</script>
+</body>
+</html>
