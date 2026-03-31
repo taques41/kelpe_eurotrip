@@ -1,6 +1,6 @@
 const CACHE = 'roteiro-v1';
 const ASSETS = [
-  './roteiro.html',
+  './index.html',
   './manifest.json',
   'https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap'
 ];
@@ -37,7 +37,7 @@ self.addEventListener('fetch', e => {
           caches.open(CACHE).then(cache => cache.put(e.request, clone)).catch(() => {});
         }
         return response;
-      }).catch(() => caches.match('./roteiro.html'));
+      }).catch(() => caches.match('./index.html'));
     })
   );
 });

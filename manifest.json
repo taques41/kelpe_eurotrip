@@ -2,7 +2,7 @@
   "name": "Roteiro Europa 2026",
   "short_name": "Roteiro Europa",
   "description": "Roteiro de viagem Europa - Maio 2026",
-  "start_url": "./roteiro.html",
+  "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#faf7f2",
   "theme_color": "#1a1208",
