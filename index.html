@@ -11,244 +11,274 @@
 <title>Roteiro Europa 2026</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --cream:#faf7f2; --warm-white:#fff9f2; --ink:#1a1208;
-    --muted:#7a6e60; --accent:#c8864a; --accent-light:#f0dcc8;
-    --lisboa:#3d6b8e; --cascais:#4a8c7a; --sintra:#7a5c8a;
-    --roma:#c04a3a; --florenca:#c87a2e; --siena:#9a6a2a; --veneza:#2e6a9a;
-    --border:#e8dece; --shadow:0 2px 20px rgba(26,18,8,0.08); --done-text:#b0a898;
-    --red:#c0392b; --red-dk:#9b1c1c; --red-lt:#fff0ee;
-    --green:#276749; --green-lt:#edf7f0; --blue:#1e4d8c; --blue-lt:#eef3fc;
-  }
-  *{margin:0;padding:0;box-sizing:border-box;}
-  body{background:var(--cream);color:var(--ink);font-family:'DM Sans',sans-serif;font-weight:300;min-height:100vh;}
+/* ════════════════════════════════
+   TEMA CLARO (padrão — dia)
+════════════════════════════════ */
+:root {
+  --cream:#faf7f2; --warm-white:#fff9f2; --ink:#1a1208;
+  --muted:#7a6e60; --accent:#c8864a; --accent-light:#f0dcc8;
+  --lisboa:#3d6b8e; --cascais:#4a8c7a; --sintra:#7a5c8a;
+  --roma:#c04a3a; --florenca:#c87a2e; --siena:#9a6a2a; --veneza:#2e6a9a;
+  --border:#e8dece; --shadow:0 2px 20px rgba(26,18,8,0.08); --done-text:#b0a898;
+  --card-bg:#ffffff; --filter-bg:#fff9f2; --period-done-opacity:0.45;
+  --red:#c0392b; --red-dk:#9b1c1c; --red-lt:#fff0ee;
+  --green:#276749; --green-lt:#edf7f0; --blue:#1e4d8c; --blue-lt:#eef3fc;
+}
 
-  /* ── HEADER ── */
-  header{background:var(--ink);color:var(--cream);padding:36px 20px 28px;text-align:center;position:relative;overflow:hidden;}
-  header::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(45deg,transparent,transparent 30px,rgba(255,255,255,0.015) 30px,rgba(255,255,255,0.015) 60px);}
-  .header-eyebrow{font-size:11px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:var(--accent);margin-bottom:10px;position:relative;}
-  header h1{font-family:'Playfair Display',serif;font-size:clamp(28px,7vw,44px);font-weight:700;letter-spacing:-0.5px;line-height:1.1;position:relative;}
-  header h1 em{font-style:italic;color:var(--accent);}
-  .header-sub{margin-top:10px;font-size:13px;color:rgba(250,247,242,0.55);letter-spacing:0.5px;position:relative;}
+/* ════════════════════════════════
+   TEMA ESCURO (noite)
+════════════════════════════════ */
+body.dark-theme {
+  --cream:#16130e; --warm-white:#1e1a14; --ink:#f0e8da;
+  --muted:#9a8e80; --accent:#d99a5e; --accent-light:#3a2a18;
+  --border:#2e2820; --shadow:0 2px 20px rgba(0,0,0,0.35);
+  --done-text:#5a5048; --card-bg:#1e1a14; --filter-bg:#1a1610;
+  --period-done-opacity:0.35;
+  --lisboa:#5a8fb0; --cascais:#6aaa96; --sintra:#9a7aaa;
+  --roma:#d06858; --florenca:#d8944a; --siena:#b88848; --veneza:#4e8ab8;
+}
 
-  /* ── EMERGENCY BTN (button, not link) ── */
-  .emergency-btn{position:absolute;top:16px;right:16px;width:40px;height:40px;background:var(--red);border:none;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 12px rgba(192,57,43,0.5);cursor:pointer;transition:transform 0.15s;z-index:10;-webkit-tap-highlight-color:transparent;}
-  .emergency-btn:active{transform:scale(0.92);}
-  .emergency-btn svg{width:22px;height:22px;fill:white;}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  background:var(--cream); color:var(--ink);
+  font-family:'DM Sans',sans-serif; font-weight:300; min-height:100vh;
+  transition:background 0.4s, color 0.4s;
+}
 
-  /* ── PWA BANNER ── */
-  #installBanner{display:none;background:var(--accent);color:white;padding:10px 16px;font-size:13px;align-items:center;gap:10px;justify-content:space-between;}
-  #installBanner.show{display:flex;}
-  #installBanner button{background:white;color:var(--accent);border:none;border-radius:20px;padding:5px 14px;font-size:12px;font-weight:500;cursor:pointer;white-space:nowrap;flex-shrink:0;}
-  #installBanner .close-banner{background:transparent;color:white;font-size:18px;padding:0 4px;}
+/* ── HEADER ── */
+header { background:var(--ink); color:var(--cream); padding:36px 20px 28px; text-align:center; position:relative; overflow:hidden; }
+header::before { content:''; position:absolute; inset:0; background:repeating-linear-gradient(45deg,transparent,transparent 30px,rgba(255,255,255,0.015) 30px,rgba(255,255,255,0.015) 60px); }
+.header-eyebrow { font-size:11px; font-weight:500; letter-spacing:3px; text-transform:uppercase; color:var(--accent); margin-bottom:10px; position:relative; }
+header h1 { font-family:'Playfair Display',serif; font-size:clamp(28px,7vw,44px); font-weight:700; letter-spacing:-0.5px; line-height:1.1; position:relative; }
+header h1 em { font-style:italic; color:var(--accent); }
+.header-sub { margin-top:10px; font-size:13px; color:rgba(250,247,242,0.55); letter-spacing:0.5px; position:relative; }
 
-  /* ── FILTER ── */
-  .filter-bar{background:var(--warm-white);border-bottom:1px solid var(--border);padding:14px 16px;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(26,18,8,0.06);}
-  .filter-label{font-size:10px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:10px;}
-  .city-chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none;-ms-overflow-style:none;}
-  .city-chips::-webkit-scrollbar{display:none;}
-  .chip{flex-shrink:0;padding:7px 14px;border-radius:100px;font-size:13px;font-weight:400;border:1.5px solid var(--border);background:white;color:var(--muted);cursor:pointer;transition:all 0.2s ease;white-space:nowrap;-webkit-tap-highlight-color:transparent;}
-  .chip:active{transform:scale(0.95);}
-  .chip.active{border-color:transparent;color:white;font-weight:500;}
-  .chip[data-city="all"].active    {background:var(--ink);}
-  .chip[data-city="Lisboa"].active  {background:var(--lisboa);}
-  .chip[data-city="Cascais"].active {background:var(--cascais);}
-  .chip[data-city="Sintra"].active  {background:var(--sintra);}
-  .chip[data-city="Roma"].active    {background:var(--roma);}
-  .chip[data-city="Florença"].active{background:var(--florenca);}
-  .chip[data-city="Siena"].active   {background:var(--siena);}
-  .chip[data-city="Veneza"].active  {background:var(--veneza);}
+/* THEME BADGE (top-left) */
+.theme-badge {
+  position:absolute; top:16px; left:16px;
+  width:36px; height:36px; border-radius:50%;
+  background:rgba(255,255,255,0.12);
+  border:none; cursor:pointer; font-size:17px;
+  display:flex; align-items:center; justify-content:center;
+  transition:transform 0.15s, background 0.2s; z-index:10;
+  -webkit-tap-highlight-color:transparent;
+}
+.theme-badge:active { transform:scale(0.9); }
 
-  /* ── MAIN ── */
-  main{max-width:680px;margin:0 auto;padding:24px 16px 60px;}
+/* EMERGENCY BTN (top-right) */
+.emergency-btn {
+  position:absolute; top:16px; right:16px;
+  width:40px; height:40px; background:var(--red); border:none; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  box-shadow:0 2px 12px rgba(192,57,43,0.5); cursor:pointer;
+  transition:transform 0.15s; z-index:10; -webkit-tap-highlight-color:transparent;
+}
+.emergency-btn:active { transform:scale(0.92); }
+.emergency-btn svg { width:22px; height:22px; fill:white; }
 
-  /* ── DAY CARD ── */
-  .day-card{background:white;border-radius:16px;margin-bottom:16px;overflow:hidden;box-shadow:var(--shadow);border:1px solid var(--border);animation:fadeUp 0.4s ease both;}
-  @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
-  .day-card.hidden{display:none;}
+/* PWA BANNER */
+#installBanner { display:none; background:var(--accent); color:white; padding:10px 16px; font-size:13px; align-items:center; gap:10px; justify-content:space-between; }
+#installBanner.show { display:flex; }
+#installBanner button { background:white; color:var(--accent); border:none; border-radius:20px; padding:5px 14px; font-size:12px; font-weight:500; cursor:pointer; white-space:nowrap; flex-shrink:0; }
+#installBanner .close-banner { background:transparent; color:white; font-size:18px; padding:0 4px; }
 
-  /* ── CARD HEADER ── */
-  .card-header{padding:16px 18px 14px;display:flex;align-items:center;gap:14px;border-bottom:1px solid var(--border);}
-  .date-badge{text-align:center;min-width:48px;}
-  .date-day{font-family:'Playfair Display',serif;font-size:28px;font-weight:700;line-height:1;color:var(--ink);}
-  .date-month{font-size:10px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-top:2px;}
-  .header-divider{width:1px;height:40px;background:var(--border);flex-shrink:0;}
-  .header-info{flex:1;min-width:0;}
-  .weekday{font-size:11px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:3px;}
-  .city-name{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;line-height:1;}
-  .weather-badge{display:flex;align-items:center;gap:6px;background:var(--cream);border-radius:10px;padding:6px 10px;flex-shrink:0;min-width:84px;}
-  .weather-badge .w-icon{font-size:18px;line-height:1;}
-  .weather-badge .w-temps{display:flex;flex-direction:column;gap:1px;line-height:1.2;}
-  .weather-badge .w-range{font-size:11px;font-weight:500;color:var(--ink);white-space:nowrap;}
-  .weather-badge .w-rain{font-size:10px;color:#5a8aaa;}
+/* FILTER */
+.filter-bar { background:var(--filter-bg); border-bottom:1px solid var(--border); padding:14px 16px; position:sticky; top:0; z-index:100; box-shadow:0 2px 12px rgba(26,18,8,0.06); transition:background 0.4s; }
+.filter-label { font-size:10px; font-weight:500; letter-spacing:2px; text-transform:uppercase; color:var(--muted); margin-bottom:10px; }
+.city-chips { display:flex; gap:8px; overflow-x:auto; padding-bottom:4px; scrollbar-width:none; -ms-overflow-style:none; }
+.city-chips::-webkit-scrollbar { display:none; }
+.chip { flex-shrink:0; padding:7px 14px; border-radius:100px; font-size:13px; font-weight:400; border:1.5px solid var(--border); background:var(--card-bg); color:var(--muted); cursor:pointer; transition:all 0.2s ease; white-space:nowrap; -webkit-tap-highlight-color:transparent; }
+.chip:active { transform:scale(0.95); }
+.chip.active { border-color:transparent; color:white; font-weight:500; }
+.chip[data-city="all"].active    { background:var(--ink); }
+.chip[data-city="Lisboa"].active  { background:var(--lisboa); }
+.chip[data-city="Cascais"].active { background:var(--cascais); }
+.chip[data-city="Sintra"].active  { background:var(--sintra); }
+.chip[data-city="Roma"].active    { background:var(--roma); }
+.chip[data-city="Florença"].active { background:var(--florenca); }
+.chip[data-city="Siena"].active   { background:var(--siena); }
+.chip[data-city="Veneza"].active  { background:var(--veneza); }
 
-  [data-city="Lisboa"] .city-name  {color:var(--lisboa);}
-  [data-city="Cascais"] .city-name {color:var(--cascais);}
-  [data-city="Sintra"] .city-name  {color:var(--sintra);}
-  [data-city="Roma"] .city-name    {color:var(--roma);}
-  [data-city="Florença"] .city-name{color:var(--florenca);}
-  [data-city="Siena"] .city-name   {color:var(--siena);}
-  [data-city="Veneza"] .city-name  {color:var(--veneza);}
+/* MAIN */
+main { max-width:680px; margin:0 auto; padding:24px 16px 60px; }
 
-  /* ── PERIODS ── */
-  .periods{padding:6px 0;}
-  /* Left column: icon + check stacked. Right: content */
-  .period{padding:12px 16px 12px 14px;display:flex;gap:12px;align-items:flex-start;}
-  .period+.period{border-top:1px dashed var(--border);}
+/* DAY CARD */
+.day-card { background:var(--card-bg); border-radius:16px; margin-bottom:16px; overflow:hidden; box-shadow:var(--shadow); border:1px solid var(--border); animation:fadeUp 0.4s ease both; transition:background 0.4s, border-color 0.4s; }
+@keyframes fadeUp { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
+.day-card.hidden { display:none; }
 
-  .period-left{display:flex;flex-direction:column;align-items:center;gap:8px;flex-shrink:0;}
-  .period-icon{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;}
-  .period.manha .period-icon{background:#fef3e2;}
-  .period.tarde .period-icon{background:#e8f4ea;}
-  .period.noite .period-icon{background:#eae8f4;}
+/* CARD HEADER */
+.card-header { padding:16px 18px 14px; display:flex; align-items:center; gap:14px; border-bottom:1px solid var(--border); }
+.date-badge { text-align:center; min-width:48px; }
+.date-day { font-family:'Playfair Display',serif; font-size:28px; font-weight:700; line-height:1; color:var(--ink); }
+.date-month { font-size:10px; font-weight:500; letter-spacing:1.5px; text-transform:uppercase; color:var(--muted); margin-top:2px; }
+.header-divider { width:1px; height:40px; background:var(--border); flex-shrink:0; }
+.header-info { flex:1; min-width:0; }
+.weekday { font-size:11px; font-weight:500; letter-spacing:2px; text-transform:uppercase; color:var(--muted); margin-bottom:3px; }
+.city-name { font-family:'Playfair Display',serif; font-size:20px; font-weight:700; line-height:1; }
+.weather-badge { display:flex; align-items:center; gap:6px; background:var(--cream); border-radius:10px; padding:6px 10px; flex-shrink:0; min-width:84px; transition:background 0.4s; }
+.weather-badge .w-icon { font-size:18px; line-height:1; }
+.weather-badge .w-temps { display:flex; flex-direction:column; gap:1px; line-height:1.2; }
+.weather-badge .w-range { font-size:11px; font-weight:500; color:var(--ink); white-space:nowrap; }
+.weather-badge .w-rain  { font-size:10px; color:#5a8aaa; }
 
-  /* CHECK BTN — now lives in .period-left */
-  .check-btn{width:22px;height:22px;border-radius:50%;border:2px solid var(--border);background:white;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.2s;-webkit-tap-highlight-color:transparent;position:relative;flex-shrink:0;}
-  .check-btn::after{content:'✓';font-size:11px;font-weight:700;color:white;opacity:0;transition:opacity 0.2s;}
-  .check-btn.checked{background:#5aaa7a;border-color:#5aaa7a;}
-  .check-btn.checked::after{opacity:1;}
+[data-city="Lisboa"] .city-name   { color:var(--lisboa); }
+[data-city="Cascais"] .city-name  { color:var(--cascais); }
+[data-city="Sintra"] .city-name   { color:var(--sintra); }
+[data-city="Roma"] .city-name     { color:var(--roma); }
+[data-city="Florença"] .city-name { color:var(--florenca); }
+[data-city="Siena"] .city-name    { color:var(--siena); }
+[data-city="Veneza"] .city-name   { color:var(--veneza); }
 
-  .period-content{flex:1;min-width:0;padding-top:2px;}
-  .period-label{font-size:10px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
+/* PERIODS */
+.periods { padding:6px 0; }
+.period { padding:12px 16px 12px 14px; display:flex; gap:12px; align-items:flex-start; }
+.period + .period { border-top:1px dashed var(--border); }
 
-  /* ── ACTIVITY ITEM ── */
-  .activity-item{display:flex;align-items:baseline;gap:5px;margin-bottom:5px;font-size:14.5px;line-height:1.5;color:#2a2016;font-weight:300;flex-wrap:wrap;}
-  .activity-item:last-child{margin-bottom:0;}
+/* LEFT COLUMN: icon + check stacked */
+.period-left { display:flex; flex-direction:column; align-items:center; gap:8px; flex-shrink:0; }
+.period-icon { width:32px; height:32px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:15px; }
+.period.manha .period-icon { background:#fef3e2; }
+.period.tarde .period-icon { background:#e8f4ea; }
+.period.noite .period-icon { background:#eae8f4; }
 
-  /* ── MAP CHIP — icon only ── */
-  .place-link{display:inline-flex;align-items:center;color:var(--muted);font-size:13px;text-decoration:none;background:var(--cream);border:1px solid var(--border);border-radius:6px;padding:1px 5px;white-space:nowrap;vertical-align:middle;transition:background 0.15s,border-color 0.15s;-webkit-tap-highlight-color:transparent;flex-shrink:0;cursor:pointer;line-height:1.4;}
-  .place-link:active{background:var(--accent-light);border-color:var(--accent);}
+/* CHECK BTN — below the icon, left column */
+.check-btn { width:22px; height:22px; border-radius:50%; border:2px solid var(--border); background:var(--card-bg); cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all 0.2s; -webkit-tap-highlight-color:transparent; position:relative; flex-shrink:0; }
+.check-btn::after { content:'✓'; font-size:11px; font-weight:700; color:white; opacity:0; transition:opacity 0.2s; }
+.check-btn.checked { background:#5aaa7a; border-color:#5aaa7a; }
+.check-btn.checked::after { opacity:1; }
 
-  /* ── DOC LINKS ── */
-  a.doc-link{color:var(--accent);text-decoration:underline;text-decoration-style:dotted;text-underline-offset:3px;font-weight:400;}
+/* CONTENT */
+.period-content { flex:1; min-width:0; padding-top:2px; }
+.period-label { font-size:10px; font-weight:500; letter-spacing:2px; text-transform:uppercase; color:var(--muted); margin-bottom:6px; }
 
-  /* ── DONE STATE ── */
-  .period.done{opacity:0.45;}
-  .period.done .activity-item{text-decoration:line-through;color:var(--done-text);}
-  .period.done .activity-item a,.period.done .place-link{pointer-events:none;color:var(--done-text);border-color:transparent;background:transparent;}
+/* ACTIVITY ITEM */
+.activity-item { display:flex; align-items:baseline; gap:5px; margin-bottom:5px; font-size:14.5px; line-height:1.5; color:var(--ink); font-weight:300; flex-wrap:wrap; }
+.activity-item:last-child { margin-bottom:0; }
 
-  /* ── HOTEL FOOTER ── */
-  .hotel-footer{border-top:1px solid var(--border);padding:12px 18px;background:#fdfbf8;display:flex;align-items:flex-start;gap:12px;}
-  .hotel-icon{font-size:18px;flex-shrink:0;margin-top:1px;}
-  .hotel-info{flex:1;}
-  .hotel-name{font-size:13px;font-weight:500;color:var(--ink);margin-bottom:2px;}
-  .hotel-address{font-size:12px;color:var(--muted);margin-bottom:8px;line-height:1.4;}
-  .hotel-links{display:flex;gap:8px;flex-wrap:wrap;}
-  .hotel-link{display:inline-flex;align-items:center;gap:5px;padding:5px 12px;border-radius:20px;font-size:12px;font-weight:500;text-decoration:none;transition:all 0.2s;border:1.5px solid;-webkit-tap-highlight-color:transparent;}
-  .hotel-link:active{transform:scale(0.95);}
-  .hotel-link.maps{border-color:#3d6b8e;color:#3d6b8e;background:#eef4f9;}
-  .hotel-link.uber{border-color:#1a1208;color:#1a1208;background:#f2f0ed;}
+/* MAP CHIP */
+.place-link { display:inline-flex; align-items:center; color:var(--muted); font-size:13px; text-decoration:none; background:var(--cream); border:1px solid var(--border); border-radius:6px; padding:1px 5px; white-space:nowrap; vertical-align:middle; transition:background 0.15s,border-color 0.15s; -webkit-tap-highlight-color:transparent; flex-shrink:0; cursor:pointer; line-height:1.4; }
+.place-link:active { background:var(--accent-light); border-color:var(--accent); }
 
-  /* ── EMPTY STATE ── */
-  .empty-state{text-align:center;padding:60px 20px;color:var(--muted);display:none;}
-  .empty-state.visible{display:block;}
-  .empty-state-icon{font-size:40px;margin-bottom:12px;}
-  .empty-state p{font-family:'Playfair Display',serif;font-style:italic;font-size:18px;}
+/* DOC LINKS */
+a.doc-link { color:var(--accent); text-decoration:underline; text-decoration-style:dotted; text-underline-offset:3px; font-weight:400; }
 
-  footer{text-align:center;padding:20px;font-size:11px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;}
+/* DONE STATE */
+.period.done { opacity:var(--period-done-opacity); }
+.period.done .activity-item { text-decoration:line-through; color:var(--done-text); }
+.period.done .activity-item a, .period.done .place-link { pointer-events:none; color:var(--done-text); border-color:transparent; background:transparent; }
 
-  /* ════════════════════════════════════
-     EMERGENCY PANEL (inline, full-screen overlay)
-  ════════════════════════════════════ */
-  #emergencyPanel{
-    display:none;position:fixed;inset:0;z-index:999;
-    background:var(--cream);overflow-y:auto;
-    animation:slideIn 0.25s ease;
-  }
-  #emergencyPanel.open{display:block;}
-  @keyframes slideIn{from{transform:translateX(100%)}to{transform:translateX(0)}}
+/* HOTEL FOOTER */
+.hotel-footer { border-top:1px solid var(--border); padding:12px 18px; background:var(--warm-white); display:flex; align-items:flex-start; gap:12px; transition:background 0.4s; }
+.hotel-icon { font-size:18px; flex-shrink:0; margin-top:1px; }
+.hotel-info { flex:1; }
+.hotel-name { font-size:13px; font-weight:500; color:var(--ink); margin-bottom:2px; }
+.hotel-address { font-size:12px; color:var(--muted); margin-bottom:8px; line-height:1.4; }
+.hotel-links { display:flex; gap:8px; flex-wrap:wrap; }
+.hotel-link { display:inline-flex; align-items:center; gap:5px; padding:5px 12px; border-radius:20px; font-size:12px; font-weight:500; text-decoration:none; transition:all 0.2s; border:1.5px solid; -webkit-tap-highlight-color:transparent; }
+.hotel-link:active { transform:scale(0.95); }
+.hotel-link.maps { border-color:var(--lisboa); color:var(--lisboa); background:var(--blue-lt); }
+.hotel-link.uber { border-color:var(--ink); color:var(--ink); background:var(--warm-white); }
 
-  .emg-header{background:var(--red-dk);color:white;padding:28px 20px 24px;position:relative;overflow:hidden;}
-  .emg-header::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(45deg,transparent,transparent 24px,rgba(255,255,255,0.03) 24px,rgba(255,255,255,0.03) 48px);}
-  .emg-back{display:inline-flex;align-items:center;gap:6px;color:rgba(255,255,255,0.75);background:none;border:none;font-size:13px;font-weight:400;cursor:pointer;margin-bottom:16px;position:relative;-webkit-tap-highlight-color:transparent;font-family:inherit;}
-  .emg-back svg{width:16px;height:16px;fill:currentColor;}
-  .emg-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,0.12);border-radius:20px;padding:4px 12px;font-size:11px;font-weight:500;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;position:relative;}
-  .emg-header h2{font-family:'Playfair Display',serif;font-size:clamp(22px,6vw,32px);font-weight:700;line-height:1.15;position:relative;}
-  .emg-header h2 em{font-style:italic;opacity:0.75;}
-  .emg-note{margin-top:8px;font-size:12px;color:rgba(255,255,255,0.6);position:relative;}
+/* EMPTY STATE */
+.empty-state { text-align:center; padding:60px 20px; color:var(--muted); display:none; }
+.empty-state.visible { display:block; }
+.empty-state-icon { font-size:40px; margin-bottom:12px; }
+.empty-state p { font-family:'Playfair Display',serif; font-style:italic; font-size:18px; }
 
-  .emg-main{max-width:680px;margin:0 auto;padding:20px 16px 60px;}
-  .emg-section{margin-bottom:16px;}
-  .emg-section-header{display:flex;align-items:center;gap:10px;padding:12px 16px;border-radius:12px 12px 0 0;font-size:12px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;}
-  .emg-section-header .s-icon{font-size:18px;}
-  .emg-section-header.red  {background:var(--red);color:white;}
-  .emg-section-header.green{background:var(--green);color:white;}
-  .emg-section-header.blue {background:var(--blue);color:white;}
-  .emg-section-header.amber{background:#92400e;color:white;}
-  .emg-body{background:white;border-radius:0 0 12px 12px;border:1px solid var(--border);border-top:none;box-shadow:var(--shadow);overflow:hidden;}
+footer { text-align:center; padding:20px; font-size:11px; color:var(--muted); letter-spacing:1px; text-transform:uppercase; }
 
-  /* insured */
-  .insured-card{padding:14px 16px;display:flex;align-items:flex-start;gap:12px;}
-  .insured-card+.insured-card{border-top:1px solid var(--border);}
-  .insured-avatar{width:40px;height:40px;border-radius:50%;background:var(--red-lt);border:2px solid var(--red);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
-  .insured-name{font-size:14px;font-weight:500;color:var(--ink);margin-bottom:3px;}
-  .insured-ticket{font-size:11px;color:var(--muted);margin-bottom:6px;font-family:monospace;letter-spacing:0.5px;}
-  .doc-btn{display:inline-flex;align-items:center;gap:5px;padding:5px 12px;border-radius:20px;background:var(--red-lt);border:1.5px solid var(--red);color:var(--red);font-size:12px;font-weight:500;text-decoration:none;-webkit-tap-highlight-color:transparent;}
-  .doc-btn:active{background:var(--red);color:white;}
-  .validity-bar{padding:10px 16px;background:#fdfbf8;border-top:1px dashed var(--border);font-size:12px;color:var(--muted);display:flex;align-items:center;gap:6px;}
+/* ════════════════════════════════
+   EMERGENCY PANEL
+════════════════════════════════ */
+#emergencyPanel {
+  display:none; position:fixed; inset:0; z-index:999;
+  background:var(--cream); overflow-y:auto;
+}
+#emergencyPanel.open  { display:block; animation:slideInRight 0.28s ease both; }
+#emergencyPanel.close { display:block; animation:slideOutRight 0.28s ease both; }
+@keyframes slideInRight  { from{transform:translateX(100%)} to{transform:translateX(0)} }
+@keyframes slideOutRight { from{transform:translateX(0)} to{transform:translateX(100%)} }
 
-  /* coverage */
-  .cov-grid{display:grid;grid-template-columns:1fr 1fr;}
-  .cov-item{padding:12px 14px;border-right:1px solid var(--border);border-bottom:1px solid var(--border);}
-  .cov-item:nth-child(2n){border-right:none;}
-  .cov-item:nth-last-child(-n+2){border-bottom:none;}
-  .cov-item:last-child:nth-child(odd){grid-column:1/-1;border-right:none;}
-  .cov-label{font-size:11px;color:var(--muted);margin-bottom:4px;line-height:1.3;}
-  .cov-value{font-size:14px;font-weight:500;color:var(--green);}
-
-  /* phones */
-  .phone-section{padding:12px 16px;}
-  .phone-section+.phone-section{border-top:1px solid var(--border);}
-  .phone-section-title{font-size:11px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
-  .phone-row{display:flex;align-items:center;justify-content:space-between;padding:6px 0;}
-  .phone-row+.phone-row{border-top:1px dashed #f0ebe3;}
-  .phone-label{font-size:13px;color:var(--ink);flex:1;}
-  .phone-link{display:inline-flex;align-items:center;gap:5px;padding:6px 14px;border-radius:20px;background:var(--green-lt);border:1.5px solid var(--green);color:var(--green);font-size:13px;font-weight:500;text-decoration:none;white-space:nowrap;-webkit-tap-highlight-color:transparent;}
-  .phone-link:active{background:var(--green);color:white;}
-  .web-link{display:inline-flex;align-items:center;gap:5px;padding:6px 14px;border-radius:20px;background:var(--blue-lt);border:1.5px solid var(--blue);color:var(--blue);font-size:13px;font-weight:500;text-decoration:none;-webkit-tap-highlight-color:transparent;}
-  .web-link:active{background:var(--blue);color:white;}
-
-  /* emergency numbers */
-  .universal-box{padding:14px 16px;background:var(--red-lt);display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
-  .universal-num{font-size:42px;font-weight:700;color:var(--red);font-family:monospace;line-height:1;text-decoration:none;}
-  .universal-info{flex:1;min-width:160px;}
-  .universal-title{font-size:13px;font-weight:500;color:var(--red-dk);}
-  .universal-sub{font-size:12px;color:var(--muted);margin-top:2px;}
-  .call-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:20px;background:var(--red);color:white;font-size:13px;font-weight:500;text-decoration:none;margin-top:10px;-webkit-tap-highlight-color:transparent;}
-  .call-btn:active{opacity:0.85;}
-  .emerg-section{padding:12px 16px;}
-  .emerg-section+.emerg-section{border-top:1px solid var(--border);}
-  .emerg-country{font-size:12px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
-  .emerg-row{display:flex;align-items:center;justify-content:space-between;padding:5px 0;}
-  .emerg-row+.emerg-row{border-top:1px dashed #f0ebe3;}
-  .emerg-label{font-size:13px;color:var(--ink);}
-  .emerg-num{font-size:20px;font-weight:500;color:var(--red);font-family:monospace;text-decoration:none;padding:4px 10px;background:var(--red-lt);border-radius:8px;-webkit-tap-highlight-color:transparent;}
-
-  /* hospitals */
-  .hosp-section{padding:12px 16px;}
-  .hosp-section+.hosp-section{border-top:1px solid var(--border);}
-  .hosp-country{font-size:12px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
-  .hosp-item{padding:8px 0;}
-  .hosp-item+.hosp-item{border-top:1px dashed #f0ebe3;}
-  .hosp-city{font-size:11px;font-weight:500;color:var(--blue);text-transform:uppercase;letter-spacing:1px;margin-bottom:2px;}
-  .hosp-name{font-size:13px;font-weight:500;color:var(--ink);margin-bottom:1px;}
-  .hosp-addr{font-size:12px;color:var(--muted);margin-bottom:6px;}
-  .hosp-map{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:14px;background:var(--blue-lt);border:1px solid var(--blue);color:var(--blue);font-size:11px;font-weight:500;text-decoration:none;-webkit-tap-highlight-color:transparent;cursor:pointer;}
-  .hosp-map:active{background:var(--blue);color:white;}
+.emg-header { background:var(--red-dk); color:white; padding:28px 20px 24px; position:relative; overflow:hidden; }
+.emg-header::before { content:''; position:absolute; inset:0; background:repeating-linear-gradient(45deg,transparent,transparent 24px,rgba(255,255,255,0.03) 24px,rgba(255,255,255,0.03) 48px); }
+.emg-back { display:inline-flex; align-items:center; gap:6px; color:rgba(255,255,255,0.75); background:none; border:none; font-size:13px; font-weight:400; cursor:pointer; margin-bottom:16px; position:relative; -webkit-tap-highlight-color:transparent; font-family:inherit; }
+.emg-back svg { width:16px; height:16px; fill:currentColor; }
+.emg-badge { display:inline-flex; align-items:center; gap:8px; background:rgba(255,255,255,0.12); border-radius:20px; padding:4px 12px; font-size:11px; font-weight:500; letter-spacing:2px; text-transform:uppercase; margin-bottom:10px; position:relative; }
+.emg-header h2 { font-family:'Playfair Display',serif; font-size:clamp(22px,6vw,32px); font-weight:700; line-height:1.15; position:relative; }
+.emg-header h2 em { font-style:italic; opacity:0.75; }
+.emg-note { margin-top:8px; font-size:12px; color:rgba(255,255,255,0.6); position:relative; }
+.emg-main { max-width:680px; margin:0 auto; padding:20px 16px 60px; }
+.emg-section { margin-bottom:16px; }
+.emg-section-header { display:flex; align-items:center; gap:10px; padding:12px 16px; border-radius:12px 12px 0 0; font-size:12px; font-weight:500; letter-spacing:1.5px; text-transform:uppercase; }
+.emg-section-header .s-icon { font-size:18px; }
+.emg-section-header.red   { background:var(--red); color:white; }
+.emg-section-header.green { background:var(--green); color:white; }
+.emg-section-header.blue  { background:var(--blue); color:white; }
+.emg-section-header.amber { background:#92400e; color:white; }
+.emg-body { background:var(--card-bg); border-radius:0 0 12px 12px; border:1px solid var(--border); border-top:none; box-shadow:var(--shadow); overflow:hidden; }
+.insured-card { padding:14px 16px; display:flex; align-items:flex-start; gap:12px; }
+.insured-card + .insured-card { border-top:1px solid var(--border); }
+.insured-avatar { width:40px; height:40px; border-radius:50%; background:var(--red-lt); border:2px solid var(--red); display:flex; align-items:center; justify-content:center; font-size:18px; flex-shrink:0; }
+.insured-name { font-size:14px; font-weight:500; color:var(--ink); margin-bottom:3px; }
+.insured-ticket { font-size:11px; color:var(--muted); margin-bottom:6px; font-family:monospace; letter-spacing:0.5px; }
+.doc-btn { display:inline-flex; align-items:center; gap:5px; padding:5px 12px; border-radius:20px; background:var(--red-lt); border:1.5px solid var(--red); color:var(--red); font-size:12px; font-weight:500; text-decoration:none; -webkit-tap-highlight-color:transparent; }
+.doc-btn:active { background:var(--red); color:white; }
+.validity-bar { padding:10px 16px; background:var(--warm-white); border-top:1px dashed var(--border); font-size:12px; color:var(--muted); display:flex; align-items:center; gap:6px; }
+.cov-grid { display:grid; grid-template-columns:1fr 1fr; }
+.cov-item { padding:12px 14px; border-right:1px solid var(--border); border-bottom:1px solid var(--border); }
+.cov-item:nth-child(2n) { border-right:none; }
+.cov-item:nth-last-child(-n+2) { border-bottom:none; }
+.cov-item:last-child:nth-child(odd) { grid-column:1/-1; border-right:none; }
+.cov-label { font-size:11px; color:var(--muted); margin-bottom:4px; line-height:1.3; }
+.cov-value { font-size:14px; font-weight:500; color:var(--green); }
+.phone-section { padding:12px 16px; }
+.phone-section + .phone-section { border-top:1px solid var(--border); }
+.phone-section-title { font-size:11px; font-weight:500; letter-spacing:1.5px; text-transform:uppercase; color:var(--muted); margin-bottom:8px; }
+.phone-row { display:flex; align-items:center; justify-content:space-between; padding:6px 0; }
+.phone-row + .phone-row { border-top:1px dashed var(--border); }
+.phone-label { font-size:13px; color:var(--ink); flex:1; }
+.phone-link { display:inline-flex; align-items:center; gap:5px; padding:6px 14px; border-radius:20px; background:var(--green-lt); border:1.5px solid var(--green); color:var(--green); font-size:13px; font-weight:500; text-decoration:none; white-space:nowrap; -webkit-tap-highlight-color:transparent; }
+.phone-link:active { background:var(--green); color:white; }
+.web-link { display:inline-flex; align-items:center; gap:5px; padding:6px 14px; border-radius:20px; background:var(--blue-lt); border:1.5px solid var(--blue); color:var(--blue); font-size:13px; font-weight:500; text-decoration:none; -webkit-tap-highlight-color:transparent; }
+.web-link:active { background:var(--blue); color:white; }
+.universal-box { padding:14px 16px; background:var(--red-lt); display:flex; align-items:center; gap:14px; flex-wrap:wrap; }
+.universal-num { font-size:42px; font-weight:700; color:var(--red); font-family:monospace; line-height:1; text-decoration:none; }
+.universal-info { flex:1; min-width:160px; }
+.universal-title { font-size:13px; font-weight:500; color:var(--red-dk); }
+.universal-sub { font-size:12px; color:var(--muted); margin-top:2px; }
+.call-btn { display:inline-flex; align-items:center; gap:6px; padding:8px 16px; border-radius:20px; background:var(--red); color:white; font-size:13px; font-weight:500; text-decoration:none; margin-top:10px; -webkit-tap-highlight-color:transparent; }
+.call-btn:active { opacity:0.85; }
+.emerg-section { padding:12px 16px; }
+.emerg-section + .emerg-section { border-top:1px solid var(--border); }
+.emerg-country { font-size:12px; font-weight:500; letter-spacing:1.5px; text-transform:uppercase; color:var(--muted); margin-bottom:8px; }
+.emerg-row { display:flex; align-items:center; justify-content:space-between; padding:5px 0; }
+.emerg-row + .emerg-row { border-top:1px dashed var(--border); }
+.emerg-label { font-size:13px; color:var(--ink); }
+.emerg-num { font-size:20px; font-weight:500; color:var(--red); font-family:monospace; text-decoration:none; padding:4px 10px; background:var(--red-lt); border-radius:8px; -webkit-tap-highlight-color:transparent; }
+.hosp-section { padding:12px 16px; }
+.hosp-section + .hosp-section { border-top:1px solid var(--border); }
+.hosp-country { font-size:12px; font-weight:500; letter-spacing:1.5px; text-transform:uppercase; color:var(--muted); margin-bottom:8px; }
+.hosp-item { padding:8px 0; }
+.hosp-item + .hosp-item { border-top:1px dashed var(--border); }
+.hosp-city { font-size:11px; font-weight:500; color:var(--blue); text-transform:uppercase; letter-spacing:1px; margin-bottom:2px; }
+.hosp-name { font-size:13px; font-weight:500; color:var(--ink); margin-bottom:1px; }
+.hosp-addr { font-size:12px; color:var(--muted); margin-bottom:6px; }
+.hosp-map { display:inline-flex; align-items:center; gap:5px; padding:4px 10px; border-radius:14px; background:var(--blue-lt); border:1px solid var(--blue); color:var(--blue); font-size:11px; font-weight:500; text-decoration:none; -webkit-tap-highlight-color:transparent; cursor:pointer; }
+.hosp-map:active { background:var(--blue); color:white; }
 </style>
 </head>
 <body>
 
-<!-- ══════════════════════════════════════
-     ROTEIRO — página principal
-════════════════════════════════════════ -->
+<!-- ══ ROTEIRO PAGE ══ -->
 <div id="roteiroPage">
 
 <header>
   <div class="header-eyebrow">✈ Maio 2026</div>
   <h1>Roteiro <em>Europa</em></h1>
   <p class="header-sub">Lisboa · Roma · Florença · Veneza</p>
-  <button class="emergency-btn" id="openEmergency" title="Guia de Emergência" aria-label="Abrir Guia de Emergência">
+  <button class="theme-badge" id="themeToggle" title="Alternar tema"></button>
+  <button class="emergency-btn" id="openEmergency" title="Guia de Emergência">
     <svg viewBox="0 0 24 24"><path d="M19 8h-3V5a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v3H5a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h3v3a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-3h3a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1zm-1 6h-3a1 1 0 0 0-1 1v3h-4v-3a1 1 0 0 0-1-1H6v-4h3a1 1 0 0 0 1-1V6h4v3a1 1 0 0 0 1 1h3v4z"/></svg>
   </button>
 </header>
@@ -277,7 +307,7 @@
 
 <main>
 
-<!-- ── DIA 15 ── -->
+<!-- DIA 15 -->
 <div class="day-card" data-city="Lisboa" data-date="2026-05-15" data-lat="38.7169" data-lon="-9.1399">
   <div class="card-header">
     <div class="date-badge"><div class="date-day">15</div><div class="date-month">Mai</div></div>
@@ -324,7 +354,7 @@
   </div>
 </div>
 
-<!-- ── DIA 16 ── -->
+<!-- DIA 16 -->
 <div class="day-card" data-city="Lisboa" data-date="2026-05-16" data-lat="38.7169" data-lon="-9.1399">
   <div class="card-header">
     <div class="date-badge"><div class="date-day">16</div><div class="date-month">Mai</div></div>
@@ -372,7 +402,7 @@
   </div>
 </div>
 
-<!-- ── DIA 17 ── -->
+<!-- DIA 17 -->
 <div class="day-card" data-city="Cascais" data-date="2026-05-17" data-lat="38.6979" data-lon="-9.4215">
   <div class="card-header">
     <div class="date-badge"><div class="date-day">17</div><div class="date-month">Mai</div></div>
@@ -419,7 +449,7 @@
   </div>
 </div>
 
-<!-- ── DIA 18 ── -->
+<!-- DIA 18 -->
 <div class="day-card" data-city="Sintra" data-date="2026-05-18" data-lat="38.7977" data-lon="-9.3877">
   <div class="card-header">
     <div class="date-badge"><div class="date-day">18</div><div class="date-month">Mai</div></div>
@@ -464,7 +494,7 @@
   </div>
 </div>
 
-<!-- ── DIA 19 ── -->
+<!-- DIA 19 -->
 <div class="day-card" data-city="Lisboa" data-date="2026-05-19" data-lat="38.7169" data-lon="-9.1399">
   <div class="card-header">
     <div class="date-badge"><div class="date-day">19</div><div class="date-month">Mai</div></div>
@@ -510,7 +540,7 @@
   </div>
 </div>
 
-<!-- ── DIA 20 ── -->
+<!-- DIA 20 -->
 <div class="day-card" data-city="Roma" data-date="2026-05-20" data-lat="41.9028" data-lon="12.4964">
   <div class="card-header">
     <div class="date-badge"><div class="date-day">20</div><div class="date-month">Mai</div></div>
@@ -558,7 +588,7 @@
   </div>
 </div>
 
-<!-- ── DIA 21 ── -->
+<!-- DIA 21 -->
 <div class="day-card" data-city="Roma" data-date="2026-05-21" data-lat="41.9028" data-lon="12.4964">
   <div class="card-header">
     <div class="date-badge"><div class="date-day">21</div><div class="date-month">Mai</div></div>
@@ -603,7 +633,7 @@
   </div>
 </div>
 
-<!-- ── DIA 22 ── -->
+<!-- DIA 22 -->
 <div class="day-card" data-city="Roma" data-date="2026-05-22" data-lat="41.9028" data-lon="12.4964">
   <div class="card-header">
     <div class="date-badge"><div class="date-day">22</div><div class="date-month">Mai</div></div>
@@ -650,7 +680,7 @@
   </div>
 </div>
 
-<!-- ── DIA 23 ── -->
+<!-- DIA 23 -->
 <div class="day-card" data-city="Roma" data-date="2026-05-23" data-lat="41.9028" data-lon="12.4964">
   <div class="card-header">
     <div class="date-badge"><div class="date-day">23</div><div class="date-month">Mai</div></div>
@@ -696,7 +726,7 @@
   </div>
 </div>
 
-<!-- ── DIA 24 ── -->
+<!-- DIA 24 -->
 <div class="day-card" data-city="Florença" data-date="2026-05-24" data-lat="43.7696" data-lon="11.2558">
   <div class="card-header">
     <div class="date-badge"><div class="date-day">24</div><div class="date-month">Mai</div></div>
@@ -743,7 +773,7 @@
   </div>
 </div>
 
-<!-- ── DIA 25 ── -->
+<!-- DIA 25 -->
 <div class="day-card" data-city="Siena" data-date="2026-05-25" data-lat="43.3186" data-lon="11.3307">
   <div class="card-header">
     <div class="date-badge"><div class="date-day">25</div><div class="date-month">Mai</div></div>
@@ -789,7 +819,7 @@
   </div>
 </div>
 
-<!-- ── DIA 26 ── -->
+<!-- DIA 26 -->
 <div class="day-card" data-city="Florença" data-date="2026-05-26" data-lat="43.7696" data-lon="11.2558">
   <div class="card-header">
     <div class="date-badge"><div class="date-day">26</div><div class="date-month">Mai</div></div>
@@ -834,7 +864,7 @@
   </div>
 </div>
 
-<!-- ── DIA 27 ── -->
+<!-- DIA 27 -->
 <div class="day-card" data-city="Florença" data-date="2026-05-27" data-lat="43.7696" data-lon="11.2558">
   <div class="card-header">
     <div class="date-badge"><div class="date-day">27</div><div class="date-month">Mai</div></div>
@@ -879,7 +909,7 @@
   </div>
 </div>
 
-<!-- ── DIA 28 ── -->
+<!-- DIA 28 -->
 <div class="day-card" data-city="Veneza" data-date="2026-05-28" data-lat="45.4408" data-lon="12.3155">
   <div class="card-header">
     <div class="date-badge"><div class="date-day">28</div><div class="date-month">Mai</div></div>
@@ -925,7 +955,7 @@
   </div>
 </div>
 
-<!-- ── DIA 29 ── -->
+<!-- DIA 29 -->
 <div class="day-card" data-city="Veneza" data-date="2026-05-29" data-lat="45.4408" data-lon="12.3155">
   <div class="card-header">
     <div class="date-badge"><div class="date-day">29</div><div class="date-month">Mai</div></div>
@@ -938,7 +968,7 @@
       <div class="period-left"><div class="period-icon">🌅</div><button class="check-btn" data-id="29-m"></button></div>
       <div class="period-content">
         <div class="period-label">Manhã</div>
-        <div class="activity-item">Palácio Ducal (Palazzo Ducale) — <a class="doc-link" href="https://drive.google.com/file/d/1lOb4qMVtgiuO8PjUjmXyDBGOhxyHCsKl/view?usp=drive_link" target="_blank">Ingresso Pedro</a> · <a class="doc-link" href="https://drive.google.com/file/d/1oG2W1Lmz9_RYmVEH8IqNm53qtbGwPdp-/view?usp=drive_link" target="_blank">Ingresso Kellem</a>. <a class="place-link" data-q="Palazzo Ducale Venezia">🗺</a></div>
+        <div class="activity-item">Palácio Ducal — <a class="doc-link" href="https://drive.google.com/file/d/1lOb4qMVtgiuO8PjUjmXyDBGOhxyHCsKl/view?usp=drive_link" target="_blank">Ingresso Pedro</a> · <a class="doc-link" href="https://drive.google.com/file/d/1oG2W1Lmz9_RYmVEH8IqNm53qtbGwPdp-/view?usp=drive_link" target="_blank">Ingresso Kellem</a>. <a class="place-link" data-q="Palazzo Ducale Venezia">🗺</a></div>
         <div class="activity-item">Basílica de São Marcos. <a class="place-link" data-q="Basilica di San Marco Venezia">🗺</a></div>
       </div>
     </div>
@@ -971,7 +1001,7 @@
   </div>
 </div>
 
-<!-- ── DIA 30 ── -->
+<!-- DIA 30 -->
 <div class="day-card" data-city="Veneza" data-date="2026-05-30" data-lat="45.4408" data-lon="12.3155">
   <div class="card-header">
     <div class="date-badge"><div class="date-day">30</div><div class="date-month">Mai</div></div>
@@ -1014,15 +1044,12 @@
   <div class="empty-state-icon">🗺️</div>
   <p>Nenhum dia encontrado para esta cidade.</p>
 </div>
-
 </main>
 <footer>Boa viagem! ✈️</footer>
 </div><!-- #roteiroPage -->
 
 
-<!-- ══════════════════════════════════════
-     EMERGENCY PANEL — embutido, sem arquivo separado
-════════════════════════════════════════ -->
+<!-- ══ EMERGENCY PANEL ══ -->
 <div id="emergencyPanel">
   <div class="emg-header">
     <button class="emg-back" id="closeEmergency">
@@ -1033,17 +1060,15 @@
     <h2>Guia de <em>Emergência</em></h2>
     <p class="emg-note">Mastercard Black · AIG · Europa — Maio/Junho 2026</p>
   </div>
-
   <div class="emg-main">
 
-    <!-- SEGURADOS -->
     <div class="emg-section">
       <div class="emg-section-header red"><span class="s-icon">🪪</span> Informações dos Segurados</div>
       <div class="emg-body">
         <div class="insured-card">
           <div class="insured-avatar">👤</div>
           <div>
-            <div class="insured-name">Pedro Vinícius Silva Ribeiro Taques</div>
+            <div class="insured-name">Pedro Taques</div>
             <div class="insured-ticket">Bilhete: 16023-0002-69-260218312</div>
             <a class="doc-btn" href="https://drive.google.com/file/d/1Z5WUn-eWqJlmqIx91FdzQY2_Z3dyF-KO/view?usp=drive_link" target="_blank">📄 Ver Documento</a>
           </div>
@@ -1051,7 +1076,7 @@
         <div class="insured-card">
           <div class="insured-avatar">👤</div>
           <div>
-            <div class="insured-name">Kellem Cristina de Oliveira Lima</div>
+            <div class="insured-name">Kellem Almeida</div>
             <div class="insured-ticket">Bilhete: 16023-0002-69-260218311</div>
             <a class="doc-btn" href="https://drive.google.com/file/d/1bKfUp5z0B6WaK2KfINdmkAF4vJpo3UA8/view?usp=drive_link" target="_blank">📄 Ver Documento</a>
           </div>
@@ -1060,7 +1085,6 @@
       </div>
     </div>
 
-    <!-- COBERTURA -->
     <div class="emg-section">
       <div class="emg-section-header green"><span class="s-icon">🛡️</span> Resumo da Cobertura — Por Pessoa</div>
       <div class="emg-body">
@@ -1075,7 +1099,6 @@
       </div>
     </div>
 
-    <!-- COMO ACIONAR -->
     <div class="emg-section">
       <div class="emg-section-header amber"><span class="s-icon">📞</span> Como Acionar o Seguro</div>
       <div class="emg-body">
@@ -1092,7 +1115,6 @@
       </div>
     </div>
 
-    <!-- EMERGÊNCIA -->
     <div class="emg-section">
       <div class="emg-section-header red"><span class="s-icon">🚨</span> Números de Emergência Locais</div>
       <div class="emg-body">
@@ -1118,7 +1140,6 @@
       </div>
     </div>
 
-    <!-- HOSPITAIS -->
     <div class="emg-section">
       <div class="emg-section-header blue"><span class="s-icon">🏥</span> Hospitais de Referência</div>
       <div class="emg-body">
@@ -1134,7 +1155,7 @@
             <div class="hosp-city">Cascais</div>
             <div class="hosp-name">Hospital de Cascais Dr. José de Almeida</div>
             <div class="hosp-addr">Alcabideche, Cascais</div>
-            <a class="hosp-map" href="#" data-q="Hospital de Cascais Dr José de Almeida Alcabideche">🗺 Ver no mapa</a>
+            <a class="hosp-map" href="#" data-q="Hospital de Cascais Dr José de Almeida">🗺 Ver no mapa</a>
           </div>
           <div class="hosp-item">
             <div class="hosp-city">Sintra</div>
@@ -1173,7 +1194,7 @@
       </div>
     </div>
 
-  </div><!-- emg-main -->
+  </div>
 </div><!-- #emergencyPanel -->
 
 
@@ -1184,27 +1205,54 @@ function openMap(q){
   const isIOS=/iP(hone|ad|od)/.test(navigator.userAgent);
   window.open(isIOS?`maps://?q=${enc}`:`https://www.google.com/maps/search/?api=1&query=${enc}`,'_blank');
 }
+document.querySelectorAll('.place-link').forEach(el=>el.addEventListener('click',e=>{e.preventDefault();openMap(el.dataset.q);}));
+document.querySelectorAll('.hosp-map').forEach(el=>el.addEventListener('click',e=>{e.preventDefault();openMap(el.dataset.q);}));
 
-// ── PLACE LINKS (roteiro) ──
-document.querySelectorAll('.place-link').forEach(el=>{
-  el.addEventListener('click',e=>{e.preventDefault();openMap(el.dataset.q);});
-});
+// ── EMERGENCY PANEL (slide in / slide out) ──
+const panel = document.getElementById('emergencyPanel');
 
-// ── HOSPITAL MAP LINKS (emergency) ──
-document.querySelectorAll('.hosp-map').forEach(el=>{
-  el.addEventListener('click',e=>{e.preventDefault();openMap(el.dataset.q);});
-});
-
-// ── EMERGENCY PANEL ──
-const panel=document.getElementById('emergencyPanel');
-document.getElementById('openEmergency').addEventListener('click',()=>{
+document.getElementById('openEmergency').addEventListener('click', () => {
+  panel.classList.remove('close');
   panel.classList.add('open');
-  panel.scrollTop=0;
-  document.body.style.overflow='hidden'; // prevent background scroll
+  panel.scrollTop = 0;
+  document.body.style.overflow = 'hidden';
 });
-document.getElementById('closeEmergency').addEventListener('click',()=>{
+
+document.getElementById('closeEmergency').addEventListener('click', () => {
   panel.classList.remove('open');
-  document.body.style.overflow='';
+  panel.classList.add('close');
+  document.body.style.overflow = '';
+  // hide completely after animation ends
+  panel.addEventListener('animationend', () => {
+    panel.classList.remove('close');
+  }, { once: true });
+});
+
+// ── DARK / LIGHT THEME ──
+const THEME_KEY = 'roteiro_theme';
+const toggle = document.getElementById('themeToggle');
+
+function isNightTime() {
+  const h = new Date().getHours();
+  return h >= 20 || h < 7; // 20h–07h = noite
+}
+
+function applyTheme(dark) {
+  document.body.classList.toggle('dark-theme', dark);
+  toggle.textContent = dark ? '☀️' : '🌙';
+  localStorage.setItem(THEME_KEY, dark ? 'dark' : 'light');
+}
+
+// On load: check saved preference, else use time-of-day
+const saved = localStorage.getItem(THEME_KEY);
+if (saved) {
+  applyTheme(saved === 'dark');
+} else {
+  applyTheme(isNightTime());
+}
+
+toggle.addEventListener('click', () => {
+  applyTheme(!document.body.classList.contains('dark-theme'));
 });
 
 // ── WEATHER ──
@@ -1247,7 +1295,7 @@ document.querySelectorAll('.check-btn').forEach(btn=>{
 });
 applyDone();
 
-// ── FILTER ──
+// ── CITY FILTER ──
 const chips=document.querySelectorAll('.chip');
 const cards=document.querySelectorAll('.day-card');
 const empty=document.getElementById('emptyState');
