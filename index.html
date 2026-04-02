@@ -11,9 +11,7 @@
 <title>Roteiro Europa 2026</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-/* ════════════════════════════════
-   TEMA CLARO (padrão — dia)
-════════════════════════════════ */
+/* ════ TEMA CLARO ════ */
 :root {
   --cream:#faf7f2; --warm-white:#fff9f2; --ink:#1a1208;
   --muted:#7a6e60; --accent:#c8864a; --accent-light:#f0dcc8;
@@ -23,11 +21,9 @@
   --card-bg:#ffffff; --filter-bg:#fff9f2; --period-done-opacity:0.45;
   --red:#c0392b; --red-dk:#9b1c1c; --red-lt:#fff0ee;
   --green:#276749; --green-lt:#edf7f0; --blue:#1e4d8c; --blue-lt:#eef3fc;
+  --food:#7a5c2e; --food-dk:#5a3e18; --food-lt:#fdf5e8;
 }
-
-/* ════════════════════════════════
-   TEMA ESCURO (noite)
-════════════════════════════════ */
+/* ════ TEMA ESCURO ════ */
 body.dark-theme {
   --cream:#16130e; --warm-white:#1e1a14; --ink:#f0e8da;
   --muted:#9a8e80; --accent:#d99a5e; --accent-light:#3a2a18;
@@ -36,251 +32,317 @@ body.dark-theme {
   --period-done-opacity:0.35;
   --lisboa:#5a8fb0; --cascais:#6aaa96; --sintra:#9a7aaa;
   --roma:#d06858; --florenca:#d8944a; --siena:#b88848; --veneza:#4e8ab8;
+  --food:#d4a460; --food-dk:#f0c880; --food-lt:#2a2010;
 }
 
-* { margin:0; padding:0; box-sizing:border-box; }
-body {
-  background:var(--cream); color:var(--ink);
-  font-family:'DM Sans',sans-serif; font-weight:300; min-height:100vh;
-  transition:background 0.4s, color 0.4s;
-}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--cream);color:var(--ink);font-family:'DM Sans',sans-serif;font-weight:300;min-height:100vh;transition:background 0.4s,color 0.4s;}
 
 /* ── HEADER ── */
-header { background:var(--ink); color:var(--cream); padding:36px 20px 28px; text-align:center; position:relative; overflow:hidden; }
-header::before { content:''; position:absolute; inset:0; background:repeating-linear-gradient(45deg,transparent,transparent 30px,rgba(255,255,255,0.015) 30px,rgba(255,255,255,0.015) 60px); }
-.header-eyebrow { font-size:11px; font-weight:500; letter-spacing:3px; text-transform:uppercase; color:var(--accent); margin-bottom:10px; position:relative; }
-header h1 { font-family:'Playfair Display',serif; font-size:clamp(28px,7vw,44px); font-weight:700; letter-spacing:-0.5px; line-height:1.1; position:relative; }
-header h1 em { font-style:italic; color:var(--accent); }
-.header-sub { margin-top:10px; font-size:13px; color:rgba(250,247,242,0.55); letter-spacing:0.5px; position:relative; }
+header{background:var(--ink);color:var(--cream);padding:36px 20px 28px;text-align:center;position:relative;overflow:hidden;}
+header::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(45deg,transparent,transparent 30px,rgba(255,255,255,0.015) 30px,rgba(255,255,255,0.015) 60px);}
+.header-eyebrow{font-size:11px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:var(--accent);margin-bottom:10px;position:relative;}
+header h1{font-family:'Playfair Display',serif;font-size:clamp(28px,7vw,44px);font-weight:700;letter-spacing:-0.5px;line-height:1.1;position:relative;}
+header h1 em{font-style:italic;color:var(--accent);}
+.header-sub{margin-top:10px;font-size:13px;color:rgba(250,247,242,0.55);letter-spacing:0.5px;position:relative;}
 
-/* THEME BADGE (top-left) */
-.theme-badge {
-  position:absolute; top:16px; left:16px;
-  width:36px; height:36px; border-radius:50%;
-  background:rgba(255,255,255,0.12);
-  border:none; cursor:pointer; font-size:17px;
-  display:flex; align-items:center; justify-content:center;
-  transition:transform 0.15s, background 0.2s; z-index:10;
-  -webkit-tap-highlight-color:transparent;
-}
-.theme-badge:active { transform:scale(0.9); }
+/* THEME TOGGLE */
+.theme-badge{position:absolute;top:16px;left:16px;width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,0.12);border:none;cursor:pointer;font-size:17px;display:flex;align-items:center;justify-content:center;transition:transform 0.15s;z-index:10;-webkit-tap-highlight-color:transparent;}
+.theme-badge:active{transform:scale(0.9);}
 
-/* EMERGENCY BTN (top-right) */
-.emergency-btn {
-  position:absolute; top:16px; right:16px;
-  width:40px; height:40px; background:var(--red); border:none; border-radius:50%;
-  display:flex; align-items:center; justify-content:center;
-  box-shadow:0 2px 12px rgba(192,57,43,0.5); cursor:pointer;
-  transition:transform 0.15s; z-index:10; -webkit-tap-highlight-color:transparent;
-}
-.emergency-btn:active { transform:scale(0.92); }
-.emergency-btn svg { width:22px; height:22px; fill:white; }
+/* HEADER BUTTONS AREA (right side) */
+.header-btns{position:absolute;top:16px;right:16px;display:flex;flex-direction:column;gap:8px;align-items:center;z-index:10;}
+
+/* FOOD BTN */
+.food-btn{width:40px;height:40px;background:var(--food);border:none;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 12px rgba(122,92,46,0.5);cursor:pointer;transition:transform 0.15s;-webkit-tap-highlight-color:transparent;font-size:18px;}
+.food-btn:active{transform:scale(0.92);}
+
+/* EMERGENCY BTN */
+.emergency-btn{width:40px;height:40px;background:var(--red);border:none;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 12px rgba(192,57,43,0.5);cursor:pointer;transition:transform 0.15s;-webkit-tap-highlight-color:transparent;}
+.emergency-btn:active{transform:scale(0.92);}
+.emergency-btn svg{width:22px;height:22px;fill:white;}
 
 /* PWA BANNER */
-#installBanner { display:none; background:var(--accent); color:white; padding:10px 16px; font-size:13px; align-items:center; gap:10px; justify-content:space-between; }
-#installBanner.show { display:flex; }
-#installBanner button { background:white; color:var(--accent); border:none; border-radius:20px; padding:5px 14px; font-size:12px; font-weight:500; cursor:pointer; white-space:nowrap; flex-shrink:0; }
-#installBanner .close-banner { background:transparent; color:white; font-size:18px; padding:0 4px; }
+#installBanner{display:none;background:var(--accent);color:white;padding:10px 16px;font-size:13px;align-items:center;gap:10px;justify-content:space-between;}
+#installBanner.show{display:flex;}
+#installBanner button{background:white;color:var(--accent);border:none;border-radius:20px;padding:5px 14px;font-size:12px;font-weight:500;cursor:pointer;white-space:nowrap;flex-shrink:0;}
+#installBanner .close-banner{background:transparent;color:white;font-size:18px;padding:0 4px;}
 
 /* FILTER */
-.filter-bar { background:var(--filter-bg); border-bottom:1px solid var(--border); padding:14px 16px; position:sticky; top:0; z-index:100; box-shadow:0 2px 12px rgba(26,18,8,0.06); transition:background 0.4s; }
-.filter-label { font-size:10px; font-weight:500; letter-spacing:2px; text-transform:uppercase; color:var(--muted); margin-bottom:10px; }
-.city-chips { display:flex; gap:8px; overflow-x:auto; padding-bottom:4px; scrollbar-width:none; -ms-overflow-style:none; }
-.city-chips::-webkit-scrollbar { display:none; }
-.chip { flex-shrink:0; padding:7px 14px; border-radius:100px; font-size:13px; font-weight:400; border:1.5px solid var(--border); background:var(--card-bg); color:var(--muted); cursor:pointer; transition:all 0.2s ease; white-space:nowrap; -webkit-tap-highlight-color:transparent; }
-.chip:active { transform:scale(0.95); }
-.chip.active { border-color:transparent; color:white; font-weight:500; }
-.chip[data-city="all"].active    { background:var(--ink); }
-.chip[data-city="Lisboa"].active  { background:var(--lisboa); }
-.chip[data-city="Cascais"].active { background:var(--cascais); }
-.chip[data-city="Sintra"].active  { background:var(--sintra); }
-.chip[data-city="Roma"].active    { background:var(--roma); }
-.chip[data-city="Florença"].active { background:var(--florenca); }
-.chip[data-city="Siena"].active   { background:var(--siena); }
-.chip[data-city="Veneza"].active  { background:var(--veneza); }
+.filter-bar{background:var(--filter-bg);border-bottom:1px solid var(--border);padding:14px 16px;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(26,18,8,0.06);transition:background 0.4s;}
+.filter-label{font-size:10px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:10px;}
+.city-chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none;-ms-overflow-style:none;}
+.city-chips::-webkit-scrollbar{display:none;}
+.chip{flex-shrink:0;padding:7px 14px;border-radius:100px;font-size:13px;font-weight:400;border:1.5px solid var(--border);background:var(--card-bg);color:var(--muted);cursor:pointer;transition:all 0.2s ease;white-space:nowrap;-webkit-tap-highlight-color:transparent;}
+.chip:active{transform:scale(0.95);}
+.chip.active{border-color:transparent;color:white;font-weight:500;}
+.chip[data-city="all"].active{background:var(--ink);}
+.chip[data-city="Lisboa"].active{background:var(--lisboa);}
+.chip[data-city="Cascais"].active{background:var(--cascais);}
+.chip[data-city="Sintra"].active{background:var(--sintra);}
+.chip[data-city="Roma"].active{background:var(--roma);}
+.chip[data-city="Florença"].active{background:var(--florenca);}
+.chip[data-city="Siena"].active{background:var(--siena);}
+.chip[data-city="Veneza"].active{background:var(--veneza);}
 
 /* MAIN */
-main { max-width:680px; margin:0 auto; padding:24px 16px 60px; }
+main{max-width:680px;margin:0 auto;padding:24px 16px 60px;}
 
 /* DAY CARD */
-.day-card { background:var(--card-bg); border-radius:16px; margin-bottom:16px; overflow:hidden; box-shadow:var(--shadow); border:1px solid var(--border); animation:fadeUp 0.4s ease both; transition:background 0.4s, border-color 0.4s; }
-@keyframes fadeUp { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
-.day-card.hidden { display:none; }
+.day-card{background:var(--card-bg);border-radius:16px;margin-bottom:16px;overflow:hidden;box-shadow:var(--shadow);border:1px solid var(--border);animation:fadeUp 0.4s ease both;transition:background 0.4s,border-color 0.4s;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.day-card.hidden{display:none;}
 
 /* CARD HEADER */
-.card-header { padding:16px 18px 14px; display:flex; align-items:center; gap:14px; border-bottom:1px solid var(--border); }
-.date-badge { text-align:center; min-width:48px; }
-.date-day { font-family:'Playfair Display',serif; font-size:28px; font-weight:700; line-height:1; color:var(--ink); }
-.date-month { font-size:10px; font-weight:500; letter-spacing:1.5px; text-transform:uppercase; color:var(--muted); margin-top:2px; }
-.header-divider { width:1px; height:40px; background:var(--border); flex-shrink:0; }
-.header-info { flex:1; min-width:0; }
-.weekday { font-size:11px; font-weight:500; letter-spacing:2px; text-transform:uppercase; color:var(--muted); margin-bottom:3px; }
-.city-name { font-family:'Playfair Display',serif; font-size:20px; font-weight:700; line-height:1; }
-.weather-badge { display:flex; align-items:center; gap:6px; background:var(--cream); border-radius:10px; padding:6px 10px; flex-shrink:0; min-width:84px; transition:background 0.4s; }
-.weather-badge .w-icon { font-size:18px; line-height:1; }
-.weather-badge .w-temps { display:flex; flex-direction:column; gap:1px; line-height:1.2; }
-.weather-badge .w-range { font-size:11px; font-weight:500; color:var(--ink); white-space:nowrap; }
-.weather-badge .w-rain  { font-size:10px; color:#5a8aaa; }
+.card-header{padding:16px 18px 14px;display:flex;align-items:center;gap:14px;border-bottom:1px solid var(--border);}
+.date-badge{text-align:center;min-width:48px;}
+.date-day{font-family:'Playfair Display',serif;font-size:28px;font-weight:700;line-height:1;color:var(--ink);}
+.date-month{font-size:10px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-top:2px;}
+.header-divider{width:1px;height:40px;background:var(--border);flex-shrink:0;}
+.header-info{flex:1;min-width:0;}
+.weekday{font-size:11px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:3px;}
+.city-name{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;line-height:1;}
+.weather-badge{display:flex;align-items:center;gap:6px;background:var(--cream);border-radius:10px;padding:6px 10px;flex-shrink:0;min-width:84px;transition:background 0.4s;}
+.weather-badge .w-icon{font-size:18px;line-height:1;}
+.weather-badge .w-temps{display:flex;flex-direction:column;gap:1px;line-height:1.2;}
+.weather-badge .w-range{font-size:11px;font-weight:500;color:var(--ink);white-space:nowrap;}
+.weather-badge .w-rain{font-size:10px;color:#5a8aaa;}
 
-[data-city="Lisboa"] .city-name   { color:var(--lisboa); }
-[data-city="Cascais"] .city-name  { color:var(--cascais); }
-[data-city="Sintra"] .city-name   { color:var(--sintra); }
-[data-city="Roma"] .city-name     { color:var(--roma); }
-[data-city="Florença"] .city-name { color:var(--florenca); }
-[data-city="Siena"] .city-name    { color:var(--siena); }
-[data-city="Veneza"] .city-name   { color:var(--veneza); }
+[data-city="Lisboa"] .city-name{color:var(--lisboa);}
+[data-city="Cascais"] .city-name{color:var(--cascais);}
+[data-city="Sintra"] .city-name{color:var(--sintra);}
+[data-city="Roma"] .city-name{color:var(--roma);}
+[data-city="Florença"] .city-name{color:var(--florenca);}
+[data-city="Siena"] .city-name{color:var(--siena);}
+[data-city="Veneza"] .city-name{color:var(--veneza);}
 
 /* PERIODS */
-.periods { padding:6px 0; }
-.period { padding:12px 16px 12px 14px; display:flex; gap:12px; align-items:flex-start; }
-.period + .period { border-top:1px dashed var(--border); }
-
-/* LEFT COLUMN: icon + check stacked */
-.period-left { display:flex; flex-direction:column; align-items:center; gap:8px; flex-shrink:0; }
-.period-icon { width:32px; height:32px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:15px; }
-.period.manha .period-icon { background:#fef3e2; }
-.period.tarde .period-icon { background:#e8f4ea; }
-.period.noite .period-icon { background:#eae8f4; }
-
-/* CHECK BTN — below the icon, left column */
-.check-btn { width:22px; height:22px; border-radius:50%; border:2px solid var(--border); background:var(--card-bg); cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all 0.2s; -webkit-tap-highlight-color:transparent; position:relative; flex-shrink:0; }
-.check-btn::after { content:'✓'; font-size:11px; font-weight:700; color:white; opacity:0; transition:opacity 0.2s; }
-.check-btn.checked { background:#5aaa7a; border-color:#5aaa7a; }
-.check-btn.checked::after { opacity:1; }
-
-/* CONTENT */
-.period-content { flex:1; min-width:0; padding-top:2px; }
-.period-label { font-size:10px; font-weight:500; letter-spacing:2px; text-transform:uppercase; color:var(--muted); margin-bottom:6px; }
-
-/* ACTIVITY ITEM */
-.activity-item { display:flex; align-items:baseline; gap:5px; margin-bottom:5px; font-size:14.5px; line-height:1.5; color:var(--ink); font-weight:300; flex-wrap:wrap; }
-.activity-item:last-child { margin-bottom:0; }
-
-/* MAP CHIP */
-.place-link { display:inline-flex; align-items:center; color:var(--muted); font-size:13px; text-decoration:none; background:var(--cream); border:1px solid var(--border); border-radius:6px; padding:1px 5px; white-space:nowrap; vertical-align:middle; transition:background 0.15s,border-color 0.15s; -webkit-tap-highlight-color:transparent; flex-shrink:0; cursor:pointer; line-height:1.4; }
-.place-link:active { background:var(--accent-light); border-color:var(--accent); }
-
-/* DOC LINKS */
-a.doc-link { color:var(--accent); text-decoration:underline; text-decoration-style:dotted; text-underline-offset:3px; font-weight:400; }
-
-/* DONE STATE */
-.period.done { opacity:var(--period-done-opacity); }
-.period.done .activity-item { text-decoration:line-through; color:var(--done-text); }
-.period.done .activity-item a, .period.done .place-link { pointer-events:none; color:var(--done-text); border-color:transparent; background:transparent; }
+.periods{padding:6px 0;}
+.period{padding:12px 16px 12px 14px;display:flex;gap:12px;align-items:flex-start;}
+.period+.period{border-top:1px dashed var(--border);}
+.period-left{display:flex;flex-direction:column;align-items:center;gap:8px;flex-shrink:0;}
+.period-icon{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;}
+.period.manha .period-icon{background:#fef3e2;}
+.period.tarde .period-icon{background:#e8f4ea;}
+.period.noite .period-icon{background:#eae8f4;}
+.check-btn{width:22px;height:22px;border-radius:50%;border:2px solid var(--border);background:var(--card-bg);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.2s;-webkit-tap-highlight-color:transparent;position:relative;flex-shrink:0;}
+.check-btn::after{content:'✓';font-size:11px;font-weight:700;color:white;opacity:0;transition:opacity 0.2s;}
+.check-btn.checked{background:#5aaa7a;border-color:#5aaa7a;}
+.check-btn.checked::after{opacity:1;}
+.period-content{flex:1;min-width:0;padding-top:2px;}
+.period-label{font-size:10px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
+.activity-item{display:flex;align-items:baseline;gap:5px;margin-bottom:5px;font-size:14.5px;line-height:1.5;color:var(--ink);font-weight:300;flex-wrap:wrap;}
+.activity-item:last-child{margin-bottom:0;}
+.place-link{display:inline-flex;align-items:center;color:var(--muted);font-size:13px;text-decoration:none;background:var(--cream);border:1px solid var(--border);border-radius:6px;padding:1px 5px;white-space:nowrap;vertical-align:middle;transition:background 0.15s,border-color 0.15s;-webkit-tap-highlight-color:transparent;flex-shrink:0;cursor:pointer;line-height:1.4;}
+.place-link:active{background:var(--accent-light);border-color:var(--accent);}
+a.doc-link{color:var(--accent);text-decoration:underline;text-decoration-style:dotted;text-underline-offset:3px;font-weight:400;}
+.period.done{opacity:var(--period-done-opacity);}
+.period.done .activity-item{text-decoration:line-through;color:var(--done-text);}
+.period.done .activity-item a,.period.done .place-link{pointer-events:none;color:var(--done-text);border-color:transparent;background:transparent;}
 
 /* HOTEL FOOTER */
-.hotel-footer { border-top:1px solid var(--border); padding:12px 18px; background:var(--warm-white); display:flex; align-items:flex-start; gap:12px; transition:background 0.4s; }
-.hotel-icon { font-size:18px; flex-shrink:0; margin-top:1px; }
-.hotel-info { flex:1; }
-.hotel-name { font-size:13px; font-weight:500; color:var(--ink); margin-bottom:2px; }
-.hotel-address { font-size:12px; color:var(--muted); margin-bottom:8px; line-height:1.4; }
-.hotel-links { display:flex; gap:8px; flex-wrap:wrap; }
-.hotel-link { display:inline-flex; align-items:center; gap:5px; padding:5px 12px; border-radius:20px; font-size:12px; font-weight:500; text-decoration:none; transition:all 0.2s; border:1.5px solid; -webkit-tap-highlight-color:transparent; }
-.hotel-link:active { transform:scale(0.95); }
-.hotel-link.maps { border-color:var(--lisboa); color:var(--lisboa); background:var(--blue-lt); }
-.hotel-link.uber { border-color:var(--ink); color:var(--ink); background:var(--warm-white); }
+.hotel-footer{border-top:1px solid var(--border);padding:12px 18px;background:var(--warm-white);display:flex;align-items:flex-start;gap:12px;transition:background 0.4s;}
+.hotel-icon{font-size:18px;flex-shrink:0;margin-top:1px;}
+.hotel-info{flex:1;}
+.hotel-name{font-size:13px;font-weight:500;color:var(--ink);margin-bottom:2px;}
+.hotel-address{font-size:12px;color:var(--muted);margin-bottom:8px;line-height:1.4;}
+.hotel-links{display:flex;gap:8px;flex-wrap:wrap;}
+.hotel-link{display:inline-flex;align-items:center;gap:5px;padding:5px 12px;border-radius:20px;font-size:12px;font-weight:500;text-decoration:none;transition:all 0.2s;border:1.5px solid;-webkit-tap-highlight-color:transparent;}
+.hotel-link:active{transform:scale(0.95);}
+.hotel-link.maps{border-color:var(--lisboa);color:var(--lisboa);background:var(--blue-lt);}
+.hotel-link.uber{border-color:var(--ink);color:var(--ink);background:var(--warm-white);}
 
-/* EMPTY STATE */
-.empty-state { text-align:center; padding:60px 20px; color:var(--muted); display:none; }
-.empty-state.visible { display:block; }
-.empty-state-icon { font-size:40px; margin-bottom:12px; }
-.empty-state p { font-family:'Playfair Display',serif; font-style:italic; font-size:18px; }
+/* EMPTY */
+.empty-state{text-align:center;padding:60px 20px;color:var(--muted);display:none;}
+.empty-state.visible{display:block;}
+.empty-state-icon{font-size:40px;margin-bottom:12px;}
+.empty-state p{font-family:'Playfair Display',serif;font-style:italic;font-size:18px;}
+footer{text-align:center;padding:20px;font-size:11px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;}
 
-footer { text-align:center; padding:20px; font-size:11px; color:var(--muted); letter-spacing:1px; text-transform:uppercase; }
+/* ════════════════════════════════════════
+   PANELS (Emergency + Food) — shared base
+════════════════════════════════════════ */
+.slide-panel{display:none;position:fixed;inset:0;z-index:999;overflow-y:auto;}
+.slide-panel.open{display:block;animation:slideInRight 0.28s ease both;}
+.slide-panel.closing{display:block;animation:slideOutRight 0.28s ease both;}
+@keyframes slideInRight{from{transform:translateX(100%)}to{transform:translateX(0)}}
+@keyframes slideOutRight{from{transform:translateX(0)}to{transform:translateX(100%)}}
 
-/* ════════════════════════════════
-   EMERGENCY PANEL
-════════════════════════════════ */
-#emergencyPanel {
-  display:none; position:fixed; inset:0; z-index:999;
-  background:var(--cream); overflow-y:auto;
-}
-#emergencyPanel.open  { display:block; animation:slideInRight 0.28s ease both; }
-#emergencyPanel.close { display:block; animation:slideOutRight 0.28s ease both; }
-@keyframes slideInRight  { from{transform:translateX(100%)} to{transform:translateX(0)} }
-@keyframes slideOutRight { from{transform:translateX(0)} to{transform:translateX(100%)} }
+/* ── EMERGENCY PANEL ── */
+#emergencyPanel{background:var(--cream);}
+.emg-header{background:var(--red-dk);color:white;padding:28px 20px 24px;position:relative;overflow:hidden;}
+.emg-header::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(45deg,transparent,transparent 24px,rgba(255,255,255,0.03) 24px,rgba(255,255,255,0.03) 48px);}
+.panel-back{display:inline-flex;align-items:center;gap:6px;background:none;border:none;font-size:13px;font-weight:400;cursor:pointer;margin-bottom:16px;position:relative;-webkit-tap-highlight-color:transparent;font-family:inherit;}
+.panel-back svg{width:16px;height:16px;fill:currentColor;}
+.emg-header .panel-back{color:rgba(255,255,255,0.75);}
+.emg-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,0.12);border-radius:20px;padding:4px 12px;font-size:11px;font-weight:500;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;position:relative;}
+.emg-header h2{font-family:'Playfair Display',serif;font-size:clamp(22px,6vw,32px);font-weight:700;line-height:1.15;position:relative;}
+.emg-header h2 em{font-style:italic;opacity:0.75;}
+.emg-note{margin-top:8px;font-size:12px;color:rgba(255,255,255,0.6);position:relative;}
+.emg-main{max-width:680px;margin:0 auto;padding:20px 16px 60px;}
+.emg-section{margin-bottom:16px;}
+.emg-section-header{display:flex;align-items:center;gap:10px;padding:12px 16px;border-radius:12px 12px 0 0;font-size:12px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;}
+.emg-section-header .s-icon{font-size:18px;}
+.emg-section-header.red{background:var(--red);color:white;}
+.emg-section-header.green{background:var(--green);color:white;}
+.emg-section-header.blue{background:var(--blue);color:white;}
+.emg-section-header.amber{background:#92400e;color:white;}
+.emg-body{background:var(--card-bg);border-radius:0 0 12px 12px;border:1px solid var(--border);border-top:none;box-shadow:var(--shadow);overflow:hidden;}
+.insured-card{padding:14px 16px;display:flex;align-items:flex-start;gap:12px;}
+.insured-card+.insured-card{border-top:1px solid var(--border);}
+.insured-avatar{width:40px;height:40px;border-radius:50%;background:var(--red-lt);border:2px solid var(--red);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+.insured-name{font-size:14px;font-weight:500;color:var(--ink);margin-bottom:3px;}
+.insured-ticket{font-size:11px;color:var(--muted);margin-bottom:6px;font-family:monospace;letter-spacing:0.5px;}
+.doc-btn-red{display:inline-flex;align-items:center;gap:5px;padding:5px 12px;border-radius:20px;background:var(--red-lt);border:1.5px solid var(--red);color:var(--red);font-size:12px;font-weight:500;text-decoration:none;-webkit-tap-highlight-color:transparent;}
+.doc-btn-red:active{background:var(--red);color:white;}
+.validity-bar{padding:10px 16px;background:var(--warm-white);border-top:1px dashed var(--border);font-size:12px;color:var(--muted);display:flex;align-items:center;gap:6px;}
+.cov-grid{display:grid;grid-template-columns:1fr 1fr;}
+.cov-item{padding:12px 14px;border-right:1px solid var(--border);border-bottom:1px solid var(--border);}
+.cov-item:nth-child(2n){border-right:none;}
+.cov-item:nth-last-child(-n+2){border-bottom:none;}
+.cov-item:last-child:nth-child(odd){grid-column:1/-1;border-right:none;}
+.cov-label{font-size:11px;color:var(--muted);margin-bottom:4px;line-height:1.3;}
+.cov-value{font-size:14px;font-weight:500;color:var(--green);}
+.phone-section{padding:12px 16px;}
+.phone-section+.phone-section{border-top:1px solid var(--border);}
+.phone-section-title{font-size:11px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
+.phone-row{display:flex;align-items:center;justify-content:space-between;padding:6px 0;}
+.phone-row+.phone-row{border-top:1px dashed var(--border);}
+.phone-label{font-size:13px;color:var(--ink);flex:1;}
+.phone-link{display:inline-flex;align-items:center;gap:5px;padding:6px 14px;border-radius:20px;background:var(--green-lt);border:1.5px solid var(--green);color:var(--green);font-size:13px;font-weight:500;text-decoration:none;white-space:nowrap;-webkit-tap-highlight-color:transparent;}
+.phone-link:active{background:var(--green);color:white;}
+.web-link{display:inline-flex;align-items:center;gap:5px;padding:6px 14px;border-radius:20px;background:var(--blue-lt);border:1.5px solid var(--blue);color:var(--blue);font-size:13px;font-weight:500;text-decoration:none;-webkit-tap-highlight-color:transparent;}
+.web-link:active{background:var(--blue);color:white;}
+.universal-box{padding:14px 16px;background:var(--red-lt);display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
+.universal-num{font-size:42px;font-weight:700;color:var(--red);font-family:monospace;line-height:1;text-decoration:none;}
+.universal-info{flex:1;min-width:160px;}
+.universal-title{font-size:13px;font-weight:500;color:var(--red-dk);}
+.universal-sub{font-size:12px;color:var(--muted);margin-top:2px;}
+.call-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:20px;background:var(--red);color:white;font-size:13px;font-weight:500;text-decoration:none;margin-top:10px;-webkit-tap-highlight-color:transparent;}
+.emerg-section{padding:12px 16px;}
+.emerg-section+.emerg-section{border-top:1px solid var(--border);}
+.emerg-country{font-size:12px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
+.emerg-row{display:flex;align-items:center;justify-content:space-between;padding:5px 0;}
+.emerg-row+.emerg-row{border-top:1px dashed var(--border);}
+.emerg-label{font-size:13px;color:var(--ink);}
+.emerg-num{font-size:20px;font-weight:500;color:var(--red);font-family:monospace;text-decoration:none;padding:4px 10px;background:var(--red-lt);border-radius:8px;}
+.hosp-section{padding:12px 16px;}
+.hosp-section+.hosp-section{border-top:1px solid var(--border);}
+.hosp-country{font-size:12px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
+.hosp-item{padding:8px 0;}
+.hosp-item+.hosp-item{border-top:1px dashed var(--border);}
+.hosp-city{font-size:11px;font-weight:500;color:var(--blue);text-transform:uppercase;letter-spacing:1px;margin-bottom:2px;}
+.hosp-name{font-size:13px;font-weight:500;color:var(--ink);margin-bottom:1px;}
+.hosp-addr{font-size:12px;color:var(--muted);margin-bottom:6px;}
+.hosp-map{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:14px;background:var(--blue-lt);border:1px solid var(--blue);color:var(--blue);font-size:11px;font-weight:500;text-decoration:none;-webkit-tap-highlight-color:transparent;cursor:pointer;}
+.hosp-map:active{background:var(--blue);color:white;}
 
-.emg-header { background:var(--red-dk); color:white; padding:28px 20px 24px; position:relative; overflow:hidden; }
-.emg-header::before { content:''; position:absolute; inset:0; background:repeating-linear-gradient(45deg,transparent,transparent 24px,rgba(255,255,255,0.03) 24px,rgba(255,255,255,0.03) 48px); }
-.emg-back { display:inline-flex; align-items:center; gap:6px; color:rgba(255,255,255,0.75); background:none; border:none; font-size:13px; font-weight:400; cursor:pointer; margin-bottom:16px; position:relative; -webkit-tap-highlight-color:transparent; font-family:inherit; }
-.emg-back svg { width:16px; height:16px; fill:currentColor; }
-.emg-badge { display:inline-flex; align-items:center; gap:8px; background:rgba(255,255,255,0.12); border-radius:20px; padding:4px 12px; font-size:11px; font-weight:500; letter-spacing:2px; text-transform:uppercase; margin-bottom:10px; position:relative; }
-.emg-header h2 { font-family:'Playfair Display',serif; font-size:clamp(22px,6vw,32px); font-weight:700; line-height:1.15; position:relative; }
-.emg-header h2 em { font-style:italic; opacity:0.75; }
-.emg-note { margin-top:8px; font-size:12px; color:rgba(255,255,255,0.6); position:relative; }
-.emg-main { max-width:680px; margin:0 auto; padding:20px 16px 60px; }
-.emg-section { margin-bottom:16px; }
-.emg-section-header { display:flex; align-items:center; gap:10px; padding:12px 16px; border-radius:12px 12px 0 0; font-size:12px; font-weight:500; letter-spacing:1.5px; text-transform:uppercase; }
-.emg-section-header .s-icon { font-size:18px; }
-.emg-section-header.red   { background:var(--red); color:white; }
-.emg-section-header.green { background:var(--green); color:white; }
-.emg-section-header.blue  { background:var(--blue); color:white; }
-.emg-section-header.amber { background:#92400e; color:white; }
-.emg-body { background:var(--card-bg); border-radius:0 0 12px 12px; border:1px solid var(--border); border-top:none; box-shadow:var(--shadow); overflow:hidden; }
-.insured-card { padding:14px 16px; display:flex; align-items:flex-start; gap:12px; }
-.insured-card + .insured-card { border-top:1px solid var(--border); }
-.insured-avatar { width:40px; height:40px; border-radius:50%; background:var(--red-lt); border:2px solid var(--red); display:flex; align-items:center; justify-content:center; font-size:18px; flex-shrink:0; }
-.insured-name { font-size:14px; font-weight:500; color:var(--ink); margin-bottom:3px; }
-.insured-ticket { font-size:11px; color:var(--muted); margin-bottom:6px; font-family:monospace; letter-spacing:0.5px; }
-.doc-btn { display:inline-flex; align-items:center; gap:5px; padding:5px 12px; border-radius:20px; background:var(--red-lt); border:1.5px solid var(--red); color:var(--red); font-size:12px; font-weight:500; text-decoration:none; -webkit-tap-highlight-color:transparent; }
-.doc-btn:active { background:var(--red); color:white; }
-.validity-bar { padding:10px 16px; background:var(--warm-white); border-top:1px dashed var(--border); font-size:12px; color:var(--muted); display:flex; align-items:center; gap:6px; }
-.cov-grid { display:grid; grid-template-columns:1fr 1fr; }
-.cov-item { padding:12px 14px; border-right:1px solid var(--border); border-bottom:1px solid var(--border); }
-.cov-item:nth-child(2n) { border-right:none; }
-.cov-item:nth-last-child(-n+2) { border-bottom:none; }
-.cov-item:last-child:nth-child(odd) { grid-column:1/-1; border-right:none; }
-.cov-label { font-size:11px; color:var(--muted); margin-bottom:4px; line-height:1.3; }
-.cov-value { font-size:14px; font-weight:500; color:var(--green); }
-.phone-section { padding:12px 16px; }
-.phone-section + .phone-section { border-top:1px solid var(--border); }
-.phone-section-title { font-size:11px; font-weight:500; letter-spacing:1.5px; text-transform:uppercase; color:var(--muted); margin-bottom:8px; }
-.phone-row { display:flex; align-items:center; justify-content:space-between; padding:6px 0; }
-.phone-row + .phone-row { border-top:1px dashed var(--border); }
-.phone-label { font-size:13px; color:var(--ink); flex:1; }
-.phone-link { display:inline-flex; align-items:center; gap:5px; padding:6px 14px; border-radius:20px; background:var(--green-lt); border:1.5px solid var(--green); color:var(--green); font-size:13px; font-weight:500; text-decoration:none; white-space:nowrap; -webkit-tap-highlight-color:transparent; }
-.phone-link:active { background:var(--green); color:white; }
-.web-link { display:inline-flex; align-items:center; gap:5px; padding:6px 14px; border-radius:20px; background:var(--blue-lt); border:1.5px solid var(--blue); color:var(--blue); font-size:13px; font-weight:500; text-decoration:none; -webkit-tap-highlight-color:transparent; }
-.web-link:active { background:var(--blue); color:white; }
-.universal-box { padding:14px 16px; background:var(--red-lt); display:flex; align-items:center; gap:14px; flex-wrap:wrap; }
-.universal-num { font-size:42px; font-weight:700; color:var(--red); font-family:monospace; line-height:1; text-decoration:none; }
-.universal-info { flex:1; min-width:160px; }
-.universal-title { font-size:13px; font-weight:500; color:var(--red-dk); }
-.universal-sub { font-size:12px; color:var(--muted); margin-top:2px; }
-.call-btn { display:inline-flex; align-items:center; gap:6px; padding:8px 16px; border-radius:20px; background:var(--red); color:white; font-size:13px; font-weight:500; text-decoration:none; margin-top:10px; -webkit-tap-highlight-color:transparent; }
-.call-btn:active { opacity:0.85; }
-.emerg-section { padding:12px 16px; }
-.emerg-section + .emerg-section { border-top:1px solid var(--border); }
-.emerg-country { font-size:12px; font-weight:500; letter-spacing:1.5px; text-transform:uppercase; color:var(--muted); margin-bottom:8px; }
-.emerg-row { display:flex; align-items:center; justify-content:space-between; padding:5px 0; }
-.emerg-row + .emerg-row { border-top:1px dashed var(--border); }
-.emerg-label { font-size:13px; color:var(--ink); }
-.emerg-num { font-size:20px; font-weight:500; color:var(--red); font-family:monospace; text-decoration:none; padding:4px 10px; background:var(--red-lt); border-radius:8px; -webkit-tap-highlight-color:transparent; }
-.hosp-section { padding:12px 16px; }
-.hosp-section + .hosp-section { border-top:1px solid var(--border); }
-.hosp-country { font-size:12px; font-weight:500; letter-spacing:1.5px; text-transform:uppercase; color:var(--muted); margin-bottom:8px; }
-.hosp-item { padding:8px 0; }
-.hosp-item + .hosp-item { border-top:1px dashed var(--border); }
-.hosp-city { font-size:11px; font-weight:500; color:var(--blue); text-transform:uppercase; letter-spacing:1px; margin-bottom:2px; }
-.hosp-name { font-size:13px; font-weight:500; color:var(--ink); margin-bottom:1px; }
-.hosp-addr { font-size:12px; color:var(--muted); margin-bottom:6px; }
-.hosp-map { display:inline-flex; align-items:center; gap:5px; padding:4px 10px; border-radius:14px; background:var(--blue-lt); border:1px solid var(--blue); color:var(--blue); font-size:11px; font-weight:500; text-decoration:none; -webkit-tap-highlight-color:transparent; cursor:pointer; }
-.hosp-map:active { background:var(--blue); color:white; }
+/* ── FOOD PANEL ── */
+#foodPanel{background:var(--cream);}
+.food-header{background:var(--food-dk);color:white;padding:28px 20px 24px;position:relative;overflow:hidden;}
+.food-header::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(45deg,transparent,transparent 24px,rgba(255,255,255,0.03) 24px,rgba(255,255,255,0.03) 48px);}
+.food-header .panel-back{color:rgba(255,255,255,0.75);}
+.food-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,0.12);border-radius:20px;padding:4px 12px;font-size:11px;font-weight:500;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;position:relative;}
+.food-header h2{font-family:'Playfair Display',serif;font-size:clamp(22px,6vw,32px);font-weight:700;line-height:1.15;position:relative;}
+.food-header h2 em{font-style:italic;opacity:0.8;}
+.food-note{margin-top:8px;font-size:12px;color:rgba(255,255,255,0.6);position:relative;}
+
+/* FOOD FILTER */
+.food-filter{background:var(--food-lt);border-bottom:1px solid var(--border);padding:12px 16px;position:sticky;top:0;z-index:50;transition:background 0.4s;}
+.food-chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none;}
+.food-chips::-webkit-scrollbar{display:none;}
+.food-chip{flex-shrink:0;padding:6px 14px;border-radius:100px;font-size:13px;font-weight:400;border:1.5px solid var(--border);background:var(--card-bg);color:var(--muted);cursor:pointer;transition:all 0.2s;white-space:nowrap;-webkit-tap-highlight-color:transparent;}
+.food-chip:active{transform:scale(0.95);}
+.food-chip.active{border-color:transparent;color:white;font-weight:500;}
+.food-chip[data-fcity="all"].active{background:var(--food-dk);}
+.food-chip[data-fcity="Lisboa"].active{background:var(--lisboa);}
+.food-chip[data-fcity="Roma"].active{background:var(--roma);}
+.food-chip[data-fcity="Florença"].active{background:var(--florenca);}
+.food-chip[data-fcity="Veneza"].active{background:var(--veneza);}
+
+/* FOOD CARDS */
+.food-main{max-width:680px;margin:0 auto;padding:20px 16px 60px;}
+.food-card{background:var(--card-bg);border-radius:16px;margin-bottom:16px;overflow:hidden;box-shadow:var(--shadow);border:1px solid var(--border);transition:background 0.4s,border-color 0.4s;}
+.food-card.fhidden{display:none;}
+
+.food-card-header{padding:16px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;}
+.food-city-icon{font-size:24px;flex-shrink:0;}
+.food-city-info{flex:1;}
+.food-city-name{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;line-height:1;}
+.food-city-sub{font-size:12px;color:var(--muted);margin-top:3px;}
+[data-fcity="Lisboa"] .food-city-name{color:var(--lisboa);}
+[data-fcity="Roma"] .food-city-name{color:var(--roma);}
+[data-fcity="Florença"] .food-city-name{color:var(--florenca);}
+[data-fcity="Veneza"] .food-city-name{color:var(--veneza);}
+
+/* FOOD SECTIONS */
+.food-section{border-top:1px solid var(--border);}
+.food-section:first-child{border-top:none;}
+.food-section-header{display:flex;align-items:center;gap:10px;padding:13px 18px;cursor:pointer;user-select:none;-webkit-tap-highlight-color:transparent;}
+.food-section-header:active{background:var(--warm-white);}
+.food-section-icon{font-size:17px;flex-shrink:0;}
+.food-section-title{font-size:12px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;flex:1;}
+.food-section-chevron{font-size:12px;color:var(--muted);transition:transform 0.2s;flex-shrink:0;}
+.food-section-content{padding:0 18px 14px;display:none;}
+.food-section-content.open{display:block;}
+
+/* HIGHLIGHTS */
+.highlight-item{padding:12px 0;border-bottom:1px dashed var(--border);}
+.highlight-item:last-child{border-bottom:none;}
+.highlight-name{font-size:14px;font-weight:500;color:var(--ink);margin-bottom:4px;}
+.highlight-text{font-size:13.5px;line-height:1.6;color:var(--muted);font-weight:300;}
+.price-tag{display:inline-flex;align-items:center;gap:4px;background:var(--food-lt);border:1px solid var(--border);color:var(--food-dk);font-size:11px;font-weight:500;padding:2px 8px;border-radius:20px;margin-top:5px;}
+
+/* CATEGORY ROWS */
+.cat-block{margin-bottom:14px;}
+.cat-block:last-child{margin-bottom:0;}
+.cat-title{font-size:11px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--food-dk);margin-bottom:8px;}
+.cat-text{font-size:13.5px;line-height:1.65;color:var(--ink);font-weight:300;}
+.cat-text strong{font-weight:500;}
+.cat-item{display:flex;gap:8px;margin-bottom:6px;font-size:13.5px;line-height:1.55;color:var(--ink);font-weight:300;}
+.cat-item:last-child{margin-bottom:0;}
+.cat-bullet{color:var(--food);flex-shrink:0;margin-top:2px;}
+
+/* DICTIONARY */
+.dict-item{padding:9px 0;border-bottom:1px dashed var(--border);display:flex;gap:10px;}
+.dict-item:last-child{border-bottom:none;}
+.dict-term{font-size:13px;font-weight:500;color:var(--ink);min-width:140px;flex-shrink:0;}
+.dict-def{font-size:13px;color:var(--muted);font-weight:300;line-height:1.5;}
+
+/* TIPS */
+.tip-item{display:flex;gap:10px;padding:8px 0;border-bottom:1px dashed var(--border);font-size:13.5px;line-height:1.55;color:var(--ink);font-weight:300;}
+.tip-item:last-child{border-bottom:none;}
+.tip-bullet{color:var(--accent);flex-shrink:0;margin-top:2px;font-size:15px;}
+
+/* WARNING ITEMS */
+.warn-item{display:flex;gap:10px;padding:8px 0;border-bottom:1px dashed var(--border);font-size:13.5px;line-height:1.55;color:var(--ink);font-weight:300;}
+.warn-item:last-child{border-bottom:none;}
+.warn-bullet{color:var(--red);flex-shrink:0;margin-top:2px;font-size:15px;}
+
+/* QUICK REF TABLE */
+.qr-table{width:100%;border-collapse:collapse;font-size:12.5px;}
+.qr-table th{text-align:left;padding:8px 10px;font-weight:500;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--border);}
+.qr-table td{padding:8px 10px;border-bottom:1px dashed var(--border);color:var(--ink);vertical-align:top;}
+.qr-table tr:last-child td{border-bottom:none;}
+.qr-table td:first-child{font-weight:500;}
+.price-euro{color:var(--food-dk);font-weight:500;}
 </style>
 </head>
 <body>
 
-<!-- ══ ROTEIRO PAGE ══ -->
+<!-- ══════════════ ROTEIRO PAGE ══════════════ -->
 <div id="roteiroPage">
-
 <header>
   <div class="header-eyebrow">✈ Maio 2026</div>
   <h1>Roteiro <em>Europa</em></h1>
   <p class="header-sub">Lisboa · Roma · Florença · Veneza</p>
   <button class="theme-badge" id="themeToggle" title="Alternar tema"></button>
-  <button class="emergency-btn" id="openEmergency" title="Guia de Emergência">
-    <svg viewBox="0 0 24 24"><path d="M19 8h-3V5a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v3H5a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h3v3a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-3h3a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1zm-1 6h-3a1 1 0 0 0-1 1v3h-4v-3a1 1 0 0 0-1-1H6v-4h3a1 1 0 0 0 1-1V6h4v3a1 1 0 0 0 1 1h3v4z"/></svg>
-  </button>
+  <div class="header-btns">
+    <button class="food-btn" id="openFood" title="Guia Gastronômico">🍴</button>
+    <button class="emergency-btn" id="openEmergency" title="Guia de Emergência">
+      <svg viewBox="0 0 24 24"><path d="M19 8h-3V5a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v3H5a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h3v3a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-3h3a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1zm-1 6h-3a1 1 0 0 0-1 1v3h-4v-3a1 1 0 0 0-1-1H6v-4h3a1 1 0 0 0 1-1V6h4v3a1 1 0 0 0 1 1h3v4z"/></svg>
+    </button>
+  </div>
 </header>
 
 <div id="installBanner">
@@ -306,7 +368,6 @@ footer { text-align:center; padding:20px; font-size:11px; color:var(--muted); le
 </div>
 
 <main>
-
 <!-- DIA 15 -->
 <div class="day-card" data-city="Lisboa" data-date="2026-05-15" data-lat="38.7169" data-lon="-9.1399">
   <div class="card-header">
@@ -1046,13 +1107,12 @@ footer { text-align:center; padding:20px; font-size:11px; color:var(--muted); le
 </div>
 </main>
 <footer>Boa viagem! ✈️</footer>
-</div><!-- #roteiroPage -->
+</div>
 
-
-<!-- ══ EMERGENCY PANEL ══ -->
-<div id="emergencyPanel">
+<!-- ══════════════ EMERGENCY PANEL ══════════════ -->
+<div id="emergencyPanel" class="slide-panel">
   <div class="emg-header">
-    <button class="emg-back" id="closeEmergency">
+    <button class="panel-back" id="closeEmergency">
       <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
       Voltar ao Roteiro
     </button>
@@ -1061,7 +1121,6 @@ footer { text-align:center; padding:20px; font-size:11px; color:var(--muted); le
     <p class="emg-note">Mastercard Black · AIG · Europa — Maio/Junho 2026</p>
   </div>
   <div class="emg-main">
-
     <div class="emg-section">
       <div class="emg-section-header red"><span class="s-icon">🪪</span> Informações dos Segurados</div>
       <div class="emg-body">
@@ -1070,7 +1129,7 @@ footer { text-align:center; padding:20px; font-size:11px; color:var(--muted); le
           <div>
             <div class="insured-name">Pedro Taques</div>
             <div class="insured-ticket">Bilhete: 16023-0002-69-260218312</div>
-            <a class="doc-btn" href="https://drive.google.com/file/d/1Z5WUn-eWqJlmqIx91FdzQY2_Z3dyF-KO/view?usp=drive_link" target="_blank">📄 Ver Documento</a>
+            <a class="doc-btn-red" href="https://drive.google.com/file/d/1Z5WUn-eWqJlmqIx91FdzQY2_Z3dyF-KO/view?usp=drive_link" target="_blank">📄 Ver Documento</a>
           </div>
         </div>
         <div class="insured-card">
@@ -1078,13 +1137,12 @@ footer { text-align:center; padding:20px; font-size:11px; color:var(--muted); le
           <div>
             <div class="insured-name">Kellem Almeida</div>
             <div class="insured-ticket">Bilhete: 16023-0002-69-260218311</div>
-            <a class="doc-btn" href="https://drive.google.com/file/d/1bKfUp5z0B6WaK2KfINdmkAF4vJpo3UA8/view?usp=drive_link" target="_blank">📄 Ver Documento</a>
+            <a class="doc-btn-red" href="https://drive.google.com/file/d/1bKfUp5z0B6WaK2KfINdmkAF4vJpo3UA8/view?usp=drive_link" target="_blank">📄 Ver Documento</a>
           </div>
         </div>
         <div class="validity-bar">📅 Vigência (ambos): 28/03/2026 a 28/03/2027</div>
       </div>
     </div>
-
     <div class="emg-section">
       <div class="emg-section-header green"><span class="s-icon">🛡️</span> Resumo da Cobertura — Por Pessoa</div>
       <div class="emg-body">
@@ -1098,7 +1156,6 @@ footer { text-align:center; padding:20px; font-size:11px; color:var(--muted); le
         </div>
       </div>
     </div>
-
     <div class="emg-section">
       <div class="emg-section-header amber"><span class="s-icon">📞</span> Como Acionar o Seguro</div>
       <div class="emg-body">
@@ -1114,7 +1171,6 @@ footer { text-align:center; padding:20px; font-size:11px; color:var(--muted); le
         </div>
       </div>
     </div>
-
     <div class="emg-section">
       <div class="emg-section-header red"><span class="s-icon">🚨</span> Números de Emergência Locais</div>
       <div class="emg-body">
@@ -1122,7 +1178,7 @@ footer { text-align:center; padding:20px; font-size:11px; color:var(--muted); le
           <a href="tel:112" class="universal-num">112</a>
           <div class="universal-info">
             <div class="universal-title">Número Universal — União Europeia</div>
-            <div class="universal-sub">Válido em todos os países da UE para qualquer emergência</div>
+            <div class="universal-sub">Válido em todos os países da UE</div>
             <a class="call-btn" href="tel:112">📞 Ligar 112 agora</a>
           </div>
         </div>
@@ -1134,68 +1190,612 @@ footer { text-align:center; padding:20px; font-size:11px; color:var(--muted); le
         <div class="emerg-section">
           <div class="emerg-country">🇮🇹 Itália — Roma, Florença, Siena, Veneza</div>
           <div class="emerg-row"><span class="emerg-label">Geral</span><a class="emerg-num" href="tel:112">112</a></div>
-          <div class="emerg-row"><span class="emerg-label">Emergência Médica (Ambulância)</span><a class="emerg-num" href="tel:118">118</a></div>
+          <div class="emerg-row"><span class="emerg-label">Emergência Médica</span><a class="emerg-num" href="tel:118">118</a></div>
           <div class="emerg-row"><span class="emerg-label">Polícia (Polizia)</span><a class="emerg-num" href="tel:113">113</a></div>
         </div>
       </div>
     </div>
-
     <div class="emg-section">
       <div class="emg-section-header blue"><span class="s-icon">🏥</span> Hospitais de Referência</div>
       <div class="emg-body">
         <div class="hosp-section">
           <div class="hosp-country">🇵🇹 Portugal</div>
-          <div class="hosp-item">
-            <div class="hosp-city">Lisboa</div>
-            <div class="hosp-name">Hospital de Santa Maria</div>
-            <div class="hosp-addr">Av. Prof. Egas Moniz, Lisboa</div>
-            <a class="hosp-map" href="#" data-q="Hospital de Santa Maria Lisboa">🗺 Ver no mapa</a>
-          </div>
-          <div class="hosp-item">
-            <div class="hosp-city">Cascais</div>
-            <div class="hosp-name">Hospital de Cascais Dr. José de Almeida</div>
-            <div class="hosp-addr">Alcabideche, Cascais</div>
-            <a class="hosp-map" href="#" data-q="Hospital de Cascais Dr José de Almeida">🗺 Ver no mapa</a>
-          </div>
-          <div class="hosp-item">
-            <div class="hosp-city">Sintra</div>
-            <div class="hosp-name">Hospital CUF Sintra</div>
-            <div class="hosp-addr">Av. Desidério Cambournac, 14 — Sintra</div>
-            <a class="hosp-map" href="#" data-q="Hospital CUF Sintra">🗺 Ver no mapa</a>
-          </div>
+          <div class="hosp-item"><div class="hosp-city">Lisboa</div><div class="hosp-name">Hospital de Santa Maria</div><div class="hosp-addr">Av. Prof. Egas Moniz, Lisboa</div><a class="hosp-map" href="#" data-q="Hospital de Santa Maria Lisboa">🗺 Ver no mapa</a></div>
+          <div class="hosp-item"><div class="hosp-city">Cascais</div><div class="hosp-name">Hospital de Cascais Dr. José de Almeida</div><div class="hosp-addr">Alcabideche, Cascais</div><a class="hosp-map" href="#" data-q="Hospital de Cascais Dr José de Almeida">🗺 Ver no mapa</a></div>
+          <div class="hosp-item"><div class="hosp-city">Sintra</div><div class="hosp-name">Hospital CUF Sintra</div><div class="hosp-addr">Av. Desidério Cambournac, 14 — Sintra</div><a class="hosp-map" href="#" data-q="Hospital CUF Sintra">🗺 Ver no mapa</a></div>
         </div>
         <div class="hosp-section">
           <div class="hosp-country">🇮🇹 Itália</div>
-          <div class="hosp-item">
-            <div class="hosp-city">Roma</div>
-            <div class="hosp-name">Policlinico Umberto I</div>
-            <div class="hosp-addr">Viale del Policlinico, 155 — Roma</div>
-            <a class="hosp-map" href="#" data-q="Policlinico Umberto I Roma">🗺 Ver no mapa</a>
+          <div class="hosp-item"><div class="hosp-city">Roma</div><div class="hosp-name">Policlinico Umberto I</div><div class="hosp-addr">Viale del Policlinico, 155 — Roma</div><a class="hosp-map" href="#" data-q="Policlinico Umberto I Roma">🗺 Ver no mapa</a></div>
+          <div class="hosp-item"><div class="hosp-city">Florença</div><div class="hosp-name">Ospedale Santa Maria Nuova</div><div class="hosp-addr">Piazza di Santa Maria Nuova, 1 — Firenze</div><a class="hosp-map" href="#" data-q="Ospedale Santa Maria Nuova Firenze">🗺 Ver no mapa</a></div>
+          <div class="hosp-item"><div class="hosp-city">Siena</div><div class="hosp-name">Ospedale Santa Maria alle Scotte</div><div class="hosp-addr">Strada delle Scotte, 14 — Siena</div><a class="hosp-map" href="#" data-q="Ospedale Santa Maria alle Scotte Siena">🗺 Ver no mapa</a></div>
+          <div class="hosp-item"><div class="hosp-city">Veneza</div><div class="hosp-name">Ospedale Civile SS. Giovanni e Paolo</div><div class="hosp-addr">Sestiere Castello, 6777 — Venezia</div><a class="hosp-map" href="#" data-q="Ospedale Civile SS Giovanni e Paolo Venezia">🗺 Ver no mapa</a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ FOOD PANEL ══════════════ -->
+<div id="foodPanel" class="slide-panel">
+  <div class="food-header">
+    <button class="panel-back" id="closeFood">
+      <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+      Voltar ao Roteiro
+    </button>
+    <div class="food-badge">🍴 Gastronomia</div>
+    <h2>Guia <em>Gastronômico</em></h2>
+    <p class="food-note">Lisboa · Roma · Florença · Veneza</p>
+  </div>
+
+  <div class="food-filter">
+    <div class="food-chips">
+      <button class="food-chip active" data-fcity="all">Todas</button>
+      <button class="food-chip" data-fcity="Lisboa">Lisboa</button>
+      <button class="food-chip" data-fcity="Roma">Roma</button>
+      <button class="food-chip" data-fcity="Florença">Florença</button>
+      <button class="food-chip" data-fcity="Veneza">Veneza</button>
+    </div>
+  </div>
+
+  <div class="food-main">
+
+    <!-- ═══ CARD LISBOA ═══ -->
+    <div class="food-card" data-fcity="Lisboa">
+      <div class="food-card-header">
+        <div class="food-city-icon">🇵🇹</div>
+        <div class="food-city-info">
+          <div class="food-city-name" data-fcity="Lisboa">Lisboa</div>
+          <div class="food-city-sub">Sabores do Tejo · Da bifana ao Belcanto</div>
+        </div>
+      </div>
+
+      <!-- HIGHLIGHTS -->
+      <div class="food-section">
+        <div class="food-section-header" onclick="toggleSection(this)">
+          <span class="food-section-icon">⭐</span>
+          <span class="food-section-title">Os Imperdíveis</span>
+          <span class="food-section-chevron">▼</span>
+        </div>
+        <div class="food-section-content open">
+          <div class="highlight-item">
+            <div class="highlight-name">Pastéis de Belém</div>
+            <div class="highlight-text">Desde 1837, com a receita secreta do Mosteiro dos Jerónimos. Contraste sensorial entre massa folhada audível e creme de gema quente.</div>
+            <div class="price-tag">🍮 6 unidades ~7,20€ (R$43,70)</div>
           </div>
-          <div class="hosp-item">
-            <div class="hosp-city">Florença</div>
-            <div class="hosp-name">Ospedale Santa Maria Nuova</div>
-            <div class="hosp-addr">Piazza di Santa Maria Nuova, 1 — Firenze</div>
-            <a class="hosp-map" href="#" data-q="Ospedale Santa Maria Nuova Firenze">🗺 Ver no mapa</a>
+          <div class="highlight-item">
+            <div class="highlight-name">Manteigaria</div>
+            <div class="highlight-text">O grande rival de Belém no Chiado. Assinatura: "massa de mil folhas" — camadas amanteigadas levíssimas, recheio mais fluido e menos doce.</div>
+            <div class="price-tag">🍮 ~1,20€ (R$7,28) / unidade</div>
           </div>
-          <div class="hosp-item">
-            <div class="hosp-city">Siena</div>
-            <div class="hosp-name">Ospedale Santa Maria alle Scotte</div>
-            <div class="hosp-addr">Strada delle Scotte, 14 — Siena</div>
-            <a class="hosp-map" href="#" data-q="Ospedale Santa Maria alle Scotte Siena">🗺 Ver no mapa</a>
+          <div class="highlight-item">
+            <div class="highlight-name">Cervejaria Ramiro</div>
+            <div class="highlight-text">Templo do produto bruto. Mariscos gigantes culminando no obrigatório "Prego" (sanduíche de carne e alho). Reserva essencial — chegue 20min antes da abertura.</div>
+            <div class="price-tag">🦞 ~45€/pessoa (R$273)</div>
           </div>
-          <div class="hosp-item">
-            <div class="hosp-city">Veneza</div>
-            <div class="hosp-name">Ospedale Civile SS. Giovanni e Paolo</div>
-            <div class="hosp-addr">Sestiere Castello, 6777 — Venezia</div>
-            <a class="hosp-map" href="#" data-q="Ospedale Civile SS Giovanni e Paolo Venezia">🗺 Ver no mapa</a>
+          <div class="highlight-item">
+            <div class="highlight-name">Bonjardim — Rei dos Frangos</div>
+            <div class="highlight-text">Frango de espeto, herança das colônias africanas. Pele crocante e marinada de piri-piri definem o conforto lisboeta.</div>
+            <div class="price-tag">🍗 ~15€ (R$91)</div>
           </div>
+          <div class="highlight-item">
+            <div class="highlight-name">Belcanto (Chef José Avillez) ⭐⭐</div>
+            <div class="highlight-text">Desconstrução de memórias afetivas. A icônica "Horta da Galinha dos Ovos de Ouro". Experiência de luxo.</div>
+            <div class="price-tag">🏆 Menu degustação +175€ (R$1.062)</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CATEGORIAS -->
+      <div class="food-section">
+        <div class="food-section-header" onclick="toggleSection(this)">
+          <span class="food-section-icon">🗂️</span>
+          <span class="food-section-title">Por Estilo</span>
+          <span class="food-section-chevron">▶</span>
+        </div>
+        <div class="food-section-content">
+          <div class="cat-block">
+            <div class="cat-title">Comida de Rua</div>
+            <div class="cat-text">A <strong>Bifana</strong> — porco marinado em vinho e alho no pão macio (~3€). Inicie com uma <strong>Ginjinha</strong> como "tônico" (1,50€) e busque as <strong>Castanhas</strong> assadas no carvão nas esquinas (3€/12 unidades). Locais: O Trevo · Casa das Bifanas.</div>
+          </div>
+          <div class="cat-block">
+            <div class="cat-title">Cozinha Tradicional</div>
+            <div class="cat-text"><strong>O Gaiteiro</strong> (peixe grelhado) · <strong>Solar dos Presuntos</strong> (garrafeira e presuntos lendários) · <strong>Mesa de Frades</strong> em Alfama: Ameijoas à Bulhão Pato (15€) com fado ao vivo.</div>
+          </div>
+          <div class="cat-block">
+            <div class="cat-title">Experiências e Jantares</div>
+            <div class="cat-text"><strong>A Cevicheria</strong> (Chef Kiko, Príncipe Real) — polvo gigante suspenso no teto. <strong>Prado</strong> — farm-to-table; não omita a Squid Carbonara de lula. Vista do Tejo: Ponto Final · Sud Lisboa.</div>
+          </div>
+          <div class="cat-block">
+            <div class="cat-title">Docerias e Cafés</div>
+            <div class="cat-text"><strong>Confeitaria Nacional</strong> (desde 1829) — lar do Pão de Deus. <strong>Casa dos Ovos Moles</strong> — o Fidalgo, crepe de ovo recheado com calda de gemas.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DICIONÁRIO -->
+      <div class="food-section">
+        <div class="food-section-header" onclick="toggleSection(this)">
+          <span class="food-section-icon">📖</span>
+          <span class="food-section-title">Dicionário de Pratos</span>
+          <span class="food-section-chevron">▶</span>
+        </div>
+        <div class="food-section-content">
+          <div class="dict-item"><div class="dict-term">Bacalhau à Brás</div><div class="dict-def">Bacalhau desfiado, batata palha, cebola e ovos mexidos com azeitonas.</div></div>
+          <div class="dict-item"><div class="dict-term">Polvo à Lagareiro</div><div class="dict-def">Cozido e grelhado, submerso em azeite fervente, alho e "batatas a murro".</div></div>
+          <div class="dict-item"><div class="dict-term">Alheira</div><div class="dict-def">Embutido de pão, alho e carnes (aves/caça), criado por cristãos-novos para simular o consumo de porco.</div></div>
+          <div class="dict-item"><div class="dict-term">Caldo Verde</div><div class="dict-def">Sopa de batata e couve-galega em fios, com rodela de chouriço.</div></div>
+          <div class="dict-item"><div class="dict-term">Arroz de Marisco</div><div class="dict-def">Arroz "caldoso" e rico em molho, servido em tachos de barro.</div></div>
+          <div class="dict-item"><div class="dict-term">Ginjinha</div><div class="dict-def">Licor de cereja amarga. Peça "com elas" para a fruta no fundo do copo.</div></div>
+        </div>
+      </div>
+
+      <!-- DICAS -->
+      <div class="food-section">
+        <div class="food-section-header" onclick="toggleSection(this)">
+          <span class="food-section-icon">💡</span>
+          <span class="food-section-title">Dicas Práticas</span>
+          <span class="food-section-chevron">▶</span>
+        </div>
+        <div class="food-section-content">
+          <div class="tip-item"><span class="tip-bullet">→</span><span>Reservas obrigatórias: Prado, Belcanto, Cervejaria Ramiro. No Ramiro, chegue 20 min antes da abertura.</span></div>
+          <div class="tip-item"><span class="tip-bullet">→</span><span>Horários: almoço 12h30–15h; jantar raramente antes das 19h30.</span></div>
+          <div class="tip-item"><span class="tip-bullet">→</span><span>Transporte: cartão Navigante (0,50€). Tarifa zap no elétrico 28: 1,30€ vs. preço cheio em dinheiro.</span></div>
+          <div class="tip-item"><span class="tip-bullet">→</span><span>Couvert: pães, queijos e patês na mesa NÃO são cortesia. Se não quiser pagar (2€–10€), recuse ou deixe intocado.</span></div>
+        </div>
+      </div>
+
+      <!-- CILADAS -->
+      <div class="food-section">
+        <div class="food-section-header" onclick="toggleSection(this)">
+          <span class="food-section-icon">⚠️</span>
+          <span class="food-section-title">Ciladas Gastronômicas</span>
+          <span class="food-section-chevron">▶</span>
+        </div>
+        <div class="food-section-content">
+          <div class="warn-item"><span class="warn-bullet">✕</span><span><strong>Casa Portuguesa do Pastel de Bacalhau</strong> — invenção recente para turistas a 5€. Em tascas locais, o bolinho tradicional custa ~2€.</span></div>
+          <div class="warn-item"><span class="warn-bullet">✕</span><span><strong>Elevador de Santa Justa</strong> — não pague 5€. Atalho gratuito pela H&M no Chiado ou pelas escadas do Convento do Carmo.</span></div>
+          <div class="warn-item"><span class="warn-bullet">✕</span><span><strong>Rua Augusta</strong> — evite menus com fotos e "caçadores de clientes".</span></div>
+          <div class="warn-item"><span class="warn-bullet">✕</span><span><strong>Segunda-feira em Belém</strong> — monumentos fechados sobrecarregam as poucas opções abertas.</span></div>
+        </div>
+      </div>
+
+      <!-- TABELA -->
+      <div class="food-section">
+        <div class="food-section-header" onclick="toggleSection(this)">
+          <span class="food-section-icon">📋</span>
+          <span class="food-section-title">Referência Rápida</span>
+          <span class="food-section-chevron">▶</span>
+        </div>
+        <div class="food-section-content">
+          <table class="qr-table">
+            <tr><th>Local</th><th>Especialidade</th><th>Preço</th></tr>
+            <tr><td>Pastéis de Belém</td><td>Pastel de Belém Original</td><td class="price-euro">€</td></tr>
+            <tr><td>Manteigaria</td><td>Pastel de Nata</td><td class="price-euro">€</td></tr>
+            <tr><td>Cervejaria Ramiro</td><td>Marisco e Prego</td><td class="price-euro">€€€</td></tr>
+            <tr><td>Bonjardim</td><td>Frango Piri-Piri</td><td class="price-euro">€€</td></tr>
+            <tr><td>A Cevicheria</td><td>Ceviches e Polvo</td><td class="price-euro">€€</td></tr>
+            <tr><td>Prado</td><td>Cozinha Sazonal (Lula Carbonara)</td><td class="price-euro">€€€</td></tr>
+            <tr><td>Mesa de Frades</td><td>Ameijoas e Fado</td><td class="price-euro">€€</td></tr>
+            <tr><td>O Trevo / Casa Bifanas</td><td>Bifana Tradicional</td><td class="price-euro">€</td></tr>
+          </table>
         </div>
       </div>
     </div>
 
-  </div>
-</div><!-- #emergencyPanel -->
+    <!-- ═══ CARD ROMA ═══ -->
+    <div class="food-card" data-fcity="Roma">
+      <div class="food-card-header">
+        <div class="food-city-icon">🇮🇹</div>
+        <div class="food-city-info">
+          <div class="food-city-name" data-fcity="Roma">Roma</div>
+          <div class="food-city-sub">Carbonara · Supplì · Gelato · Caffè Freddo</div>
+        </div>
+      </div>
+
+      <div class="food-section">
+        <div class="food-section-header" onclick="toggleSection(this)">
+          <span class="food-section-icon">⭐</span>
+          <span class="food-section-title">Os Imperdíveis</span>
+          <span class="food-section-chevron">▼</span>
+        </div>
+        <div class="food-section-content open">
+          <div class="highlight-item">
+            <div class="highlight-name">Osteria da Fortunata</div>
+            <div class="highlight-text">Próxima ao Campo de' Fiori — nonnas preparam massa na vitrine. Carbonara artesanal com massa grossa e guanciale crocante. Emulsão perfeita de pecorino e gema. Reserva obrigatória.</div>
+            <div class="price-tag">🍝 ~18€ (R$109)</div>
+          </div>
+          <div class="highlight-item">
+            <div class="highlight-name">Morde e Vai (Mercado de Testaccio, Box 15)</div>
+            <div class="highlight-text">Street food com profundidade histórica. Panini de Ragù de Vitelo com panceta em ciabatta que absorve o suco da carne sem perder estrutura.</div>
+            <div class="price-tag">🥖 ~7€ (R$42)</div>
+          </div>
+          <div class="highlight-item">
+            <div class="highlight-name">Trapizzino</div>
+            <div class="highlight-text">Fusão entre massa de pizza de fermentação natural e recheios clássicos romanos. Cone de almôndegas ao molho de tomate. Garrafinhas reutilizáveis com ponto de refil gratuito.</div>
+            <div class="price-tag">🍕 ~5€ (R$30) / unidade</div>
+          </div>
+          <div class="highlight-item">
+            <div class="highlight-name">Otateg — Gelato al Contrario (Trastevere)</div>
+            <div class="highlight-text">Frequentemente citada como a melhor gelateria de Roma. Técnica "ao contrário" — pureza absoluta da matéria-prima. Destaque: Manga e Ricota com Manjericão.</div>
+            <div class="price-tag">🍦 a partir de 3€ (R$18)</div>
+          </div>
+          <div class="highlight-item">
+            <div class="highlight-name">Alfredo alla Scrofa</div>
+            <div class="highlight-text">O berço histórico do Fettuccine Alfredo. Ritual de finalização à mesa que cativou de Sinatra a Stallone. Emulsão de manteiga e parmesão sem natas.</div>
+            <div class="price-tag">🍝 ~20€ (R$121)</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="food-section">
+        <div class="food-section-header" onclick="toggleSection(this)">
+          <span class="food-section-icon">🗂️</span>
+          <span class="food-section-title">Por Estilo</span>
+          <span class="food-section-chevron">▶</span>
+        </div>
+        <div class="food-section-content">
+          <div class="cat-block">
+            <div class="cat-title">Comida de Rua — "Porta Via"</div>
+            <div class="cat-text">Mercado de Testaccio: hub central para <strong>Pizza al Taglio</strong> (por quilo) e <strong>Supplì</strong> (bolinho de risoto frito). Comer em pé nas praças é performance social, não economia.</div>
+          </div>
+          <div class="cat-block">
+            <div class="cat-title">Cozinha Tradicional</div>
+            <div class="cat-text"><strong>Da Tonarello</strong> · <strong>Checco er Carrettiere</strong> — osterias com Guanciale e Pecorino Romano. Destaque para o "al dente" rigoroso e a <strong>Carciofi alla Giudia</strong> (alcachofra frita judaica).</div>
+          </div>
+          <div class="cat-block">
+            <div class="cat-title">Experiências Elevadas</div>
+            <div class="cat-text"><strong>Retrobottega</strong> — nível Michelin acessível com foraging (~15€). <strong>Casina Valadier</strong> na Villa Borghese — vista panorâmica definitiva. Mixologia: <strong>Drink Kong</strong> (estética Blade Runner) ou <strong>Jerry Thomas Speakeasy</strong> (senha: "Metropolitan", reserva obrigatória).</div>
+          </div>
+          <div class="cat-block">
+            <div class="cat-title">Docerias e Cafés</div>
+            <div class="cat-text"><strong>Sant'Eustachio</strong> (desde 1938) — Caffè Freddo doce e intenso. <strong>Pompi</strong> — tiramisu autêntico com "creme amarelo" aerado (fuja das versões brancas e pesadas). Balcão: ~1€ / mesa: ~5€.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="food-section">
+        <div class="food-section-header" onclick="toggleSection(this)">
+          <span class="food-section-icon">📖</span>
+          <span class="food-section-title">Dicionário de Pratos</span>
+          <span class="food-section-chevron">▶</span>
+        </div>
+        <div class="food-section-content">
+          <div class="dict-item"><div class="dict-term">Carbonara</div><div class="dict-def">Gemas, pecorino romano, pimenta e guanciale. Sem creme de leite.</div></div>
+          <div class="dict-item"><div class="dict-term">Cacio e Pepe</div><div class="dict-def">Minimalismo técnico: apenas queijo e pimenta-do-reino.</div></div>
+          <div class="dict-item"><div class="dict-term">Amatriciana</div><div class="dict-def">Molho de tomate, guanciale crocante e pecorino.</div></div>
+          <div class="dict-item"><div class="dict-term">Saltimbocca</div><div class="dict-def">Vitela fina com presunto cru e sálvia — sabor ácido e amanteigado.</div></div>
+          <div class="dict-item"><div class="dict-term">Cornetto</div><div class="dict-def">O "croissant" italiano. Padrão ouro: recheado com creme de pistache.</div></div>
+          <div class="dict-item"><div class="dict-term">Tiramisu</div><div class="dict-def">Mascarpone e café. Procure sempre o "creme amarelo".</div></div>
+        </div>
+      </div>
+
+      <div class="food-section">
+        <div class="food-section-header" onclick="toggleSection(this)">
+          <span class="food-section-icon">💡</span>
+          <span class="food-section-title">Dicas Práticas</span>
+          <span class="food-section-chevron">▶</span>
+        </div>
+        <div class="food-section-content">
+          <div class="tip-item"><span class="tip-bullet">→</span><span>Fonte de água com gás gratuita na Piazza San Pietro — uma joia logística rara.</span></div>
+          <div class="tip-item"><span class="tip-bullet">→</span><span>Transporte: cartões Nomad/Wise nos validadores de ônibus e metrô — 1,50€/100 minutos de integração.</span></div>
+          <div class="tip-item"><span class="tip-bullet">→</span><span>Reservas obrigatórias: Osteria da Fortunata e Alfredo alla Scrofa.</span></div>
+          <div class="tip-item"><span class="tip-bullet">→</span><span>Atendimento romano "bruto" — eficiente, mas pouco cerimonial. Normal.</span></div>
+        </div>
+      </div>
+
+      <div class="food-section">
+        <div class="food-section-header" onclick="toggleSection(this)">
+          <span class="food-section-icon">⚠️</span>
+          <span class="food-section-title">Ciladas Gastronômicas</span>
+          <span class="food-section-chevron">▶</span>
+        </div>
+        <div class="food-section-content">
+          <div class="warn-item"><span class="warn-bullet">✕</span><span>Evite menus fotográficos e "promotores" perto do Pantheon e Fontana di Trevi — notórios pelo "double pricing".</span></div>
+          <div class="warn-item"><span class="warn-bullet">✕</span><span><strong>Borsegatrici</strong> (batedores de carteira) — atenção máxima no metrô e aglomerações.</span></div>
+          <div class="warn-item"><span class="warn-bullet">✕</span><span>Rejeite flores ou pulseiras de "presente" — o pagamento será exigido agressivamente.</span></div>
+        </div>
+      </div>
+
+      <div class="food-section">
+        <div class="food-section-header" onclick="toggleSection(this)">
+          <span class="food-section-icon">📋</span>
+          <span class="food-section-title">Referência Rápida</span>
+          <span class="food-section-chevron">▶</span>
+        </div>
+        <div class="food-section-content">
+          <table class="qr-table">
+            <tr><th>Local</th><th>Especialidade</th><th>Preço</th></tr>
+            <tr><td>Osteria da Fortunata</td><td>Carbonara Massa Grossa</td><td class="price-euro">~R$109</td></tr>
+            <tr><td>Morde e Vai</td><td>Panini de Ragù Bianco</td><td class="price-euro">~R$42</td></tr>
+            <tr><td>Trapizzino</td><td>Cone de Pizza (Almôndegas)</td><td class="price-euro">~R$30</td></tr>
+            <tr><td>Otateg</td><td>Gelato Manga / Ricota</td><td class="price-euro">~R$18</td></tr>
+            <tr><td>Alfredo alla Scrofa</td><td>Fettuccine Alfredo Original</td><td class="price-euro">~R$121</td></tr>
+            <tr><td>Retrobottega</td><td>Massa Contemporânea</td><td class="price-euro">~R$91</td></tr>
+            <tr><td>Sant'Eustachio</td><td>Caffè Freddo</td><td class="price-euro">~R$6</td></tr>
+            <tr><td>Pompi</td><td>Tiramisu (Creme Amarelo)</td><td class="price-euro">~R$30</td></tr>
+          </table>
+          <div style="margin-top:10px;font-size:11px;color:var(--muted);">Câmbio base: 1 EUR = 6,07 BRL</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ CARD FLORENÇA ═══ -->
+    <div class="food-card" data-fcity="Florença">
+      <div class="food-card-header">
+        <div class="food-city-icon">🌸</div>
+        <div class="food-city-info">
+          <div class="food-city-name" data-fcity="Florença">Florença</div>
+          <div class="food-city-sub">Bistecca · Lampredotto · Trufas · Schiacciata</div>
+        </div>
+      </div>
+
+      <div class="food-section">
+        <div class="food-section-header" onclick="toggleSection(this)">
+          <span class="food-section-icon">⭐</span>
+          <span class="food-section-title">Os Imperdíveis</span>
+          <span class="food-section-chevron">▼</span>
+        </div>
+        <div class="food-section-content open">
+          <div class="highlight-item">
+            <div class="highlight-name">All'Antico Vinaio</div>
+            <div class="highlight-text">A Schiacciata "La Favolosa" (queijo, alcachofra, beringela, porchetta) ou a "Dante". Dica: use a unidade da Ferrovia (perto da Estação SMN) para evitar filas quilométricas da Via dei Neri.</div>
+            <div class="price-tag">🥖 8€–12€ (R$49–R$73)</div>
+          </div>
+          <div class="highlight-item">
+            <div class="highlight-name">Trattoria Zazá (Piazza del Mercato Centrale)</div>
+            <div class="highlight-text">Carbonara com trufas ou nhoque trufado. Equilíbrio entre ambiente vibrante e execução técnica de massas trufadas em larga escala.</div>
+            <div class="price-tag">🍝 ~14€ (R$85)</div>
+          </div>
+          <div class="highlight-item">
+            <div class="highlight-name">Trattoria Sostanza</div>
+            <div class="highlight-text">O icônico Pollo al Burro (Frango na Manteiga), imutável desde a era dos Grandes Duques. Pratos de metal borbulhando em manteiga clarificada. Mesas comunitárias de madeira. Fechado domingos — reserva com dias de antecedência.</div>
+            <div class="price-tag">🏆 Reserva Vital</div>
+          </div>
+          <div class="highlight-item">
+            <div class="highlight-name">Vivoli (desde 1929)</div>
+            <div class="highlight-text">O lendário Affogato. Três gerações de tradição. Segredo: caneca de cappuccino pré-congelada + espresso quente vertido = dinâmica de texturas sublime.</div>
+            <div class="price-tag">☕ Desde 1929</div>
+          </div>
+          <div class="highlight-item">
+            <div class="highlight-name">Chic Nonna ⭐ Michelin</div>
+            <div class="highlight-text">Alta gastronomia em palácio de 500 anos sob Vito Mollica. Lagostim com água de tomate e óleo de manjericão. Imersão sensorial máxima na elegância florentina.</div>
+            <div class="price-tag">🏆 Michelin</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="food-section">
+        <div class="food-section-header" onclick="toggleSection(this)">
+          <span class="food-section-icon">🗂️</span>
+          <span class="food-section-title">Por Estilo</span>
+          <span class="food-section-chevron">▶</span>
+        </div>
+        <div class="food-section-content">
+          <div class="cat-block">
+            <div class="cat-title">Comida de Rua</div>
+            <div class="cat-text"><strong>Mercado Central</strong> (2º andar): pizzas artesanais e massas frescas. <strong>Sérgio Pollini</strong>: autoridade no Lampredotto (sanduíche de tripa). <strong>Pino's Sandwiches</strong>: peça o "Best" (roast beef, queijo defumado, espinafre). <strong>Buchette del Vino</strong>: janelas de vinho históricas da Peste Bubônica — visite o Babae.</div>
+          </div>
+          <div class="cat-block">
+            <div class="cat-title">Cozinha Tradicional</div>
+            <div class="cat-text"><strong>Trattoria Sabatino</strong>: refeitório familiar histórico, preços honestos. <strong>Trattoria de' Fagioli</strong>: templo da Bistecca e massas de javali — apenas dinheiro (cash only!). <strong>Perseus</strong>: Bistecca lendária (78€/kg), cortada à mesa por garçons veteranos.</div>
+          </div>
+          <div class="cat-block">
+            <div class="cat-title">Experiências Elevadas</div>
+            <div class="cat-text"><strong>Osteria Pastella</strong>: ápice teatral — massa finalizada dentro de roda gigante de Grana Padano flambada com raspas de trufa (28€). <strong>Zeb</strong>: balcão do chef temperamental, mas o "biscuit" vale o risco. <strong>Il Santo Bevitore</strong>: ravioli de javali.</div>
+          </div>
+          <div class="cat-block">
+            <div class="cat-title">Gelaterias de Elite</div>
+            <div class="cat-text"><strong>La Sorbettiera</strong> (16 sabores sazonais) · <strong>Gelateria dei Neri</strong> · <strong>Sugar</strong> (artesanal premiada) · <strong>La Strega Nocciola</strong> · <strong>Ditta Artigianale</strong> (cafés especiais e brunch) · <strong>Café Rosado</strong> (foco em pistache).</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="food-section">
+        <div class="food-section-header" onclick="toggleSection(this)">
+          <span class="food-section-icon">📖</span>
+          <span class="food-section-title">Dicionário Toscano</span>
+          <span class="food-section-chevron">▶</span>
+        </div>
+        <div class="food-section-content">
+          <div class="dict-item"><div class="dict-term">Lampredotto</div><div class="dict-def">Quarto estômago do boi, cozido com ervas e servido no pão com molho verde.</div></div>
+          <div class="dict-item"><div class="dict-term">Bistecca Fiorentina</div><div class="dict-def">Corte alto (4–5 dedos), servido obrigatoriamente sangrando.</div></div>
+          <div class="dict-item"><div class="dict-term">Pappardelle al Cinghiale</div><div class="dict-def">Massa larga com ragù de javali selvagem.</div></div>
+          <div class="dict-item"><div class="dict-term">Pappa al Pomodoro</div><div class="dict-def">Sopa densa de pão amanhecido e tomates. Pura cucina povera.</div></div>
+          <div class="dict-item"><div class="dict-term">Gnude</div><div class="dict-def">"Nus" em italiano — recheio de ravioli (ricota e espinafre) servido sem a massa.</div></div>
+          <div class="dict-item"><div class="dict-term">Cantucci</div><div class="dict-def">Biscoitos de amêndoa para mergulhar no Vin Santo.</div></div>
+        </div>
+      </div>
+
+      <div class="food-section">
+        <div class="food-section-header" onclick="toggleSection(this)">
+          <span class="food-section-icon">💡</span>
+          <span class="food-section-title">Dicas Práticas</span>
+          <span class="food-section-chevron">▶</span>
+        </div>
+        <div class="food-section-content">
+          <div class="tip-item"><span class="tip-bullet">→</span><span>Restaurantes que abrem antes das 19h são armadilhas. Reserve com antecedência: Sostanza, Zazá, Angolo del Mare.</span></div>
+          <div class="tip-item"><span class="tip-bullet">→</span><span>Coperto (taxa de mesa): 2€–4€ por pessoa. Gorjeta não obrigatória, mas 1€–2€ são bem-vindos.</span></div>
+          <div class="tip-item"><span class="tip-bullet">→</span><span>Compre passagens de ônibus em tabacarias (sinal "T"). Valide o ticket ao embarcar — multa de 40€.</span></div>
+          <div class="tip-item"><span class="tip-bullet">→</span><span>Trattoria de' Fagioli aceita apenas dinheiro. Tenha cash disponível.</span></div>
+        </div>
+      </div>
+
+      <div class="food-section">
+        <div class="food-section-header" onclick="toggleSection(this)">
+          <span class="food-section-icon">⚠️</span>
+          <span class="food-section-title">Ciladas Gastronômicas</span>
+          <span class="food-section-chevron">▶</span>
+        </div>
+        <div class="food-section-content">
+          <div class="warn-item"><span class="warn-bullet">✕</span><span><strong>Golpe do Gelato</strong> — fuja de "montanhas" coloridas com coberturas. Gelato legítimo fica em potes de metal tampados (pozzetti).</span></div>
+          <div class="warn-item"><span class="warn-bullet">✕</span><span><strong>Uffizi</strong> — na fila enorme para a Tribuna (2º andar), procure a entrada alternativa na curva do corredor — metade do tamanho.</span></div>
+          <div class="warn-item"><span class="warn-bullet">✕</span><span><strong>Ponte Vecchio</strong> — ignore pulseiras da amizade e pinturas no chão. Mercado Central: desconfie de "couro legítimo" muito barato.</span></div>
+        </div>
+      </div>
+
+      <div class="food-section">
+        <div class="food-section-header" onclick="toggleSection(this)">
+          <span class="food-section-icon">📋</span>
+          <span class="food-section-title">Referência Rápida</span>
+          <span class="food-section-chevron">▶</span>
+        </div>
+        <div class="food-section-content">
+          <table class="qr-table">
+            <tr><th>Local</th><th>Especialidade</th><th>Preço</th></tr>
+            <tr><td>All'Antico Vinaio</td><td>Schiacciata Favolosa</td><td class="price-euro">8€–12€</td></tr>
+            <tr><td>Trattoria Zazá</td><td>Carbonara Trufada</td><td class="price-euro">~14€</td></tr>
+            <tr><td>Trattoria Sostanza</td><td>Frango na Manteiga</td><td class="price-euro">Reserva vital</td></tr>
+            <tr><td>Perseus</td><td>Bistecca alla Fiorentina</td><td class="price-euro">78€/kg</td></tr>
+            <tr><td>Osteria Pastella</td><td>Massa na Roda de Queijo</td><td class="price-euro">~28€</td></tr>
+            <tr><td>Chic Nonna</td><td>Lagostim com Água de Tomate</td><td class="price-euro">Michelin</td></tr>
+            <tr><td>Vivoli</td><td>Affogato em Mug Congelada</td><td class="price-euro">Desde 1929</td></tr>
+            <tr><td>Sérgio Pollini</td><td>Lampredotto Tradicional</td><td class="price-euro">Street food</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ CARD VENEZA ═══ -->
+    <div class="food-card" data-fcity="Veneza">
+      <div class="food-card-header">
+        <div class="food-city-icon">🚢</div>
+        <div class="food-city-info">
+          <div class="food-city-name" data-fcity="Veneza">Veneza</div>
+          <div class="food-city-sub">Cicchetti · Baccalà Mantecato · Nero di Seppia</div>
+        </div>
+      </div>
+
+      <div class="food-section">
+        <div class="food-section-header" onclick="toggleSection(this)">
+          <span class="food-section-icon">⭐</span>
+          <span class="food-section-title">Os Imperdíveis</span>
+          <span class="food-section-chevron">▼</span>
+        </div>
+        <div class="food-section-content open">
+          <div class="highlight-item">
+            <div class="highlight-name">Cantina do Mori (fundada em 1462)</div>
+            <div class="highlight-text">A taberna mais antiga de Veneza. Assinatura: Baccalà Mantecato (bacalhau batido em azeite até cremosidade etérea) sobre pão crocante ou polenta. Não ignore as flores de abobrinha fritas com queijo e anchova.</div>
+            <div class="price-tag">🐟 Cicchetti desde ~2€</div>
+          </div>
+          <div class="highlight-item">
+            <div class="highlight-name">Trattoria Bar Pontini (Cannaregio)</div>
+            <div class="highlight-text">Frescor marinho sem artifícios. Destaque: Spaghetti al Scoglio (frutos do mar) ou Spaghetti al Nero di Seppia — tinta de lula que captura a essência da laguna em cada garfada.</div>
+            <div class="price-tag">🍝 Pratos desde ~14€</div>
+          </div>
+          <div class="highlight-item">
+            <div class="highlight-name">Il Paradiso Perduto</div>
+            <div class="highlight-text">Ambiente efervescente — reserva obrigatória. Antipasto Misto de Pesce monumental para compartilhar, seguido pelo Bigoli, massa espessa local que retém o molho de forma incomparável.</div>
+            <div class="price-tag">🐟 Reserva obrigatória</div>
+          </div>
+          <div class="highlight-item">
+            <div class="highlight-name">Bar All'Arco (próximo ao Mercado de Rialto)</div>
+            <div class="highlight-text">Epítome do cicchetti de excelência. Foque nas combinações sazonais: atum local, camarões crus ou bacalhau cremoso. Perfeito para observar o ritmo dos mercadores de Rialto.</div>
+            <div class="price-tag">🦞 Excelente custo-benefício</div>
+          </div>
+          <div class="highlight-item">
+            <div class="highlight-name">Caffè Florian (desde 1720 — Praça São Marcos)</div>
+            <div class="highlight-text">Imersão na aristocracia veneziana. O preço do café é o "ingresso" para um dos cenários arquitetônicos mais preservados do mundo. Serviço de luva branca.</div>
+            <div class="price-tag">☕ 12€–16€ (R$73–R$97)</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="food-section">
+        <div class="food-section-header" onclick="toggleSection(this)">
+          <span class="food-section-icon">🗂️</span>
+          <span class="food-section-title">Por Estilo</span>
+          <span class="food-section-chevron">▶</span>
+        </div>
+        <div class="food-section-content">
+          <div class="cat-block">
+            <div class="cat-title">Lanches Rápidos</div>
+            <div class="cat-text"><strong>Pizza al Taglio</strong>: fatias premium a partir de 3,50€. <strong>Bigoi</strong>: massa fresca em embalagens práticas. <strong>Tramezzini</strong>: o sanduíche veneziano em pão sem casca com maionese, trufas ou frutos do mar.</div>
+          </div>
+          <div class="cat-block">
+            <div class="cat-title">O Ritual Local — Giro d'Ombra</div>
+            <div class="cat-text"><strong>Cantina Dus Spade</strong>: referência em cicchetti autêntico. Explore osterias em <strong>Cannaregio</strong> e <strong>San Polo</strong> para a culinária que os venezianos reservam para si mesmos.</div>
+          </div>
+          <div class="cat-block">
+            <div class="cat-title">Luxo — Alta Gastronomia</div>
+            <div class="cat-text"><strong>Hotel Gritti Palace (Club Del Doge)</strong>: terraço mais cobiçado do Grande Canal, com vista para Santa Maria della Salute. Dress code formal obrigatório e reserva imperativa.</div>
+          </div>
+          <div class="cat-block">
+            <div class="cat-title">Docerias · Treviso</div>
+            <div class="cat-text"><strong>Pasticceria Marini</strong>: biscoitos Zaeti (milho e passas) e cornetos artesanais. <strong>Gelateria Suso</strong>: sabor Manet (pistache, avelã e chocolate). <strong>Treviso</strong> (30 min de trem): berço oficial do Tiramisù — cultura cicchetti mais bucólica e autêntica.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="food-section">
+        <div class="food-section-header" onclick="toggleSection(this)">
+          <span class="food-section-icon">📖</span>
+          <span class="food-section-title">Dicionário Veneziano</span>
+          <span class="food-section-chevron">▶</span>
+        </div>
+        <div class="food-section-content">
+          <div class="dict-item"><div class="dict-term">Cicchetti</div><div class="dict-def">Pequenas porções (estilo tapas) de pescados e embutidos regionais.</div></div>
+          <div class="dict-item"><div class="dict-term">Baccalà Mantecato</div><div class="dict-def">Creme de bacalhau aerado — pilar da dieta lagunar.</div></div>
+          <div class="dict-item"><div class="dict-term">Sarde in Saor</div><div class="dict-def">Sardinhas fritas com cebolas caramelizadas, passas e pinhões — herança do comércio de especiarias.</div></div>
+          <div class="dict-item"><div class="dict-term">Bigoli in Salsa</div><div class="dict-def">Massa longa e rugosa com molho de cebola e anchovas derretidas.</div></div>
+          <div class="dict-item"><div class="dict-term">Nero di Seppia</div><div class="dict-def">Risoto ou massa tingida com tinta da lula.</div></div>
+          <div class="dict-item"><div class="dict-term">Ombra</div><div class="dict-def">Pequeno copo de vinho — servido sob a "sombra" da torre de São Marcos.</div></div>
+          <div class="dict-item"><div class="dict-term">Spritz Select</div><div class="dict-def">O verdadeiro Spritz veneziano — equilíbrio aristocrático entre o doce (Aperol) e o amargo (Campari).</div></div>
+        </div>
+      </div>
+
+      <div class="food-section">
+        <div class="food-section-header" onclick="toggleSection(this)">
+          <span class="food-section-icon">💡</span>
+          <span class="food-section-title">Dicas Práticas</span>
+          <span class="food-section-chevron">▶</span>
+        </div>
+        <div class="food-section-content">
+          <div class="tip-item"><span class="tip-bullet">→</span><span>Aeroporto: use o Alilaguna (15€–17€) em vez de transporte privado. Para cruzar o Canal Grande como local: Traghetto por apenas 2€ (gôndola compartilhada) vs. 90€ do passeio turístico.</span></div>
+          <div class="tip-item"><span class="tip-bullet">→</span><span>No bacaro, comer de pé evita o Coperto (3€–4€ por pessoa sentada).</span></div>
+          <div class="tip-item"><span class="tip-bullet">→</span><span>Dress code em basílicas: ombros e joelhos cobertos. Tenha um lenço de seda na bolsa.</span></div>
+          <div class="tip-item"><span class="tip-bullet">→</span><span>Não há carros. Bagagem leve é obrigatória — evite malas pesadas pelas 400 pontes e escadarias.</span></div>
+        </div>
+      </div>
+
+      <div class="food-section">
+        <div class="food-section-header" onclick="toggleSection(this)">
+          <span class="food-section-icon">⚠️</span>
+          <span class="food-section-title">Ciladas Gastronômicas</span>
+          <span class="food-section-chevron">▶</span>
+        </div>
+        <div class="food-section-content">
+          <div class="warn-item"><span class="warn-bullet">✕</span><span><strong>Menu Turístico</strong> — restaurantes com fotos na porta ou "promoters" são armadilhas. A boa gastronomia veneziana não precisa de propaganda agressiva.</span></div>
+          <div class="warn-item"><span class="warn-bullet">✕</span><span><strong>Praça São Marcos</strong> — sentado nas mesas pode custar 10x mais. Saiba que está pagando pela vista e a música, não pelo café.</span></div>
+          <div class="warn-item"><span class="warn-bullet">✕</span><span><strong>Gaivotas (gabian)</strong> — famosas por roubar pizza das mãos de turistas distraídos. Proteja seu lanche.</span></div>
+          <div class="warn-item"><span class="warn-bullet">✕</span><span><strong>Acqua Alta</strong> — fique atento aos alertas de maré alta. O MOSE minimiza inundações, mas botas impermeáveis podem ser necessárias.</span></div>
+        </div>
+      </div>
+
+      <div class="food-section">
+        <div class="food-section-header" onclick="toggleSection(this)">
+          <span class="food-section-icon">📋</span>
+          <span class="food-section-title">Referência Rápida</span>
+          <span class="food-section-chevron">▶</span>
+        </div>
+        <div class="food-section-content">
+          <table class="qr-table">
+            <tr><th>Local</th><th>Especialidade</th><th>Valor</th></tr>
+            <tr><td>Cantina do Mori</td><td>Baccalà Mantecato</td><td class="price-euro">Cicchetti €</td></tr>
+            <tr><td>Bar All'Arco</td><td>Cicchetti Gourmet</td><td class="price-euro">Excelente custo-benefício</td></tr>
+            <tr><td>Caffè Florian</td><td>Café Histórico em São Marcos</td><td class="price-euro">12€–16€</td></tr>
+            <tr><td>Trattoria Bar Pontini</td><td>Spaghetti al Nero di Seppia</td><td class="price-euro">€€</td></tr>
+            <tr><td>Il Paradiso Perduto</td><td>Antipasto Misto de Pesce</td><td class="price-euro">€€ (Reserva)</td></tr>
+            <tr><td>Gelateria Suso</td><td>Gelato Sabor Manet</td><td class="price-euro">€</td></tr>
+            <tr><td>Club Del Doge</td><td>Alta Gastronomia Canal</td><td class="price-euro">€€€€</td></tr>
+          </table>
+          <div style="margin-top:10px;font-size:11px;color:var(--muted);">Câmbio base: 1 EUR = 6,07 BRL</div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- food-main -->
+</div><!-- foodPanel -->
 
 
 <script>
@@ -1208,52 +1808,62 @@ function openMap(q){
 document.querySelectorAll('.place-link').forEach(el=>el.addEventListener('click',e=>{e.preventDefault();openMap(el.dataset.q);}));
 document.querySelectorAll('.hosp-map').forEach(el=>el.addEventListener('click',e=>{e.preventDefault();openMap(el.dataset.q);}));
 
-// ── EMERGENCY PANEL (slide in / slide out) ──
-const panel = document.getElementById('emergencyPanel');
-
-document.getElementById('openEmergency').addEventListener('click', () => {
-  panel.classList.remove('close');
+// ── PANEL OPEN/CLOSE ──
+function openPanel(panel){
+  panel.classList.remove('closing');
   panel.classList.add('open');
-  panel.scrollTop = 0;
-  document.body.style.overflow = 'hidden';
-});
-
-document.getElementById('closeEmergency').addEventListener('click', () => {
+  panel.scrollTop=0;
+  document.body.style.overflow='hidden';
+}
+function closePanel(panel){
   panel.classList.remove('open');
-  panel.classList.add('close');
-  document.body.style.overflow = '';
-  // hide completely after animation ends
-  panel.addEventListener('animationend', () => {
-    panel.classList.remove('close');
-  }, { once: true });
+  panel.classList.add('closing');
+  document.body.style.overflow='';
+  panel.addEventListener('animationend',()=>panel.classList.remove('closing'),{once:true});
+}
+
+const emergencyPanel=document.getElementById('emergencyPanel');
+const foodPanel=document.getElementById('foodPanel');
+document.getElementById('openEmergency').addEventListener('click',()=>openPanel(emergencyPanel));
+document.getElementById('closeEmergency').addEventListener('click',()=>closePanel(emergencyPanel));
+document.getElementById('openFood').addEventListener('click',()=>openPanel(foodPanel));
+document.getElementById('closeFood').addEventListener('click',()=>closePanel(foodPanel));
+
+// ── FOOD SECTIONS ACCORDION ──
+function toggleSection(header){
+  const content=header.nextElementSibling;
+  const chevron=header.querySelector('.food-section-chevron');
+  const isOpen=content.classList.contains('open');
+  content.classList.toggle('open',!isOpen);
+  chevron.textContent=isOpen?'▶':'▼';
+}
+
+// ── FOOD CITY FILTER ──
+const fchips=document.querySelectorAll('.food-chip');
+const fcards=document.querySelectorAll('.food-card');
+fchips.forEach(chip=>{
+  chip.addEventListener('click',()=>{
+    fchips.forEach(c=>c.classList.remove('active'));
+    chip.classList.add('active');
+    const sel=chip.dataset.fcity;
+    fcards.forEach(card=>{
+      card.classList.toggle('fhidden',sel!=='all'&&card.dataset.fcity!==sel);
+    });
+  });
 });
 
 // ── DARK / LIGHT THEME ──
-const THEME_KEY = 'roteiro_theme';
-const toggle = document.getElementById('themeToggle');
-
-function isNightTime() {
-  const h = new Date().getHours();
-  return h >= 20 || h < 7; // 20h–07h = noite
+const THEME_KEY='roteiro_theme';
+const toggle=document.getElementById('themeToggle');
+function isNight(){const h=new Date().getHours();return h>=20||h<7;}
+function applyTheme(dark){
+  document.body.classList.toggle('dark-theme',dark);
+  toggle.textContent=dark?'☀️':'🌙';
+  localStorage.setItem(THEME_KEY,dark?'dark':'light');
 }
-
-function applyTheme(dark) {
-  document.body.classList.toggle('dark-theme', dark);
-  toggle.textContent = dark ? '☀️' : '🌙';
-  localStorage.setItem(THEME_KEY, dark ? 'dark' : 'light');
-}
-
-// On load: check saved preference, else use time-of-day
-const saved = localStorage.getItem(THEME_KEY);
-if (saved) {
-  applyTheme(saved === 'dark');
-} else {
-  applyTheme(isNightTime());
-}
-
-toggle.addEventListener('click', () => {
-  applyTheme(!document.body.classList.contains('dark-theme'));
-});
+const saved=localStorage.getItem(THEME_KEY);
+applyTheme(saved?saved==='dark':isNight());
+toggle.addEventListener('click',()=>applyTheme(!document.body.classList.contains('dark-theme')));
 
 // ── WEATHER ──
 async function fetchWeather(lat,lon,date){
