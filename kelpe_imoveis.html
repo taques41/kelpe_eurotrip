@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Imóveis Kelpe</title>
+    <style>
+        :root {
+            /* NOVA PALETA DE CORES */
+            --primary: #2F3E46;         /* Azul Petróleo */
+            --secondary: #5F6F73;       /* Azul Acinzentado */
+            --accent: #C65A3A;          /* Laranja Queimado (CTA) */
+            --accent-alt: #A04438;      /* Vermelho Terracota */
+            --highlight: #D8A24A;       /* Amarelo Mostarda */
+            --bg: #E8E1D5;              /* Off-white */
+            --bg-alt: #D6C3A3;          /* Bege */
+            --text-primary: #2B2B2B;    /* Texto Principal */
+            --text-secondary: #6B6B6B;  /* Texto Secundário */
+            
+            --card-bg: #FFFFFF;         /* Fundo dos cartões para contraste de leitura */
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+
+        body { background-color: var(--bg); color: var(--text-primary); padding: 20px; }
+
+        /* HEADER: Utiliza PRIMARY como base */
+        header { background: var(--primary); color: var(--bg); padding: 20px; border-radius: 10px; margin-bottom: 20px; display: flex; flex-direction: column; gap: 15px; }
+        
+        .header-title { font-size: 1.8rem; font-weight: bold; text-align: center; color: var(--bg); }
+
+        .controls { display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; align-items: center; }
+        
+        select, button { padding: 10px; border-radius: 5px; border: 1px solid var(--secondary); font-size: 1rem; cursor: pointer; color: var(--text-primary); }
+        select { background: white; min-width: 200px; }
+        
+        /* Botão de Filtro de Favoritos usando ACCENT_ALT */
+        .btn-fav-filter { background: var(--accent-alt); color: white; border: none; font-weight: bold; transition: background 0.3s; }
+        .btn-fav-filter.active { background: var(--accent); box-shadow: 0 0 10px rgba(198, 90, 58, 0.5); }
+
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; }
+
+        .card { background: var(--card-bg); border-radius: 10px; padding: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); display: flex; flex-direction: column; position: relative; transition: transform 0.2s; border: 1px solid #e0e0e0; }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 8px 12px rgba(0,0,0,0.1); }
+
+        .card-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--bg); padding-bottom: 10px; margin-bottom: 10px; }
+        .id-badge { background: var(--primary); color: var(--bg); padding: 4px 8px; border-radius: 5px; font-weight: bold; font-size: 0.9rem; }
+        
+        /* Coração de Favorito */
+        .heart-icon { font-size: 1.5rem; color: #ccc; cursor: pointer; transition: color 0.3s; user-select: none; }
+        .heart-icon.liked { color: var(--accent-alt); }
+
+        .neighborhood { color: var(--secondary); font-weight: bold; font-size: 0.9rem; text-transform: uppercase; margin-bottom: 5px; }
+        .desc { font-size: 1.1rem; font-weight: 600; margin-bottom: 15px; min-height: 45px; color: var(--text-primary); }
+
+        /* Detalhes com BACKGROUND_ALT (Bege) */
+        .details { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; background: var(--bg-alt); padding: 12px; border-radius: 5px; margin-bottom: 15px; font-size: 0.9rem; color: var(--text-primary); }
+        .details div span { display: block; font-weight: bold; color: var(--primary); }
+
+        .price-highlight { font-size: 1.4rem; color: var(--primary); font-weight: bold; margin-bottom: 15px; text-align: center; }
+
+        .actions { display: flex; gap: 10px; margin-top: auto; }
+        .btn { flex: 1; text-align: center; padding: 10px; text-decoration: none; border-radius: 5px; color: white; font-weight: bold; transition: opacity 0.3s, background 0.3s; cursor: pointer; border: none; }
+        
+        /* ACCENT (CTA principal - ≤ 10% do layout) */
+        .btn-link { background: var(--accent); }
+        /* SECONDARY (Ação secundária para não roubar atenção do CTA) */
+        .btn-share { background: var(--secondary); } 
+        
+        .btn:hover { opacity: 0.9; }
+        
+        .empty-msg { text-align: center; font-size: 1.2rem; color: var(--text-secondary); grid-column: 1 / -1; padding: 40px; }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-title">Imóveis Kelpe</div>
+        <div class="controls">
+            <select id="bairroFilter" onchange="applyFilters()">
+                <option value="Todos">Todos os Bairros</option>
+                <option value="Cristo Rei">Cristo Rei</option>
+                <option value="Batel">Batel</option>
+                <option value="Bigorrilho">Bigorrilho</option>
+                <option value="Juvevê">Juvevê</option>
+                <option value="Água Verde">Água Verde</option>
+            </select>
+
+            <select id="sortFilter" onchange="applyFilters()">
+                <option value="default">Classificar por...</option>
+                <option value="priceAsc">Menor Preço</option>
+                <option value="priceDesc">Maior Preço</option>
+                <option value="sqmPriceAsc">Menor Valor por m²</option>
+                <option value="sizeDesc">Maior Tamanho (m²)</option>
+            </select>
+
+            <button id="btnFavFilter" class="btn-fav-filter" onclick="toggleFavFilter()">❤️ Ver Apenas Favoritos</button>
+        </div>
+    </header>
+
+    <div class="grid" id="propertyGrid">
+        <!-- Cards serão gerados aqui pelo JavaScript -->
+    </div>
+
+    <script>
+        // Dados extraídos da lista fornecida
+        const properties = [
+            { id: 1, bairro: 'Cristo Rei', price: 1691060, condo: null, size: 130, sqmPrice: 13008, desc: 'NOVO PELADO - Nossa Senhora da Luz', url: 'https://www.portocamargo.com.br/empreendimento/em-construcao-flag-curitiba-pr/54' },
+            { id: 2, bairro: 'Cristo Rei', price: 1490000, condo: null, size: 200, sqmPrice: 7450, desc: 'Sobrado 3 Quartos', url: 'https://construa.com.br/imovel/comprar-sobrado-3-quartos-cristo-rei-curitiba-44459/122953' },
+            { id: 3, bairro: 'Cristo Rei', price: 1300000, condo: 665, size: 94, sqmPrice: 13829, desc: 'Reggia 803', url: 'https://www.r2wimoveis.com.br//imovel/venda/10169122' },
+            { id: 4, bairro: 'Cristo Rei', price: 1390000, condo: 1110, size: 105, sqmPrice: 13303, desc: 'Frente ao McDonalds', url: 'https://www.imovelweb.com.br/propriedades/apartamento-3-dorm-1-suite-2-vagas-cristo-rei-3031815609.html?n_src=Listado&n_pills=Piscina&n_pg=1&n_pos=14' },
+            { id: 5, bairro: 'Cristo Rei', price: 1350000, condo: 780, size: 113, sqmPrice: 11946, desc: 'Botânica 1 - 2 Quartos, mas com escritório separado', url: 'https://construa.com.br/imovel/comprar-apartamento-2-quartos-cristo-rei-curitiba-44648/129231' },
+            { id: 6, bairro: 'Cristo Rei', price: 1370495, condo: null, size: 103, sqmPrice: 13305, desc: 'NOVO PELADO - Em frente a Faculdade Estácio', url: 'https://www.imovelweb.com.br/propriedades/apartamento-para-venda-em-cristo-rei-de-103.00m-com-3-3033889756.html' },
+            { id: 7, bairro: 'Cristo Rei', price: 1360000, condo: 900, size: 113, sqmPrice: 12035, desc: 'Botânica 2', url: 'https://www.imovelweb.com.br/propriedades/apartamento-em-condominio-clube-no-cristo-rei-3-3009969953.html' },
+            { id: 8, bairro: 'Cristo Rei', price: 1350000, condo: null, size: 191, sqmPrice: 7068, desc: 'Sobrado - Próximo Padaria/Jazz', url: 'https://www.imovelweb.com.br/propriedades/sobrado-triplex-com-191-62-m-no-cristo-rei-3027073884.html' },
+            { id: 9, bairro: 'Cristo Rei', price: 1350000, condo: 1275, size: 108, sqmPrice: 12500, desc: 'London - Próximo Jazz', url: 'https://www.imovelweb.com.br/propriedades/apartamento-a-venda-com-3-quartos-no-cristo-rei-em-3028347420.html' },
+            { id: 10, bairro: 'Cristo Rei', price: 1300000, condo: 828, size: 132, sqmPrice: 9848, desc: 'London 2', url: 'https://www.imovelweb.com.br/propriedades/apartamento-no-london-residence-com-3-dormitorios-a-2986012191.html' },
+            { id: 11, bairro: 'Cristo Rei', price: 1290000, condo: 799, size: 113, sqmPrice: 11415, desc: 'Botânica 3', url: 'https://www.imovelweb.com.br/propriedades/apartamento-exclusivo-no-residencial-cristo-rei-3015346909.html' },
+            { id: 12, bairro: 'Cristo Rei', price: 1250000, condo: 763, size: 108, sqmPrice: 11574, desc: 'Apartamento 03 Quartos', url: 'https://www.imovelweb.com.br/propriedades/apartamento-03quartos-bairro-cristo-rei-curitiba-pr-3014748603.html' },
+            { id: 13, bairro: 'Cristo Rei', price: 1232000, condo: null, size: 200, sqmPrice: 6160, desc: 'Casa Térrea - Próximo Podrinho / Solarium', url: 'https://www.imovelweb.com.br/propriedades/casa-terrea-no-cristo-rei-3014631954.html' },
+            { id: 14, bairro: 'Cristo Rei', price: 1160900, condo: 1027, size: 155, sqmPrice: 7489, desc: 'Cobertura Duplex - Atrás Casa da Tia', url: 'https://www.imovelweb.com.br/propriedades/cobertura-duplex-nova-com-132-72m-de-apartamento-3002441797.html' },
+            { id: 15, bairro: 'Cristo Rei', price: 1070000, condo: 665, size: 94, sqmPrice: 11382, desc: 'Reggia 103 (Porteira Fechada)', url: 'https://www.imovelweb.com.br/propriedades/apto-3q-1-suite-1-vg-94m-porteira-fechada-no-3033538043.html' },
+            { id: 16, bairro: 'Cristo Rei', price: 1050000, condo: 967, size: 108, sqmPrice: 9722, desc: 'London 3 (Reforma para cozinha)', url: 'https://www.imovelweb.com.br/propriedades/apartamento-padrao-cristo-rei-divisa-altoda-xv-3022445149.html' },
+            { id: 17, bairro: 'Cristo Rei', price: 999000, condo: 1100, size: 124, sqmPrice: 8056, desc: 'Esquina Jd. Botânico - 2 Quartos + escritório', url: 'https://construa.com.br/imovel/comprar-apartamento-2-quartos-cristo-rei-curitiba-44862/3572435' },
+            { id: 18, bairro: 'Cristo Rei', price: 990000, condo: 1131, size: 94, sqmPrice: 10531, desc: 'Próximo Senhores do Pão', url: 'https://www.imovelweb.com.br/propriedades/imoveis-no-cristo-rei-3026497378.html' },
+            { id: 19, bairro: 'Cristo Rei', price: 940000, condo: 1200, size: 144, sqmPrice: 6527, desc: 'Em frente ao Condor', url: 'https://www.imovelweb.com.br/propriedades/lindo-apartamento-no-cristo-rei.-3019000589.html' },
+            { id: 20, bairro: 'Cristo Rei', price: 580000, condo: 614, size: 110, sqmPrice: 5272, desc: 'Atrás do Mercado Assaí', url: 'https://construa.com.br/imovel/comprar-apartamento-cristo-rei-curitiba-51431/129863' },
+            { id: 21, bairro: 'Batel', price: 1400000, condo: 900, size: 150, sqmPrice: 9333, desc: 'Sete de Setembro - Próximo Pequeno Príncipe', url: 'https://www.imovelweb.com.br/propriedades/-br-exclusividade-no-batel-br-3001929672.html' },
+            { id: 22, bairro: 'Bigorrilho', price: 1390000, condo: 1076, size: 162, sqmPrice: 8580, desc: 'Próximo Barigui', url: 'https://www.imovelweb.com.br/propriedades/apartamento-duplex-04-quartos-03-vagas-andar-alto-3022964479.html' },
+            { id: 23, bairro: 'Juvevê', price: 1400000, condo: 1200, size: 151, sqmPrice: 9271, desc: 'Próximo Baggio e King Temaki Juveve', url: 'https://www.imovelweb.com.br/propriedades/apartamento-a-venda-com-3-quartos-no-juveve-em-3027373923.html' },
+            { id: 24, bairro: 'Água Verde', price: 1390000, condo: 1000, size: 120, sqmPrice: 11583, desc: 'Proximo Cemitério Agua Verde', url: 'https://www.imovelweb.com.br/propriedades/apart-younique-agua-verde-ensolarado-lindamente-3031990790.html' }
+        ];
+
+        let favorites = JSON.parse(localStorage.getItem('kelpe_favs')) || [];
+        let showingOnlyFavs = false;
+
+        function formatCurrency(value) {
+            return value ? 'R$ ' + value.toLocaleString('pt-BR') : 'Não inf.';
+        }
+
+        function toggleFavorite(id) {
+            if (favorites.includes(id)) {
+                favorites = favorites.filter(fId => fId !== id);
+            } else {
+                favorites.push(id);
+            }
+            localStorage.setItem('kelpe_favs', JSON.stringify(favorites));
+            applyFilters(); // Re-renderiza para atualizar ícones
+        }
+
+        function shareWhatsApp(url, desc) {
+            const text = encodeURIComponent(`Dá uma olhada neste imóvel que separei: ${desc}\n${url}`);
+            window.open(`https://api.whatsapp.com/send?text=${text}`, '_blank');
+        }
+
+        function toggleFavFilter() {
+            showingOnlyFavs = !showingOnlyFavs;
+            const btn = document.getElementById('btnFavFilter');
+            btn.classList.toggle('active', showingOnlyFavs);
+            applyFilters();
+        }
+
+        function applyFilters() {
+            const bairro = document.getElementById('bairroFilter').value;
+            const sort = document.getElementById('sortFilter').value;
+            const grid = document.getElementById('propertyGrid');
+            
+            let filtered = properties.filter(p => {
+                const matchBairro = bairro === 'Todos' || p.bairro === bairro;
+                const matchFav = !showingOnlyFavs || favorites.includes(p.id);
+                return matchBairro && matchFav;
+            });
+
+            if (sort === 'priceAsc') filtered.sort((a, b) => a.price - b.price);
+            if (sort === 'priceDesc') filtered.sort((a, b) => b.price - a.price);
+            if (sort === 'sqmPriceAsc') filtered.sort((a, b) => a.sqmPrice - b.sqmPrice);
+            if (sort === 'sizeDesc') filtered.sort((a, b) => b.size - a.size);
+
+            grid.innerHTML = '';
+
+            if (filtered.length === 0) {
+                grid.innerHTML = '<div class="empty-msg">Nenhum imóvel encontrado com estes filtros.</div>';
+                return;
+            }
+
+            filtered.forEach(p => {
+                const isFav = favorites.includes(p.id);
+                const heartClass = isFav ? 'heart-icon liked' : 'heart-icon';
+                const heartSymbol = isFav ? '❤️' : '🤍';
+
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.innerHTML = `
+                    <div class="card-header">
+                        <span class="id-badge">#${p.id.toString().padStart(2, '0')}</span>
+                        <span class="${heartClass}" onclick="toggleFavorite(${p.id})" title="Favoritar">${heartSymbol}</span>
+                    </div>
+                    <div class="neighborhood">${p.bairro}</div>
+                    <div class="desc">${p.desc}</div>
+                    
+                    <div class="price-highlight">${formatCurrency(p.price)}</div>
+                    
+                    <div class="details">
+                        <div>Tamanho: <span>${p.size} m²</span></div>
+                        <div>Valor m²: <span>${formatCurrency(p.sqmPrice)}</span></div>
+                        <div>Condomínio: <span>${formatCurrency(p.condo)}</span></div>
+                    </div>
+
+                    <div class="actions">
+                        <a href="${p.url}" target="_blank" class="btn btn-link">Ver Anúncio</a>
+                        <button onclick="shareWhatsApp('${p.url}', '${p.desc}')" class="btn btn-share">WhatsApp</button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // Renderiza a página inicialmente
+        applyFilters();
+    </script>
+</body>
+</html>
