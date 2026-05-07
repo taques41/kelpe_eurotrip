@@ -7,262 +7,123 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
-
   :root {
-    --primary: #6366F1;
-    --primary-light: #EEF2FF;
-    --primary-dark: #4F46E5;
-    --bg: #F8FAFC;
-    --text: #0F172A;
-    --text2: #334155;
-    --accent: #10B981;
-    --accent-light: #ECFDF5;
-    --danger: #EF4444;
-    --danger-light: #FEF2F2;
-    --card: #FFFFFF;
-    --border: #E2E8F0;
-    --muted: #94A3B8;
+    --primary: #6366F1; --primary-light: #EEF2FF; --primary-dark: #4F46E5;
+    --bg: #F8FAFC; --text: #0F172A; --text2: #334155;
+    --accent: #10B981; --accent-light: #ECFDF5;
+    --danger: #EF4444; --danger-light: #FEF2F2;
+    --card: #FFFFFF; --border: #E2E8F0; --muted: #94A3B8;
     --header: #0F172A;
     --shadow-sm: 0 1px 3px rgba(15,23,42,0.06), 0 1px 8px rgba(15,23,42,0.04);
     --shadow-hover: 0 8px 32px rgba(99,102,241,0.18), 0 2px 8px rgba(15,23,42,0.06);
   }
-
-  body {
-    font-family: 'Inter', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    line-height: 1.5;
-  }
+  body { font-family:'Inter',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; line-height:1.5; }
 
   /* HEADER */
-  header {
-    background: var(--header);
-    position: sticky;
-    top: 0;
-    z-index: 200;
-    box-shadow: 0 2px 24px rgba(0,0,0,0.2);
-  }
+  header { background:var(--header); position:sticky; top:0; z-index:200; box-shadow:0 2px 24px rgba(0,0,0,0.2); }
+  .header-top { max-width:1264px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; padding:18px 32px; gap:12px; flex-wrap:wrap; border-bottom:1px solid rgba(255,255,255,0.07); }
+  .logo { font-size:17px; font-weight:700; color:#fff; letter-spacing:-0.3px; white-space:nowrap; }
+  .logo .sub { font-size:11px; font-weight:400; color:var(--muted); margin-left:8px; }
+  .header-right { display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
 
-  .header-top {
-    max-width: 1264px;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 18px 32px;
-    gap: 12px;
-    flex-wrap: wrap;
-    border-bottom: 1px solid rgba(255,255,255,0.07);
-  }
+  .view-btn { display:inline-flex; align-items:center; gap:6px; padding:8px 14px; border-radius:8px; border:1px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.06); color:rgba(255,255,255,0.65); font-family:'Inter',sans-serif; font-size:12.5px; font-weight:500; cursor:pointer; transition:all 0.18s; white-space:nowrap; }
+  .view-btn svg { width:15px; height:15px; flex-shrink:0; }
+  .view-btn:hover { background:rgba(255,255,255,0.12); color:#fff; }
+  .view-btn.active-up   { background:rgba(16,185,129,0.18); border-color:rgba(16,185,129,0.35); color:#6EE7B7; }
+  .view-btn.active-down { background:rgba(239,68,68,0.18);  border-color:rgba(239,68,68,0.35);  color:#FCA5A5; }
+  .view-btn .cnt { font-size:11px; font-weight:700; background:rgba(255,255,255,0.12); padding:1px 7px; border-radius:20px; min-width:20px; text-align:center; }
+  .view-btn.active-up .cnt   { background:rgba(16,185,129,0.3); }
+  .view-btn.active-down .cnt { background:rgba(239,68,68,0.3); }
 
-  .logo {
-    font-size: 17px;
-    font-weight: 700;
-    color: #fff;
-    letter-spacing: -0.3px;
-    white-space: nowrap;
-  }
-  .logo .sub { font-size: 11px; font-weight: 400; color: var(--muted); margin-left: 8px; }
+  .sort-wrap { display:inline-flex; align-items:center; gap:6px; padding:8px 12px; border-radius:8px; border:1px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.06); color:rgba(255,255,255,0.65); }
+  .sort-wrap svg { width:14px; height:14px; flex-shrink:0; opacity:0.7; }
+  .sort-sel { background:transparent; border:none; color:rgba(255,255,255,0.8); font-family:'Inter',sans-serif; font-size:12.5px; font-weight:500; cursor:pointer; outline:none; -webkit-appearance:none; appearance:none; }
+  .sort-sel option { background:#1E293B; color:#fff; }
 
-  .header-right {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    flex-wrap: wrap;
-  }
-
-  .view-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 8px 14px;
-    border-radius: 8px;
-    border: 1px solid rgba(255,255,255,0.1);
-    background: rgba(255,255,255,0.06);
-    color: rgba(255,255,255,0.65);
-    font-family: 'Inter', sans-serif;
-    font-size: 12.5px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.18s;
-    white-space: nowrap;
-  }
-  .view-btn svg { width: 15px; height: 15px; flex-shrink: 0; }
-  .view-btn:hover { background: rgba(255,255,255,0.12); color: #fff; }
-  .view-btn.active-up   { background: rgba(16,185,129,0.18); border-color: rgba(16,185,129,0.35); color: #6EE7B7; }
-  .view-btn.active-down { background: rgba(239,68,68,0.18);  border-color: rgba(239,68,68,0.35);  color: #FCA5A5; }
-  .view-btn .cnt { font-size: 11px; font-weight: 700; background: rgba(255,255,255,0.12); padding: 1px 7px; border-radius: 20px; min-width: 20px; text-align: center; }
-  .view-btn.active-up .cnt   { background: rgba(16,185,129,0.3); }
-  .view-btn.active-down .cnt { background: rgba(239,68,68,0.3); }
-
-  .sort-wrap {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 8px 12px;
-    border-radius: 8px;
-    border: 1px solid rgba(255,255,255,0.1);
-    background: rgba(255,255,255,0.06);
-    color: rgba(255,255,255,0.65);
-  }
-  .sort-wrap svg { width: 14px; height: 14px; flex-shrink: 0; opacity: 0.7; }
-  .sort-sel {
-    background: transparent; border: none;
-    color: rgba(255,255,255,0.8);
-    font-family: 'Inter', sans-serif; font-size: 12.5px; font-weight: 500;
-    cursor: pointer; outline: none; -webkit-appearance: none; appearance: none;
-  }
-  .sort-sel option { background: #1E293B; color: #fff; }
-
-  .export-btn {
-    display: inline-flex; align-items: center; gap: 6px;
-    padding: 8px 16px; border-radius: 8px;
-    background: var(--primary); color: white; border: none;
-    font-family: 'Inter', sans-serif; font-size: 12.5px; font-weight: 600;
-    cursor: pointer; transition: all 0.18s; white-space: nowrap;
-  }
-  .export-btn svg { width: 14px; height: 14px; }
-  .export-btn:hover { background: var(--primary-dark); transform: translateY(-1px); }
+  .export-btn { display:inline-flex; align-items:center; gap:6px; padding:8px 16px; border-radius:8px; background:var(--primary); color:white; border:none; font-family:'Inter',sans-serif; font-size:12.5px; font-weight:600; cursor:pointer; transition:all 0.18s; white-space:nowrap; }
+  .export-btn svg { width:14px; height:14px; }
+  .export-btn:hover { background:var(--primary-dark); transform:translateY(-1px); }
 
   /* FILTER BAR */
-  .filter-bar {
-    max-width: 1264px; margin: 0 auto;
-    display: flex; overflow-x: auto; scrollbar-width: none;
-    padding: 0 32px; transition: opacity 0.2s;
-  }
-  .filter-bar::-webkit-scrollbar { display: none; }
-  .filter-bar.dimmed { opacity: 0.35; pointer-events: none; }
-
-  .filter-btn {
-    padding: 14px 18px; border: none; background: none;
-    font-family: 'Inter', sans-serif; font-size: 12.5px; font-weight: 500;
-    color: rgba(255,255,255,0.45);
-    cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.18s;
-    white-space: nowrap; display: flex; align-items: center; gap: 5px;
-  }
-  .filter-btn:hover:not(.active) { color: rgba(255,255,255,0.75); }
-  .filter-btn.active { color: #fff; border-bottom-color: var(--primary); font-weight: 600; }
-  .filter-btn .cnt { font-size: 10.5px; font-weight: 600; background: rgba(255,255,255,0.1); padding: 1px 6px; border-radius: 8px; }
-  .filter-btn.active .cnt { background: var(--primary); color: white; }
+  .filter-bar { max-width:1264px; margin:0 auto; display:flex; overflow-x:auto; scrollbar-width:none; padding:0 32px; transition:opacity 0.2s; }
+  .filter-bar::-webkit-scrollbar { display:none; }
+  .filter-bar.dimmed { opacity:0.35; pointer-events:none; }
+  .filter-btn { padding:14px 18px; border:none; background:none; font-family:'Inter',sans-serif; font-size:12.5px; font-weight:500; color:rgba(255,255,255,0.45); cursor:pointer; border-bottom:2px solid transparent; transition:all 0.18s; white-space:nowrap; display:flex; align-items:center; gap:5px; }
+  .filter-btn:hover:not(.active) { color:rgba(255,255,255,0.75); }
+  .filter-btn.active { color:#fff; border-bottom-color:var(--primary); font-weight:600; }
+  .filter-btn .cnt { font-size:10.5px; font-weight:600; background:rgba(255,255,255,0.1); padding:1px 6px; border-radius:8px; }
+  .filter-btn.active .cnt { background:var(--primary); color:white; }
 
   /* MAIN */
-  main { max-width: 1264px; margin: 0 auto; padding: 40px 32px 56px; }
-
-  .section-label {
-    font-size: 11px; font-weight: 600; letter-spacing: 1.6px;
-    text-transform: uppercase; color: var(--primary);
-    margin-bottom: 24px;
-    display: flex; align-items: center; gap: 12px;
-  }
-  .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+  main { max-width:1264px; margin:0 auto; padding:40px 32px 56px; }
+  .section-label { font-size:11px; font-weight:600; letter-spacing:1.6px; text-transform:uppercase; color:var(--primary); margin-bottom:24px; display:flex; align-items:center; gap:12px; }
+  .section-label::after { content:''; flex:1; height:1px; background:var(--border); }
 
   /* GRID */
-  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(348px, 1fr)); gap: 20px; margin-bottom: 52px; }
+  .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(348px,1fr)); gap:20px; margin-bottom:52px; }
 
   /* CARD */
-  .card {
-    background: var(--card); border-radius: 16px; padding: 24px;
-    border: 1.5px solid var(--border); box-shadow: var(--shadow-sm);
-    transition: box-shadow 0.22s, transform 0.22s, border-color 0.22s;
-    display: flex; flex-direction: column;
-    animation: rise 0.35s ease both;
-  }
-  @keyframes rise { from { opacity:0; transform:translateY(14px); } to { opacity:1; transform:translateY(0); } }
-  .card:hover { box-shadow: var(--shadow-hover); transform: translateY(-3px); }
-  .card.voted-up   { border-color: var(--accent); }
-  .card.voted-down { border-color: var(--danger); }
+  .card { background:var(--card); border-radius:16px; padding:24px; border:1.5px solid var(--border); box-shadow:var(--shadow-sm); transition:box-shadow 0.22s,transform 0.22s,border-color 0.22s; display:flex; flex-direction:column; animation:rise 0.35s ease both; }
+  @keyframes rise { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:translateY(0)} }
+  .card:hover { box-shadow:var(--shadow-hover); transform:translateY(-3px); }
+  .card.voted-up   { border-color:var(--accent); }
+  .card.voted-down { border-color:var(--danger); }
 
-  .card-head { display: flex; align-items: center; gap: 8px; margin-bottom: 16px; }
+  .card-head { display:flex; align-items:center; gap:8px; margin-bottom:16px; }
+  .card-num { font-size:10.5px; font-weight:700; letter-spacing:0.8px; text-transform:uppercase; color:var(--muted); background:var(--bg); padding:3px 8px; border-radius:6px; flex-shrink:0; }
 
-  .card-num {
-    font-size: 10.5px; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase;
-    color: var(--muted); background: var(--bg); padding: 3px 8px; border-radius: 6px; flex-shrink: 0;
-  }
+  .tier { font-size:11px; font-weight:800; padding:3px 9px; border-radius:6px; letter-spacing:0.5px; flex-shrink:0; cursor:default; }
+  .tier-1 { background:#ECFDF5; color:#065F46; }
+  .tier-2 { background:#EFF6FF; color:#1D4ED8; }
+  .tier-3 { background:#FFFBEB; color:#92400E; }
+  .tier-4 { background:#FFF7ED; color:#C2410C; }
+  .tier-5 { background:#FEF2F2; color:#991B1B; }
 
-  .tier {
-    font-size: 11px; font-weight: 800; padding: 3px 9px; border-radius: 6px;
-    letter-spacing: 0.5px; flex-shrink: 0; cursor: default;
-  }
-  .tier-1 { background: #ECFDF5; color: #065F46; }
-  .tier-2 { background: #EFF6FF; color: #1D4ED8; }
-  .tier-3 { background: #FFFBEB; color: #92400E; }
-  .tier-4 { background: #FFF7ED; color: #C2410C; }
-  .tier-5 { background: #FEF2F2; color: #991B1B; }
+  .thumbs { display:flex; gap:4px; margin-left:auto; }
+  .thumb-btn { width:34px; height:34px; border-radius:8px; border:1.5px solid var(--border); background:none; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all 0.18s; flex-shrink:0; color:var(--muted); }
+  .thumb-btn svg { width:16px; height:16px; }
+  .thumb-btn.up:hover   { background:var(--accent-light); border-color:var(--accent); color:var(--accent); }
+  .thumb-btn.up.on      { background:var(--accent); border-color:var(--accent); color:white; }
+  .thumb-btn.down:hover { background:var(--danger-light); border-color:var(--danger); color:var(--danger); }
+  .thumb-btn.down.on    { background:var(--danger); border-color:var(--danger); color:white; }
 
-  .thumbs { display: flex; gap: 4px; margin-left: auto; }
+  .card-desc { font-size:14.5px; font-weight:600; color:var(--text); margin-bottom:14px; line-height:1.45; }
 
-  .thumb-btn {
-    width: 34px; height: 34px; border-radius: 8px;
-    border: 1.5px solid var(--border); background: none;
-    cursor: pointer; display: flex; align-items: center; justify-content: center;
-    transition: all 0.18s; flex-shrink: 0; color: var(--muted);
-  }
-  .thumb-btn svg { width: 16px; height: 16px; }
-  .thumb-btn.up:hover   { background: var(--accent-light); border-color: var(--accent); color: var(--accent); }
-  .thumb-btn.up.on      { background: var(--accent); border-color: var(--accent); color: white; }
-  .thumb-btn.down:hover { background: var(--danger-light); border-color: var(--danger); color: var(--danger); }
-  .thumb-btn.down.on    { background: var(--danger); border-color: var(--danger); color: white; }
+  .chips { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:18px; }
+  .chip { font-size:11.5px; font-weight:500; padding:4px 10px; border-radius:6px; white-space:nowrap; }
+  .chip-area  { background:#EFF6FF; color:#1E40AF; }
+  .chip-pm2   { background:#F0FDF4; color:#166534; }
+  .chip-condo { background:#FFF7ED; color:#9A3412; }
 
-  .card-desc { font-size: 14.5px; font-weight: 600; color: var(--text); margin-bottom: 14px; line-height: 1.45; }
+  .card-price { font-size:21px; font-weight:700; color:var(--text); letter-spacing:-0.5px; margin-bottom:20px; }
+  .card-price .cur { font-size:13px; font-weight:500; color:var(--text2); margin-right:2px; }
 
-  .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 18px; }
-  .chip { font-size: 11.5px; font-weight: 500; padding: 4px 10px; border-radius: 6px; white-space: nowrap; }
-  .chip-area  { background: #EFF6FF; color: #1E40AF; }
-  .chip-pm2   { background: #F0FDF4; color: #166534; }
-  .chip-condo { background: #FFF7ED; color: #9A3412; }
-
-  .card-price { font-size: 21px; font-weight: 700; color: var(--text); letter-spacing: -0.5px; margin-bottom: 20px; }
-  .card-price .cur { font-size: 13px; font-weight: 500; color: var(--text2); margin-right: 2px; }
-
-  .card-foot {
-    margin-top: auto; padding-top: 16px; border-top: 1px solid var(--border);
-    display: flex; align-items: center; justify-content: space-between; gap: 8px;
-  }
-
-  .link-btn {
-    display: inline-flex; align-items: center; gap: 5px;
-    color: var(--primary); font-size: 13px; font-weight: 500;
-    text-decoration: none; transition: gap 0.15s;
-  }
-  .link-btn:hover { gap: 8px; color: var(--primary-dark); }
-  .link-btn svg { width: 12px; height: 12px; }
-
-  .share-btn {
-    display: inline-flex; align-items: center; gap: 5px;
-    background: #F0FDF4; color: #166534; border: none;
-    padding: 7px 12px; border-radius: 8px;
-    font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 500;
-    cursor: pointer; transition: all 0.18s; white-space: nowrap;
-  }
-  .share-btn:hover { background: #25D366; color: white; }
-  .share-btn svg { width: 13px; height: 13px; }
+  .card-foot { margin-top:auto; padding-top:16px; border-top:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; gap:8px; }
+  .link-btn { display:inline-flex; align-items:center; gap:5px; color:var(--primary); font-size:13px; font-weight:500; text-decoration:none; transition:gap 0.15s; }
+  .link-btn:hover { gap:8px; color:var(--primary-dark); }
+  .link-btn svg { width:12px; height:12px; }
+  .share-btn { display:inline-flex; align-items:center; gap:5px; background:#F0FDF4; color:#166534; border:none; padding:7px 12px; border-radius:8px; font-family:'Inter',sans-serif; font-size:12px; font-weight:500; cursor:pointer; transition:all 0.18s; white-space:nowrap; }
+  .share-btn:hover { background:#25D366; color:white; }
+  .share-btn svg { width:13px; height:13px; }
 
   /* EMPTY */
-  .empty { text-align: center; padding: 72px 32px; color: var(--muted); }
-  .empty .icon { font-size: 44px; margin-bottom: 16px; }
-  .empty p { font-size: 15px; line-height: 1.6; }
+  .empty { text-align:center; padding:72px 32px; color:var(--muted); }
+  .empty .icon { font-size:44px; margin-bottom:16px; }
+  .empty p { font-size:15px; line-height:1.6; }
 
   /* TOAST */
-  .toast {
-    position: fixed; bottom: 28px; left: 50%;
-    transform: translateX(-50%) translateY(80px);
-    background: var(--text); color: white;
-    padding: 12px 22px; border-radius: 10px;
-    font-size: 13px; font-weight: 500; z-index: 999;
-    transition: transform 0.3s ease; white-space: nowrap; pointer-events: none;
-  }
-  .toast.show { transform: translateX(-50%) translateY(0); }
+  .toast { position:fixed; bottom:28px; left:50%; transform:translateX(-50%) translateY(80px); background:var(--text); color:white; padding:12px 22px; border-radius:10px; font-size:13px; font-weight:500; z-index:999; transition:transform 0.3s ease; white-space:nowrap; pointer-events:none; }
+  .toast.show { transform:translateX(-50%) translateY(0); }
 
-  footer { text-align: center; padding: 28px 32px; font-size: 12px; color: var(--muted); border-top: 1px solid var(--border); }
+  footer { text-align:center; padding:28px 32px; font-size:12px; color:var(--muted); border-top:1px solid var(--border); }
 
-  @media (max-width: 680px) {
-    .header-top { padding: 14px 16px; }
-    .filter-bar { padding: 0 16px; }
-    main { padding: 24px 16px 40px; }
-    .grid { grid-template-columns: 1fr; gap: 16px; }
-    .logo .sub { display: none; }
-    .export-btn .lbl { display: none; }
+  @media(max-width:680px){
+    .header-top{padding:14px 16px;}
+    .filter-bar{padding:0 16px;}
+    main{padding:24px 16px 40px;}
+    .grid{grid-template-columns:1fr;gap:16px;}
+    .logo .sub{display:none;}
+    .export-btn .lbl{display:none;}
   }
 </style>
 </head>
@@ -299,14 +160,16 @@
 </header>
 
 <main id="main"></main>
-<footer>Imóveis Kelpe · Curitiba, PR · 2026 — 24 imóveis catalogados</footer>
+<footer>Imóveis Kelpe · Curitiba, PR · 2026 — <span id="ftotal"></span> imóveis catalogados</footer>
 <div class="toast" id="toast"></div>
 
 <script>
-// ── DATA ──────────────────────────────────────────────────────────────
+// ── DATA ─────────────────────────────────────────────────────────────
+// IDs 1-24 são idênticos à versão anterior — votos do localStorage são preservados
 const PROPS = [
+  // CRISTO REI (IDs 1-20) — inalterados
   {id:1,  bairro:'cristo-rei', num:'01', desc:'FLAG Curitiba — N. Sra. da Luz',                         price:1691060, area:130, priceM2:13008, condo:null, link:'https://www.portocamargo.com.br/empreendimento/em-construcao-flag-curitiba-pr/54'},
-  {id:2,  bairro:'cristo-rei', num:'02', desc:'Sobrado 3 Quartos — NOVO PELADO',                        price:1490000, area:200, priceM2:7450,  condo:null, link:'https://construa.com.br/imovel/comprar-sobrado-3-quartos-cristo-rei-curitiba-44459/122953'},
+  {id:2,  bairro:'cristo-rei', num:'02', desc:'Sobrado 3 Quartos',                                      price:1490000, area:200, priceM2:7450,  condo:null, link:'https://construa.com.br/imovel/comprar-sobrado-3-quartos-cristo-rei-curitiba-44459/122953'},
   {id:3,  bairro:'cristo-rei', num:'03', desc:'Reggia 803',                                             price:1300000, area:94,  priceM2:13829, condo:665,  link:'https://www.r2wimoveis.com.br//imovel/venda/10169122'},
   {id:4,  bairro:'cristo-rei', num:'04', desc:'Frente ao McDonalds',                                    price:1390000, area:105, priceM2:13303, condo:1110, link:'https://www.imovelweb.com.br/propriedades/apartamento-3-dorm-1-suite-2-vagas-cristo-rei-3031815609.html'},
   {id:5,  bairro:'cristo-rei', num:'05', desc:'Botânica 1 — 2 Quartos + Escritório',                   price:1350000, area:113, priceM2:11946, condo:780,  link:'https://construa.com.br/imovel/comprar-apartamento-2-quartos-cristo-rei-curitiba-44648/129231'},
@@ -325,10 +188,40 @@ const PROPS = [
   {id:18, bairro:'cristo-rei', num:'18', desc:'Próximo Senhores do Pão',                               price:990000,  area:94,  priceM2:10531, condo:1131, link:'https://www.imovelweb.com.br/propriedades/imoveis-no-cristo-rei-3026497378.html'},
   {id:19, bairro:'cristo-rei', num:'19', desc:'Em frente ao Condor',                                   price:940000,  area:144, priceM2:6527,  condo:1200, link:'https://www.imovelweb.com.br/propriedades/lindo-apartamento-no-cristo-rei.-3019000589.html'},
   {id:20, bairro:'cristo-rei', num:'20', desc:'Atrás do Mercado Assaí',                                price:580000,  area:110, priceM2:5272,  condo:614,  link:'https://construa.com.br/imovel/comprar-apartamento-cristo-rei-curitiba-51431/129863'},
-  {id:21, bairro:'batel',      num:'21', desc:'Sete de Setembro — Próximo Pequeno Príncipe',           price:1400000, area:150, priceM2:9333,  condo:900,  link:'https://www.imovelweb.com.br/propriedades/-br-exclusividade-no-batel-br-3001929672.html'},
-  {id:22, bairro:'bigorrilho', num:'22', desc:'Duplex 4 Quartos — Próximo Barigui',                    price:1390000, area:162, priceM2:8580,  condo:1076, link:'https://www.imovelweb.com.br/propriedades/apartamento-duplex-04-quartos-03-vagas-andar-alto-3022964479.html'},
-  {id:23, bairro:'juveve',     num:'23', desc:'Próximo Baggio e King Temaki Juvevê',                   price:1400000, area:151, priceM2:9271,  condo:1200, link:'https://www.imovelweb.com.br/propriedades/apartamento-a-venda-com-3-quartos-no-juveve-em-3027373923.html'},
-  {id:24, bairro:'agua-verde', num:'24', desc:'Younique — Próximo Cemitério Água Verde',               price:1390000, area:120, priceM2:11583, condo:1000, link:'https://www.imovelweb.com.br/propriedades/apart-younique-agua-verde-ensolarado-lindamente-3031990790.html'},
+
+  // BATEL (ID 21 inalterado + IDs 25-36 novos)
+  {id:21, bairro:'batel', num:'21', desc:'Sete de Setembro — Próximo Pequeno Príncipe',    price:1400000, area:150, priceM2:9333,  condo:900,  link:'https://www.imovelweb.com.br/propriedades/-br-exclusividade-no-batel-br-3001929672.html'},
+  {id:25, bairro:'batel', num:'25', desc:'Próximo Praça Japão',                            price:1450000, area:123, priceM2:11789, condo:1600, link:'https://www.imovelweb.com.br/propriedades/apartamento-a-venda-no-batel-totalmente-reformado-com-3031990174.html'},
+  {id:26, bairro:'batel', num:'26', desc:'Próximo Praça Japão 2',                          price:1435000, area:205, priceM2:7000,  condo:1410, link:'https://www.imovelweb.com.br/propriedades/apartamento-a-venda-em-batel-3033024369.html'},
+  {id:27, bairro:'batel', num:'27', desc:'Cobertura Duplex — Entre Agostinho e Anchieta',  price:1390000, area:162, priceM2:8580,  condo:1076, link:'https://www.imovelweb.com.br/propriedades/cobertura-no-flex-city-champagnat-04-quartos-03-3022964413.html'},
+  {id:28, bairro:'batel', num:'28', desc:'Próximo Praça Japão 3',                          price:1360000, area:117, priceM2:11624, condo:1030, link:'https://www.imovelweb.com.br/propriedades/apartamento-a-venda-no-batel-com-3-quartos-117m-3022826890.html'},
+  {id:29, bairro:'batel', num:'29', desc:'Cel. Dulcídio com Com. Araújo',                  price:1320000, area:128, priceM2:10312, condo:1200, link:'https://www.imovelweb.com.br/propriedades/apartamento-reformado-a-venda-de-128m-com-3-3017124241.html'},
+  {id:30, bairro:'batel', num:'30', desc:'Madeirinha — Augusto Stellfeld',                 price:1300000, area:145, priceM2:8966,  condo:1300, link:'https://www.imovelweb.com.br/propriedades/apartamento-no-batel-soho-ao-lado-da-praca-espanha-3007093688.html'},
+  {id:31, bairro:'batel', num:'31', desc:'4 Quartos — Pequeno Príncipe',                   price:1250000, area:175, priceM2:7143,  condo:1800, link:'https://www.imovelweb.com.br/propriedades/apartamento-4-quartos-a-venda-no-batel-3030572255.html'},
+  {id:32, bairro:'batel', num:'32', desc:'Hospital Santa Cruz',                            price:1150000, area:117, priceM2:9829,  condo:1008, link:'https://www.imovelweb.com.br/propriedades/apartamento-a-venda-no-batel-com-3-dormitorios-3031545608.html'},
+  {id:33, bairro:'batel', num:'33', desc:'Iguaçu',                                         price:1099000, area:102, priceM2:10775, condo:780,  link:'https://www.imovelweb.com.br/propriedades/apartamento-no-tower-club-house-03-quartos-01-vaga-3026987382.html'},
+  {id:34, bairro:'batel', num:'34', desc:'Novo — Cobertura Duplex',                        price:1090000, area:124, priceM2:8790,  condo:947,  link:'https://www.imovelweb.com.br/propriedades/cobertura-duplex-agua-verde-03-dorm-02-vagas-3005766539.html'},
+  {id:35, bairro:'batel', num:'35', desc:'2 Quartos — Possível reverter closet',           price:1060000, area:112, priceM2:9464,  condo:666,  link:'https://www.imovelweb.com.br/propriedades/apartamento-residencial-batel-3033122430.html'},
+  {id:36, bairro:'batel', num:'36', desc:'Shop Curitiba',                                  price:1049000, area:115, priceM2:9122,  condo:1333, link:'https://www.imovelweb.com.br/propriedades/apartamento-reformado-a-venda-com-3-quartos-no-batel-3029851469.html'},
+
+  // BIGORRILHO (ID 22 inalterado + IDs 37-45 novos)
+  {id:22, bairro:'bigorrilho', num:'22', desc:'Duplex 4 Quartos — Próximo Barigui',        price:1390000, area:162, priceM2:8580,  condo:1076, link:'https://www.imovelweb.com.br/propriedades/apartamento-duplex-04-quartos-03-vagas-andar-alto-3022964479.html'},
+  {id:37, bairro:'bigorrilho', num:'37', desc:'Cobertura 4 Dormitórios',                   price:1450000, area:120, priceM2:12083, condo:750,  link:'https://www.imovelweb.com.br/propriedades/cobertura-com-4-dormitorios-a-venda-120-m-por-r$-3029539367.html'},
+  {id:38, bairro:'bigorrilho', num:'38', desc:'Cobertura Duplex — Mercês/Arya1',           price:1390000, area:118, priceM2:11780, condo:1836, link:'https://www.imovelweb.com.br/propriedades/cobertura-a-venda-no-merces-arya1-3023471009.html'},
+  {id:39, bairro:'bigorrilho', num:'39', desc:'Próximo Mackenzie',                         price:1320000, area:84,  priceM2:15714, condo:850,  link:'https://www.imovelweb.com.br/propriedades/apartamento-semimobiliado-a-venda-no-champagnat-co-3024258313.html'},
+  {id:40, bairro:'bigorrilho', num:'40', desc:'Praça da Ucrânia',                          price:1299900, area:150, priceM2:8666,  condo:1025, link:'https://www.imovelweb.com.br/propriedades/apartamento-para-venda-tem-150-metros-quadrados-com-3-3033030153.html'},
+  {id:41, bairro:'bigorrilho', num:'41', desc:'Janelão',                                   price:1280000, area:155, priceM2:8258,  condo:766,  link:'https://www.imovelweb.com.br/propriedades/apartamento-a-venda-no-bigorrilho-arya1-3019735649.html'},
+  {id:42, bairro:'bigorrilho', num:'42', desc:'Apartamento — Bigorrilho',                  price:1230906, area:112, priceM2:10990, condo:950,  link:'https://www.imovelweb.com.br/propriedades/apartamento-a-venda-em-bigorrilho-3027270880.html'},
+  {id:43, bairro:'bigorrilho', num:'43', desc:'4 Quartos — Bigorrilho',                    price:1200000, area:203, priceM2:5911,  condo:1733, link:'https://www.imovelweb.com.br/propriedades/apartamento-a-venda-em-bigorrilho-3002985804.html'},
+  {id:44, bairro:'bigorrilho', num:'44', desc:'Cobertura Triplex',                         price:1183000, area:175, priceM2:6760,  condo:1611, link:'https://www.imovelweb.com.br/propriedades/apartamento-a-venda-em-bigorrilho-3001585405.html'},
+  {id:45, bairro:'bigorrilho', num:'45', desc:'Excelsior',                                 price:1180000, area:156, priceM2:7564,  condo:1627, link:'https://www.imovelweb.com.br/propriedades/apartamento-a-venda-em-bigorrilho-2944365051.html'},
+
+  // JUVEVÊ (ID 23 inalterado + ID 46 novo)
+  {id:23, bairro:'juveve', num:'23', desc:'Próximo Baggio e King Temaki Juvevê',           price:1400000, area:151, priceM2:9271,  condo:1200, link:'https://www.imovelweb.com.br/propriedades/apartamento-a-venda-com-3-quartos-no-juveve-em-3027373923.html'},
+  {id:46, bairro:'juveve', num:'46', desc:'Cobertura Duplex — Juvevê',                     price:1290000, area:196, priceM2:6582,  condo:1200, link:'https://www.imovelweb.com.br/propriedades/cobertura-duplex-com-196m-no-bairro-juveve-curiti-3022085487.html'},
+
+  // ÁGUA VERDE (ID 24 inalterado)
+  {id:24, bairro:'agua-verde', num:'24', desc:'Younique — Próximo Cemitério Água Verde',   price:1390000, area:120, priceM2:11583, condo:1000, link:'https://www.imovelweb.com.br/propriedades/apart-younique-agua-verde-ensolarado-lindamente-3031990790.html'},
 ];
 
 const BAIRROS = [
@@ -339,20 +232,18 @@ const BAIRROS = [
   {id:'agua-verde',  label:'Água Verde'},
 ];
 
-// ── TIER CALC (quintiles by priceM2) ─────────────────────────────────
+// ── TIERS (quintis por priceM2) ───────────────────────────────────────
 (function(){
-  const s = [...PROPS].sort((a,b)=>a.priceM2-b.priceM2), n=s.length;
-  const q = p => s[Math.ceil(n*p)-1].priceM2;
-  const T = [q(0.2),q(0.4),q(0.6),q(0.8)];
-  PROPS.forEach(p=>{
-    p.tier = p.priceM2<=T[0]?1 : p.priceM2<=T[1]?2 : p.priceM2<=T[2]?3 : p.priceM2<=T[3]?4 : 5;
-  });
+  const s=[...PROPS].sort((a,b)=>a.priceM2-b.priceM2), n=s.length;
+  const q=p=>s[Math.ceil(n*p)-1].priceM2;
+  const T=[q(0.2),q(0.4),q(0.6),q(0.8)];
+  PROPS.forEach(p=>{ p.tier=p.priceM2<=T[0]?1:p.priceM2<=T[1]?2:p.priceM2<=T[2]?3:p.priceM2<=T[3]?4:5; });
 })();
 
 // ── STATE ─────────────────────────────────────────────────────────────
-const SK = 'kelpe_v4';
+// Mesma chave da versão anterior — votos salvos são preservados
+const SK='kelpe_v4';
 let votes={}, view='neighborhood', bairro='cristo-rei', sortBy='default';
-
 function loadVotes(){ try{ votes=JSON.parse(localStorage.getItem(SK))||{}; }catch{ votes={}; } }
 function saveVotes(){ localStorage.setItem(SK,JSON.stringify(votes)); }
 
@@ -363,15 +254,13 @@ const IDWA   = `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14
 const IDEXT  = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>`;
 const TIER_L = ['','$','$$','$$$','$$$$','$$$$$'];
 const TIER_T = ['','Mais barato da lista','','','','Mais caro da lista'];
-
-// ── FORMAT ────────────────────────────────────────────────────────────
 const R = n => 'R$ ' + n.toLocaleString('pt-BR');
 
 // ── CARD ──────────────────────────────────────────────────────────────
 function cardHTML(p){
   const v=votes[p.id]||null;
-  const cls = v==='up'?'voted-up':v==='down'?'voted-down':'';
-  const condo = p.condo?`<span class="chip chip-condo">Cond. ${R(p.condo)}</span>`:'';
+  const cls=v==='up'?'voted-up':v==='down'?'voted-down':'';
+  const condo=p.condo?`<span class="chip chip-condo">Cond. ${R(p.condo)}</span>`:'';
   return `
 <div class="card ${cls}" data-id="${p.id}">
   <div class="card-head">
@@ -407,20 +296,18 @@ function applySort(list){
 function render(){
   const el=document.getElementById('main');
   let list, title;
-
   if(view==='aprovados'){
-    list  = PROPS.filter(p=>votes[p.id]==='up');
-    title = '👍&nbsp; Imóveis que gostei';
+    list=PROPS.filter(p=>votes[p.id]==='up');
+    title='👍&nbsp; Imóveis que gostei';
   } else if(view==='reprovados'){
-    list  = PROPS.filter(p=>votes[p.id]==='down');
-    title = '👎&nbsp; Imóveis que não gostei';
+    list=PROPS.filter(p=>votes[p.id]==='down');
+    title='👎&nbsp; Imóveis que não gostei';
   } else {
-    list  = PROPS.filter(p=>p.bairro===bairro);
-    title = BAIRROS.find(b=>b.id===bairro)?.label||'';
+    list=PROPS.filter(p=>p.bairro===bairro);
+    title=BAIRROS.find(b=>b.id===bairro)?.label||'';
   }
-
   if(!list.length){
-    const msg = view==='aprovados'
+    const msg=view==='aprovados'
       ? 'Nenhum imóvel aprovado ainda.<br>Use o 👍 nos cards para marcar.'
       : view==='reprovados'
         ? 'Nenhum imóvel reprovado ainda.<br>Use o 👎 nos cards para marcar.'
@@ -428,27 +315,21 @@ function render(){
     el.innerHTML=`<div class="section-label">${title}</div><div class="empty"><div class="icon">${view==='aprovados'?'👍':view==='reprovados'?'👎':'🏠'}</div><p>${msg}</p></div>`;
     return;
   }
-
-  const cards = applySort(list).map(cardHTML).join('');
-  el.innerHTML=`<div class="section-label">${title}</div><div class="grid">${cards}</div>`;
+  el.innerHTML=`<div class="section-label">${title}</div><div class="grid">${applySort(list).map(cardHTML).join('')}</div>`;
 }
 
-// ── VOTE ──────────────────────────────────────────────────────────────
+// ── ACTIONS ───────────────────────────────────────────────────────────
 function castVote(id,dir){
-  votes[id]===dir ? delete votes[id] : votes[id]=dir;
+  votes[id]===dir?delete votes[id]:votes[id]=dir;
   saveVotes(); updateCounts(); render();
 }
-
-// ── VIEW TOGGLE ───────────────────────────────────────────────────────
 function toggleView(mode){
-  view = view===mode?'neighborhood':mode;
-  document.getElementById('btn-up').className   = 'view-btn'+(view==='aprovados' ?' active-up':'');
-  document.getElementById('btn-down').className = 'view-btn'+(view==='reprovados'?' active-down':'');
-  document.getElementById('filter-bar').classList.toggle('dimmed', view!=='neighborhood');
+  view=view===mode?'neighborhood':mode;
+  document.getElementById('btn-up').className  ='view-btn'+(view==='aprovados' ?' active-up':'');
+  document.getElementById('btn-down').className='view-btn'+(view==='reprovados'?' active-down':'');
+  document.getElementById('filter-bar').classList.toggle('dimmed',view!=='neighborhood');
   render();
 }
-
-// ── BAIRRO ────────────────────────────────────────────────────────────
 function setBairro(id){
   bairro=id;
   if(view!=='neighborhood'){
@@ -460,17 +341,14 @@ function setBairro(id){
   document.querySelectorAll('.filter-btn').forEach(b=>b.classList.toggle('active',b.dataset.id===id));
   render();
 }
-
 function setSortBy(v){ sortBy=v; render(); }
 
-// ── COUNTS ────────────────────────────────────────────────────────────
 function updateCounts(){
   const vals=Object.values(votes);
-  document.getElementById('cnt-up').textContent   = vals.filter(v=>v==='up').length;
-  document.getElementById('cnt-down').textContent = vals.filter(v=>v==='down').length;
+  document.getElementById('cnt-up').textContent  =vals.filter(v=>v==='up').length;
+  document.getElementById('cnt-down').textContent=vals.filter(v=>v==='down').length;
 }
 
-// ── SHARE CARD ────────────────────────────────────────────────────────
 function shareCard(id){
   const p=PROPS.find(x=>x.id===id);
   window.open('https://wa.me/?text='+encodeURIComponent(
@@ -478,26 +356,18 @@ function shareCard(id){
   ),'_blank');
 }
 
-// ── EXPORT ────────────────────────────────────────────────────────────
 function exportChoices(){
-  const upIds   = Object.entries(votes).filter(([,v])=>v==='up').map(([k])=>+k);
-  const downIds = Object.entries(votes).filter(([,v])=>v==='down').map(([k])=>+k);
+  const upIds  =Object.entries(votes).filter(([,v])=>v==='up').map(([k])=>+k);
+  const downIds=Object.entries(votes).filter(([,v])=>v==='down').map(([k])=>+k);
   if(!upIds.length&&!downIds.length){ showToast('Nenhum imóvel classificado ainda!'); return; }
-
-  const fmt = ids => ids.length
-    ? ids.map(id=>{ const p=PROPS.find(x=>x.id===id);
-        return `[Nº ${p.num}] ${p.desc}\n${R(p.price)} | ${p.area}m² | ${R(p.priceM2)}/m²\n${p.link}`; }).join('\n\n')
-    : '(nenhum)';
-
-  const body =
-    `IMÓVEIS KELPE — MINHAS ESCOLHAS\n${'─'.repeat(36)}\n\n` +
-    `✅ IMÓVEIS QUE GOSTEI:\n\n${fmt(upIds)}\n\n\n` +
-    `❌ IMÓVEIS QUE NÃO GOSTEI:\n\n${fmt(downIds)}`;
-
+  const fmt=ids=>ids.length
+    ?ids.map(id=>{const p=PROPS.find(x=>x.id===id);
+       return `[Nº ${p.num}] ${p.desc}\n${R(p.price)} | ${p.area}m² | ${R(p.priceM2)}/m²\n${p.link}`;}).join('\n\n')
+    :'(nenhum)';
+  const body=`IMÓVEIS KELPE — MINHAS ESCOLHAS\n${'─'.repeat(36)}\n\n✅ IMÓVEIS QUE GOSTEI:\n\n${fmt(upIds)}\n\n\n❌ IMÓVEIS QUE NÃO GOSTEI:\n\n${fmt(downIds)}`;
   window.location.href=`mailto:?subject=${encodeURIComponent('Imóveis Kelpe — Minhas Escolhas')}&body=${encodeURIComponent(body)}`;
 }
 
-// ── TOAST ─────────────────────────────────────────────────────────────
 function showToast(msg){
   const t=document.getElementById('toast');
   t.textContent=msg; t.classList.add('show');
@@ -512,10 +382,10 @@ function init(){
     const n=PROPS.filter(p=>p.bairro===b.id).length;
     return `<button class="filter-btn${b.id===bairro?' active':''}" data-id="${b.id}" onclick="setBairro('${b.id}')">${b.label}<span class="cnt">${n}</span></button>`;
   }).join('');
+  document.getElementById('ftotal').textContent=PROPS.length;
   updateCounts();
   render();
 }
-
 init();
 </script>
 </body>
