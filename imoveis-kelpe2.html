@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Imóveis Kelpe</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --primary: #6366F1; --primary-light: #EEF2FF; --primary-dark: #4F46E5;
+    --bg: #F8FAFC; --text: #0F172A; --text2: #334155;
+    --accent: #10B981; --accent-light: #ECFDF5;
+    --danger: #EF4444; --danger-light: #FEF2F2;
+    --card: #FFFFFF; --border: #E2E8F0; --muted: #94A3B8;
+    --header: #0F172A;
+    --shadow-sm: 0 1px 3px rgba(15,23,42,0.06), 0 1px 8px rgba(15,23,42,0.04);
+    --shadow-hover: 0 8px 32px rgba(99,102,241,0.18), 0 2px 8px rgba(15,23,42,0.06);
+  }
+  body { font-family:'Inter',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; line-height:1.5; }
+
+  /* HEADER */
+  header { background:var(--header); position:sticky; top:0; z-index:200; box-shadow:0 2px 24px rgba(0,0,0,0.2); }
+  .header-top { max-width:1264px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; padding:18px 32px; gap:12px; flex-wrap:wrap; border-bottom:1px solid rgba(255,255,255,0.07); }
+  .logo { font-size:17px; font-weight:700; color:#fff; letter-spacing:-0.3px; white-space:nowrap; }
+  .logo .sub { font-size:11px; font-weight:400; color:var(--muted); margin-left:8px; }
+  .header-right { display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+
+  .view-btn { display:inline-flex; align-items:center; gap:6px; padding:8px 14px; border-radius:8px; border:1px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.06); color:rgba(255,255,255,0.65); font-family:'Inter',sans-serif; font-size:12.5px; font-weight:500; cursor:pointer; transition:all 0.18s; white-space:nowrap; }
+  .view-btn svg { width:15px; height:15px; flex-shrink:0; }
+  .view-btn:hover { background:rgba(255,255,255,0.12); color:#fff; }
+  .view-btn.active-up   { background:rgba(16,185,129,0.18); border-color:rgba(16,185,129,0.35); color:#6EE7B7; }
+  .view-btn.active-down { background:rgba(239,68,68,0.18);  border-color:rgba(239,68,68,0.35);  color:#FCA5A5; }
+  .view-btn .cnt { font-size:11px; font-weight:700; background:rgba(255,255,255,0.12); padding:1px 7px; border-radius:20px; min-width:20px; text-align:center; }
+  .view-btn.active-up .cnt   { background:rgba(16,185,129,0.3); }
+  .view-btn.active-down .cnt { background:rgba(239,68,68,0.3); }
+
+  .sort-wrap { display:inline-flex; align-items:center; gap:6px; padding:8px 12px; border-radius:8px; border:1px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.06); color:rgba(255,255,255,0.65); }
+  .sort-wrap svg { width:14px; height:14px; flex-shrink:0; opacity:0.7; }
+  .sort-sel { background:transparent; border:none; color:rgba(255,255,255,0.8); font-family:'Inter',sans-serif; font-size:12.5px; font-weight:500; cursor:pointer; outline:none; -webkit-appearance:none; appearance:none; }
+  .sort-sel option { background:#1E293B; color:#fff; }
+
+  .export-btn { display:inline-flex; align-items:center; gap:6px; padding:8px 16px; border-radius:8px; background:var(--primary); color:white; border:none; font-family:'Inter',sans-serif; font-size:12.5px; font-weight:600; cursor:pointer; transition:all 0.18s; white-space:nowrap; }
+  .export-btn svg { width:14px; height:14px; }
+  .export-btn:hover { background:var(--primary-dark); transform:translateY(-1px); }
+
+  /* FILTER BAR */
+  .filter-bar { max-width:1264px; margin:0 auto; display:flex; overflow-x:auto; scrollbar-width:none; padding:0 32px; transition:opacity 0.2s; }
+  .filter-bar::-webkit-scrollbar { display:none; }
+  .filter-bar.dimmed { opacity:0.35; pointer-events:none; }
+  .filter-btn { padding:14px 18px; border:none; background:none; font-family:'Inter',sans-serif; font-size:12.5px; font-weight:500; color:rgba(255,255,255,0.45); cursor:pointer; border-bottom:2px solid transparent; transition:all 0.18s; white-space:nowrap; display:flex; align-items:center; gap:5px; }
+  .filter-btn:hover:not(.active) { color:rgba(255,255,255,0.75); }
+  .filter-btn.active { color:#fff; border-bottom-color:var(--primary); font-weight:600; }
+  .filter-btn .cnt { font-size:10.5px; font-weight:600; background:rgba(255,255,255,0.1); padding:1px 6px; border-radius:8px; }
+  .filter-btn.active .cnt { background:var(--primary); color:white; }
+
+  /* MAIN */
+  main { max-width:1264px; margin:0 auto; padding:40px 32px 56px; }
+  .section-label { font-size:11px; font-weight:600; letter-spacing:1.6px; text-transform:uppercase; color:var(--primary); margin-bottom:24px; display:flex; align-items:center; gap:12px; }
+  .section-label::after { content:''; flex:1; height:1px; background:var(--border); }
+
+  /* GRID */
+  .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(360px,1fr)); gap:20px; margin-bottom:52px; }
+
+  /* CARD */
+  .card { background:var(--card); border-radius:16px; padding:24px; border:1.5px solid var(--border); box-shadow:var(--shadow-sm); transition:box-shadow 0.22s,transform 0.22s,border-color 0.22s; display:flex; flex-direction:column; animation:rise 0.35s ease both; }
+  @keyframes rise { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:translateY(0)} }
+  .card:hover { box-shadow:var(--shadow-hover); transform:translateY(-3px); }
+  .card.voted-up   { border-color:var(--accent); }
+  .card.voted-down { border-color:var(--danger); }
+
+  .card-head { display:flex; align-items:center; gap:8px; margin-bottom:16px; }
+  .card-num { font-size:10.5px; font-weight:700; letter-spacing:0.8px; text-transform:uppercase; color:var(--muted); background:var(--bg); padding:3px 8px; border-radius:6px; flex-shrink:0; }
+
+  .tier { font-size:11px; font-weight:800; padding:3px 9px; border-radius:6px; letter-spacing:0.5px; flex-shrink:0; cursor:default; }
+  .tier-1 { background:#ECFDF5; color:#065F46; }
+  .tier-2 { background:#EFF6FF; color:#1D4ED8; }
+  .tier-3 { background:#FFFBEB; color:#92400E; }
+  .tier-4 { background:#FFF7ED; color:#C2410C; }
+  .tier-5 { background:#FEF2F2; color:#991B1B; }
+
+  .thumbs { display:flex; gap:4px; margin-left:auto; }
+  .thumb-btn { width:34px; height:34px; border-radius:8px; border:1.5px solid var(--border); background:none; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all 0.18s; flex-shrink:0; color:var(--muted); }
+  .thumb-btn svg { width:16px; height:16px; }
+  .thumb-btn.up:hover   { background:var(--accent-light); border-color:var(--accent); color:var(--accent); }
+  .thumb-btn.up.on      { background:var(--accent); border-color:var(--accent); color:white; }
+  .thumb-btn.down:hover { background:var(--danger-light); border-color:var(--danger); color:var(--danger); }
+  .thumb-btn.down.on    { background:var(--danger); border-color:var(--danger); color:white; }
+
+  .card-desc { font-size:14.5px; font-weight:600; color:var(--text); margin-bottom:14px; line-height:1.45; }
+
+  .chips { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:14px; }
+  .chip { font-size:11.5px; font-weight:500; padding:4px 10px; border-radius:6px; white-space:nowrap; }
+  .chip-area  { background:#EFF6FF; color:#1E40AF; }
+  .chip-pm2   { background:#F0FDF4; color:#166534; }
+  .chip-condo { background:#FFF7ED; color:#9A3412; }
+
+  /* ── FINANCING CHIPS ── */
+  .chip-fin      { background:#EEF2FF; color:#4338CA; }
+  .chip-fin-warn { background:#FEF2F2; color:var(--danger); }
+  .chips-fin     { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:14px; }
+
+  .card-price { font-size:21px; font-weight:700; color:var(--text); letter-spacing:-0.5px; margin-bottom:20px; }
+  .card-price .cur { font-size:13px; font-weight:500; color:var(--text2); margin-right:2px; }
+
+  .card-foot { margin-top:auto; padding-top:16px; border-top:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; gap:8px; }
+  .link-btn { display:inline-flex; align-items:center; gap:5px; color:var(--primary); font-size:13px; font-weight:500; text-decoration:none; transition:gap 0.15s; }
+  .link-btn:hover { gap:8px; color:var(--primary-dark); }
+  .link-btn svg { width:12px; height:12px; }
+  .share-btn { display:inline-flex; align-items:center; gap:5px; background:#F0FDF4; color:#166634; border:none; padding:7px 12px; border-radius:8px; font-family:'Inter',sans-serif; font-size:12px; font-weight:500; cursor:pointer; transition:all 0.18s; white-space:nowrap; }
+  .share-btn:hover { background:#25D366; color:white; }
+  .share-btn svg { width:13px; height:13px; }
+
+  /* EMPTY */
+  .empty { text-align:center; padding:72px 32px; color:var(--muted); }
+  .empty .icon { font-size:44px; margin-bottom:16px; }
+  .empty p { font-size:15px; line-height:1.6; }
+
+  /* TOAST */
+  .toast { position:fixed; bottom:28px; left:50%; transform:translateX(-50%) translateY(80px); background:var(--text); color:white; padding:12px 22px; border-radius:10px; font-size:13px; font-weight:500; z-index:999; transition:transform 0.3s ease; white-space:nowrap; pointer-events:none; }
+  .toast.show { transform:translateX(-50%) translateY(0); }
+
+  footer { text-align:center; padding:28px 32px; font-size:12px; color:var(--muted); border-top:1px solid var(--border); }
+
+  @media(max-width:680px){
+    .header-top{padding:14px 16px;}
+    .filter-bar{padding:0 16px;}
+    main{padding:24px 16px 40px;}
+    .grid{grid-template-columns:1fr;gap:16px;}
+    .logo .sub{display:none;}
+    .export-btn .lbl{display:none;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-top">
+    <div class="logo">Imóveis Kelpe <span class="sub">Curitiba · 2026</span></div>
+    <div class="header-right">
+      <button class="view-btn" id="btn-up" onclick="toggleView('aprovados')">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M2 20h2c.55 0 1-.45 1-1v-9c0-.55-.45-1-1-1H2v11zm19.83-7.12c.11-.25.17-.52.17-.88v-2c0-1.1-.9-2-2-2h-6.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L13.17 2 7.59 7.59C7.22 7.95 7 8.45 7 9v11c0 1.1.9 2 2 2h9c.83 0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73v-2z"/></svg>
+        Aprovados <span class="cnt" id="cnt-up">0</span>
+      </button>
+      <button class="view-btn" id="btn-down" onclick="toggleView('reprovados')">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 4h-2c-.55 0-1 .45-1 1v9c0 .55.45 1 1 1h2V4zM2.17 11.12c-.11.25-.17.52-.17.88v2c0 1.1.9 2 2 2h6.31l-.95 4.57-.03.32c0 .41.17.79.44 1.06L10.83 22l5.59-5.59c.36-.36.58-.86.58-1.41V4c0-1.1-.9-2-2-2H6c-.83 0-1.54.5-1.84 1.22L1.14 10.27c-.09.23-.14.47-.14.73v2z"/></svg>
+        Reprovados <span class="cnt" id="cnt-down">0</span>
+      </button>
+      <div class="sort-wrap">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M7 12h10M11 18h2"/></svg>
+        <select class="sort-sel" onchange="setSortBy(this.value)">
+          <option value="default">Ordem padrão</option>
+          <option value="price">Menor preço</option>
+          <option value="priceM2">Menor preço/m²</option>
+          <option value="area">Maior área</option>
+          <option value="parcela">Menor 1ª parcela</option>
+          <option value="quitacao">Quitação mais rápida</option>
+        </select>
+      </div>
+      <button class="export-btn" onclick="exportChoices()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="22,6 12,13 2,6"/></svg>
+        <span class="lbl">Exportar Escolhas</span>
+      </button>
+    </div>
+  </div>
+  <div class="filter-bar" id="filter-bar"></div>
+</header>
+
+<main id="main"></main>
+<footer>Imóveis Kelpe · Curitiba, PR · 2026 — <span id="ftotal"></span> imóveis catalogados</footer>
+<div class="toast" id="toast"></div>
+
+<script>
+// ── DADOS ─────────────────────────────────────────────────────────────
+const PROPS = [
+  // CRISTO REI (1-20)
+  {id:1,  bairro:'cristo-rei', num:'01', desc:'FLAG Curitiba — N. Sra. da Luz',                         price:1691060, area:130, priceM2:13008, condo:null, link:'https://www.portocamargo.com.br/empreendimento/em-construcao-flag-curitiba-pr/54'},
+  {id:2,  bairro:'cristo-rei', num:'02', desc:'Sobrado — Pracinha do Araçá',                        price:1490000, area:200, priceM2:7450,  condo:null, link:'https://construa.com.br/imovel/comprar-sobrado-3-quartos-cristo-rei-curitiba-44459/122953'},
+  {id:3,  bairro:'cristo-rei', num:'03', desc:'Reggia 803',                                             price:1300000, area:94,  priceM2:13829, condo:665,  link:'https://www.r2wimoveis.com.br//imovel/venda/10169122'},
+  {id:4,  bairro:'cristo-rei', num:'04', desc:'Frente ao McDonalds',                                    price:1390000, area:105, priceM2:13303, condo:1110, link:'https://www.imovelweb.com.br/propriedades/apartamento-3-dorm-1-suite-2-vagas-cristo-rei-3031815609.html'},
+  {id:5,  bairro:'cristo-rei', num:'05', desc:'Botânica 1 — 2 Quartos + Escritório',                   price:1350000, area:113, priceM2:11946, condo:780,  link:'https://construa.com.br/imovel/comprar-apartamento-2-quartos-cristo-rei-curitiba-44648/129231'},
+  {id:6,  bairro:'cristo-rei', num:'06', desc:'NOVO PELADO — Em frente à Faculdade Estácio',           price:1370495, area:103, priceM2:13305, condo:null, link:'https://www.imovelweb.com.br/propriedades/apartamento-para-venda-em-cristo-rei-de-103.00m-com-3-3033889756.html'},
+  {id:7,  bairro:'cristo-rei', num:'07', desc:'Botânica 2',                                             price:1360000, area:113, priceM2:12035, condo:900,  link:'https://www.imovelweb.com.br/propriedades/apartamento-em-condominio-clube-no-cristo-rei-3-3009969953.html'},
+  {id:8,  bairro:'cristo-rei', num:'08', desc:'Sobrado Triplex — Próximo Padaria/Jazz',                 price:1350000, area:191, priceM2:7068,  condo:null, link:'https://www.imovelweb.com.br/propriedades/sobrado-triplex-com-191-62-m-no-cristo-rei-3027073884.html'},
+  {id:9,  bairro:'cristo-rei', num:'09', desc:'London — Próximo Jazz',                                  price:1350000, area:108, priceM2:12500, condo:1275, link:'https://www.imovelweb.com.br/propriedades/apartamento-a-venda-com-3-quartos-no-cristo-rei-em-3028347420.html'},
+  {id:10, bairro:'cristo-rei', num:'10', desc:'London 2',                                               price:1300000, area:132, priceM2:9848,  condo:828,  link:'https://www.imovelweb.com.br/propriedades/apartamento-no-london-residence-com-3-dormitorios-a-2986012191.html'},
+  {id:11, bairro:'cristo-rei', num:'11', desc:'Botânica 3',                                             price:1290000, area:113, priceM2:11415, condo:799,  link:'https://www.imovelweb.com.br/propriedades/apartamento-exclusivo-no-residencial-cristo-rei-3015346909.html'},
+  {id:12, bairro:'cristo-rei', num:'12', desc:'Apartamento 3 Quartos',                                  price:1250000, area:108, priceM2:11574, condo:763,  link:'https://www.imovelweb.com.br/propriedades/apartamento-03quartos-bairro-cristo-rei-curitiba-pr-3014748603.html'},
+  {id:13, bairro:'cristo-rei', num:'13', desc:'Casa Térrea — Próximo Podrinho, em frente ao Solarium', price:1232000, area:200, priceM2:6160,  condo:null, link:'https://www.imovelweb.com.br/propriedades/casa-terrea-no-cristo-rei-3014631954.html'},
+  {id:14, bairro:'cristo-rei', num:'14', desc:'Cobertura Duplex — Atrás Casa da Tia',                  price:1160900, area:155, priceM2:7489,  condo:1027, link:'https://www.imovelweb.com.br/propriedades/cobertura-duplex-nova-com-132-72m-de-apartamento-3002441797.html'},
+  {id:15, bairro:'cristo-rei', num:'15', desc:'Reggia 103',                                             price:1070000, area:94,  priceM2:11382, condo:665,  link:'https://www.imovelweb.com.br/propriedades/apto-3q-1-suite-1-vg-94m-porteira-fechada-no-3033538043.html'},
+  {id:16, bairro:'cristo-rei', num:'16', desc:'London 3 — Precisa reforma na cozinha',                 price:1050000, area:108, priceM2:9722,  condo:967,  link:'https://www.imovelweb.com.br/propriedades/apartamento-padrao-cristo-rei-divisa-altoda-xv-3022445149.html'},
+  {id:17, bairro:'cristo-rei', num:'17', desc:'Esquina frente Jd. Botânico — 2 Quartos + Escritório',  price:999000,  area:124, priceM2:8056,  condo:1100, link:'https://construa.com.br/imovel/comprar-apartamento-2-quartos-cristo-rei-curitiba-44862/3572435'},
+  {id:18, bairro:'cristo-rei', num:'18', desc:'Próximo Senhores do Pão',                               price:990000,  area:94,  priceM2:10531, condo:1131, link:'https://www.imovelweb.com.br/propriedades/imoveis-no-cristo-rei-3026497378.html'},
+  {id:19, bairro:'cristo-rei', num:'19', desc:'Em frente ao Condor',                                   price:940000,  area:144, priceM2:6527,  condo:1200, link:'https://www.imovelweb.com.br/propriedades/lindo-apartamento-no-cristo-rei.-3019000589.html'},
+  {id:20, bairro:'cristo-rei', num:'20', desc:'Atrás do Mercado Assaí',                                price:580000,  area:110, priceM2:5272,  condo:614,  link:'https://construa.com.br/imovel/comprar-apartamento-cristo-rei-curitiba-51431/129863'},
+  // BATEL (21, 25-36)
+  {id:21, bairro:'batel', num:'21', desc:'Sete de Setembro — Próximo Pequeno Príncipe',    price:1400000, area:150, priceM2:9333,  condo:900,  link:'https://www.imovelweb.com.br/propriedades/-br-exclusividade-no-batel-br-3001929672.html'},
+  {id:25, bairro:'batel', num:'25', desc:'Próximo Praça Japão',                            price:1450000, area:123, priceM2:11789, condo:1600, link:'https://www.imovelweb.com.br/propriedades/apartamento-a-venda-no-batel-totalmente-reformado-com-3031990174.html'},
+  {id:26, bairro:'batel', num:'26', desc:'Próximo Praça Japão 2',                          price:1435000, area:205, priceM2:7000,  condo:1410, link:'https://www.imovelweb.com.br/propriedades/apartamento-a-venda-em-batel-3033024369.html'},
+  {id:27, bairro:'batel', num:'27', desc:'Cobertura Duplex — Entre Agostinho e Anchieta',  price:1390000, area:162, priceM2:8580,  condo:1076, link:'https://www.imovelweb.com.br/propriedades/cobertura-no-flex-city-champagnat-04-quartos-03-3022964413.html'},
+  {id:28, bairro:'batel', num:'28', desc:'Próximo Praça Japão 3',                          price:1360000, area:117, priceM2:11624, condo:1030, link:'https://www.imovelweb.com.br/propriedades/apartamento-a-venda-no-batel-com-3-quartos-117m-3022826890.html'},
+  {id:29, bairro:'batel', num:'29', desc:'Cel. Dulcídio com Com. Araújo',                  price:1320000, area:128, priceM2:10312, condo:1200, link:'https://www.imovelweb.com.br/propriedades/apartamento-reformado-a-venda-de-128m-com-3-3017124241.html'},
+  {id:30, bairro:'batel', num:'30', desc:'Madeirinha — Augusto Stellfeld',                 price:1300000, area:145, priceM2:8966,  condo:1300, link:'https://www.imovelweb.com.br/propriedades/apartamento-no-batel-soho-ao-lado-da-praca-espanha-3007093688.html'},
+  {id:31, bairro:'batel', num:'31', desc:'4 Quartos — Pequeno Príncipe',                   price:1250000, area:175, priceM2:7143,  condo:1800, link:'https://www.imovelweb.com.br/propriedades/apartamento-4-quartos-a-venda-no-batel-3030572255.html'},
+  {id:32, bairro:'batel', num:'32', desc:'Hospital Santa Cruz',                            price:1150000, area:117, priceM2:9829,  condo:1008, link:'https://www.imovelweb.com.br/propriedades/apartamento-a-venda-no-batel-com-3-dormitorios-3031545608.html'},
+  {id:33, bairro:'batel', num:'33', desc:'Iguaçu',                                         price:1099000, area:102, priceM2:10775, condo:780,  link:'https://www.imovelweb.com.br/propriedades/apartamento-no-tower-club-house-03-quartos-01-vaga-3026987382.html'},
+  {id:34, bairro:'batel', num:'34', desc:'Novo — Cobertura Duplex',                        price:1090000, area:124, priceM2:8790,  condo:947,  link:'https://www.imovelweb.com.br/propriedades/cobertura-duplex-agua-verde-03-dorm-02-vagas-3005766539.html'},
+  {id:35, bairro:'batel', num:'35', desc:'2 Quartos — Possível reverter closet',           price:1060000, area:112, priceM2:9464,  condo:666,  link:'https://www.imovelweb.com.br/propriedades/apartamento-residencial-batel-3033122430.html'},
+  {id:36, bairro:'batel', num:'36', desc:'Shop Curitiba',                                  price:1049000, area:115, priceM2:9122,  condo:1333, link:'https://www.imovelweb.com.br/propriedades/apartamento-reformado-a-venda-com-3-quartos-no-batel-3029851469.html'},
+  // BIGORRILHO (22, 37-45)
+  {id:22, bairro:'bigorrilho', num:'22', desc:'Duplex 4 Quartos — Próximo Barigui',        price:1390000, area:162, priceM2:8580,  condo:1076, link:'https://www.imovelweb.com.br/propriedades/apartamento-duplex-04-quartos-03-vagas-andar-alto-3022964479.html'},
+  {id:37, bairro:'bigorrilho', num:'37', desc:'Cobertura 4 Dormitórios',                   price:1450000, area:120, priceM2:12083, condo:750,  link:'https://www.imovelweb.com.br/propriedades/cobertura-com-4-dormitorios-a-venda-120-m-por-r$-3029539367.html'},
+  {id:38, bairro:'bigorrilho', num:'38', desc:'Cobertura Duplex — Mercês/Arya1',           price:1390000, area:118, priceM2:11780, condo:1836, link:'https://www.imovelweb.com.br/propriedades/cobertura-a-venda-no-merces-arya1-3023471009.html'},
+  {id:39, bairro:'bigorrilho', num:'39', desc:'Próximo Mackenzie',                         price:1320000, area:84,  priceM2:15714, condo:850,  link:'https://www.imovelweb.com.br/propriedades/apartamento-semimobiliado-a-venda-no-champagnat-co-3024258313.html'},
+  {id:40, bairro:'bigorrilho', num:'40', desc:'Praça da Ucrânia',                          price:1299900, area:150, priceM2:8666,  condo:1025, link:'https://www.imovelweb.com.br/propriedades/apartamento-para-venda-tem-150-metros-quadrados-com-3-3033030153.html'},
+  {id:41, bairro:'bigorrilho', num:'41', desc:'Janelão',                                   price:1280000, area:155, priceM2:8258,  condo:766,  link:'https://www.imovelweb.com.br/propriedades/apartamento-a-venda-no-bigorrilho-arya1-3019735649.html'},
+  {id:42, bairro:'bigorrilho', num:'42', desc:'Apartamento — Bigorrilho',                  price:1230906, area:112, priceM2:10990, condo:950,  link:'https://www.imovelweb.com.br/propriedades/apartamento-a-venda-em-bigorrilho-3027270880.html'},
+  {id:43, bairro:'bigorrilho', num:'43', desc:'4 Quartos — Bigorrilho',                    price:1200000, area:203, priceM2:5911,  condo:1733, link:'https://www.imovelweb.com.br/propriedades/apartamento-a-venda-em-bigorrilho-3002985804.html'},
+  {id:44, bairro:'bigorrilho', num:'44', desc:'Cobertura Triplex',                         price:1183000, area:175, priceM2:6760,  condo:1611, link:'https://www.imovelweb.com.br/propriedades/apartamento-a-venda-em-bigorrilho-3001585405.html'},
+  {id:45, bairro:'bigorrilho', num:'45', desc:'Excelsior',                                 price:1180000, area:156, priceM2:7564,  condo:1627, link:'https://www.imovelweb.com.br/propriedades/apartamento-a-venda-em-bigorrilho-2944365051.html'},
+  // JUVEVÊ (23, 46)
+  {id:23, bairro:'juveve', num:'23', desc:'Próximo Baggio e King Temaki Juvevê',           price:1400000, area:151, priceM2:9271,  condo:1200, link:'https://www.imovelweb.com.br/propriedades/apartamento-a-venda-com-3-quartos-no-juveve-em-3027373923.html'},
+  {id:46, bairro:'juveve', num:'46', desc:'Cobertura Duplex — Juvevê',                     price:1290000, area:196, priceM2:6582,  condo:1200, link:'https://www.imovelweb.com.br/propriedades/cobertura-duplex-com-196m-no-bairro-juveve-curiti-3022085487.html'},
+  {id:47, bairro:'juveve', num:'47', desc:'Augusto Severo',                price:1176000, area:138, priceM2:8522,  condo:1133, link:'https://www.imovelweb.com.br/propriedades/apartamento-com-138.8-m-3-quartos-sendo-1-suite-a-3032425103.html'},
+  {id:48, bairro:'juveve', num:'48', desc:'Próximo Al Beirut / Jacobina',  price:1090000, area:120, priceM2:9083,  condo:830,  link:'https://www.imovelweb.com.br/propriedades/apartamento-de-3-quartos-2-vagas-de-garagem-1-3034720769.html'},
+  {id:49, bairro:'juveve', num:'49', desc:'Boteco Curitiba',                price:997000,  area:96,  priceM2:10385, condo:1230, link:'https://www.imovelweb.com.br/propriedades/apartamento-a-venda-no-juveve-3-quartos-1-suite-3018742356.html'},
+  // ÁGUA VERDE (24)
+  {id:24, bairro:'agua-verde', num:'24', desc:'Younique — Próximo Cemitério Água Verde 2',   price:1390000, area:120, priceM2:11583, condo:1000, link:'https://www.imovelweb.com.br/propriedades/apart-younique-agua-verde-ensolarado-lindamente-3031990790.html'},
+  {id:50, bairro:'agua-verde', num:'50', desc:'Casa — Próximo Kennedy / Av. Água Verde',  price:1400000, area:251, priceM2:5578,  condo:null, link:'https://www.imovelweb.com.br/propriedades/casa-a-venda-na-agua-verde-3010405138.html'},
+  {id:51, bairro:'agua-verde', num:'51', desc:'Ed. Silva Marfim',                          price:1389000, area:136, priceM2:10213, condo:1143, link:'https://www.imovelweb.com.br/propriedades/ed.-silva-marfim-area-total-222-58-3-dormitorios-3014146523.html'},
+  {id:52, bairro:'agua-verde', num:'52', desc:'Casa Triplex com Piscina',                  price:1297000, area:139, priceM2:9331,  condo:600,  link:'https://www.imovelweb.com.br/propriedades/sobrado-3005505239.html'},
+  {id:53, bairro:'agua-verde', num:'53', desc:'Shop Água Verde',                           price:1295000, area:118, priceM2:10975, condo:850,  link:'https://www.imovelweb.com.br/propriedades/apartamento-semi-mobiliado-com-3-quartos-no-agua-3002442430.html'},
+  {id:54, bairro:'agua-verde', num:'54', desc:'Apartamento — Água Verde',                  price:1270000, area:98,  priceM2:12959, condo:136,  link:'https://www.imovelweb.com.br/propriedades/apartamento-com-3-quartos-e-2-vagas-a-venda-no-agua-3031160833.html'},
+  {id:55, bairro:'agua-verde', num:'55', desc:'Casa — Próximo Costelão Água Verde',        price:1250000, area:157, priceM2:7962,  condo:null, link:'https://www.imovelweb.com.br/propriedades/casa-a-venda-na-agua-verde-3023034062.html'},
+  {id:56, bairro:'agua-verde', num:'56', desc:'Casa — Praça do Paraná',                    price:1249000, area:214, priceM2:5836,  condo:null, link:'https://www.imovelweb.com.br/propriedades/sobrado-para-venda-em-agua-verde-de-214.00m-com-4-3034143712.html'},
+  {id:57, bairro:'agua-verde', num:'57', desc:'Rua Pará',                                  price:1190000, area:105, priceM2:11333, condo:983,  link:'https://www.imovelweb.com.br/propriedades/apartamento-a-venda-na-agua-verde-3026372312.html'},
+  {id:58, bairro:'agua-verde', num:'58', desc:'Próximo Kanavial',                          price:1150003, area:118, priceM2:9746,  condo:784,  link:'https://www.imovelweb.com.br/propriedades/apartamento-garden-agua-verde-3-dormitorios-2-suites-3-3008644930.html'},
+  {id:59, bairro:'agua-verde', num:'59', desc:'Garden — que visitamos',                    price:1150000, area:182, priceM2:6319,  condo:660,  link:'https://www.imovelweb.com.br/propriedades/apartamento-a-venda-na-agua-verde-3015354114.html'},
+  {id:60, bairro:'agua-verde', num:'60', desc:'Cobertura Duplex — Av. dos Estados',       price:1100000, area:186, priceM2:5914,  condo:1060, link:'https://www.imovelweb.com.br/propriedades/apartamento-a-venda-na-agua-verde-3024347322.html'},
+  {id:61, bairro:'agua-verde', num:'61', desc:'Garden — Bom Jesus Água Verde',             price:1070000, area:117, priceM2:9145,  condo:1330, link:'https://www.imovelweb.com.br/propriedades/garden-com-3-quartos-no-edificio-via-del-parco-no-agua-3026213763.html'},
+  {id:62, bairro:'agua-verde', num:'62', desc:'Cel. Dulcídio — Água Verde',                price:1050000, area:129, priceM2:8140,  condo:1650, link:'https://www.imovelweb.com.br/propriedades/apartamento-a-venda-na-agua-verde-3012868341.html'},
+  {id:63, bairro:'agua-verde', num:'63', desc:'Rep. Argentina',                            price:1050000, area:102, priceM2:10294, condo:1709, link:'https://www.imovelweb.com.br/propriedades/apartamento-a-venda-na-agua-verde-3024347437.html'},
+  {id:64, bairro:'agua-verde', num:'64', desc:'Petit Carneiro',                            price:1045000, area:154, priceM2:6786,  condo:1777, link:'https://www.imovelweb.com.br/propriedades/apartamento-com-154.33-m-3-quartos-sendo-1-suite-a-3027620340.html'},
+  {id:65, bairro:'agua-verde', num:'65', desc:'Apartamento — Água Verde',                  price:1030000, area:117, priceM2:8803,  condo:1350, link:'https://www.imovelweb.com.br/propriedades/apartamento-3-dormitorios-suite-117m-privativos-3009081566.html'},
+];
+
+const BAIRROS = [
+  {id:'cristo-rei', label:'Cristo Rei'},
+  {id:'batel',      label:'Batel'},
+  {id:'bigorrilho', label:'Bigorrilho'},
+  {id:'juveve',     label:'Juvevê'},
+  {id:'agua-verde', label:'Água Verde'},
+];
+
+// ── TIERS ─────────────────────────────────────────────────────────────
+(function(){
+  const s=[...PROPS].sort((a,b)=>a.priceM2-b.priceM2), n=s.length;
+  const q=p=>s[Math.ceil(n*p)-1].priceM2;
+  const T=[q(0.2),q(0.4),q(0.6),q(0.8)];
+  PROPS.forEach(p=>{ p.tier=p.priceM2<=T[0]?1:p.priceM2<=T[1]?2:p.priceM2<=T[2]?3:p.priceM2<=T[3]?4:5; });
+})();
+
+// ── FINANCIAMENTO ─────────────────────────────────────────────────────
+const FIN = {
+  entrada:    600000,
+  prazo:      360,          // 30 anos (SAC)
+  taxaMes:    0.12 / 12,    // 12% a.a. → 1% a.m.
+  orcamento:  12288.26,
+  fgts:       67968,
+  fgtsPer:    24,           // meses
+};
+
+function simularFin(price, condo) {
+  const F = price - FIN.entrada;
+  const cMes = condo || 0;
+
+  if (F <= 0) return { tipo: 'sem_fin' };
+
+  const A         = F / FIN.prazo;
+  const parcela1  = A + F * FIN.taxaMes;
+  const overBudget = (parcela1 + cMes) > FIN.orcamento;
+
+  let saldo = F, mes = 0;
+  while (saldo > 0.01 && mes < FIN.prazo) {
+    mes++;
+    const juros      = saldo * FIN.taxaMes;
+    const amortReg   = Math.min(A, saldo);
+    const parcelaAt  = amortReg + juros;
+    const disp       = FIN.orcamento - parcelaAt - cMes;
+    const amortExtra = Math.max(0, Math.min(disp, saldo - amortReg));
+    const fgtsEste   = (mes % FIN.fgtsPer === 0)
+      ? Math.min(FIN.fgts, Math.max(0, saldo - amortReg - amortExtra))
+      : 0;
+    saldo -= (amortReg + amortExtra + fgtsEste);
+    if (saldo < 0) saldo = 0;
+  }
+
+  return { tipo: overBudget ? 'over' : 'ok', parcela1, meses: mes, over: overBudget, financiado: F };
+}
+
+function fmtMeses(m) {
+  if (m >= FIN.prazo) return '30 anos (prazo máx.)';
+  const a = Math.floor(m / 12), mm = m % 12;
+  if (a === 0) return `${mm} meses`;
+  if (mm === 0) return `~${a} anos`;
+  return `~${a}a ${mm}m`;
+}
+
+// Pré-calcula financiamento para todos
+PROPS.forEach(p => { p.fin = simularFin(p.price, p.condo); });
+
+// ── STATE ─────────────────────────────────────────────────────────────
+const SK = 'kelpe_v4'; // mesma chave — votos anteriores preservados
+let votes={}, view='neighborhood', bairro='cristo-rei', sortBy='default';
+function loadVotes(){ try{ votes=JSON.parse(localStorage.getItem(SK))||{}; }catch{ votes={}; } }
+function saveVotes(){ localStorage.setItem(SK,JSON.stringify(votes)); }
+
+// ── SVGs ──────────────────────────────────────────────────────────────
+const IDUP   = `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M2 20h2c.55 0 1-.45 1-1v-9c0-.55-.45-1-1-1H2v11zm19.83-7.12c.11-.25.17-.52.17-.88v-2c0-1.1-.9-2-2-2h-6.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L13.17 2 7.59 7.59C7.22 7.95 7 8.45 7 9v11c0 1.1.9 2 2 2h9c.83 0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73v-2z"/></svg>`;
+const IDDOWN = `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 4h-2c-.55 0-1 .45-1 1v9c0 .55.45 1 1 1h2V4zM2.17 11.12c-.11.25-.17.52-.17.88v2c0 1.1.9 2 2 2h6.31l-.95 4.57-.03.32c0 .41.17.79.44 1.06L10.83 22l5.59-5.59c.36-.36.58-.86.58-1.41V4c0-1.1-.9-2-2-2H6c-.83 0-1.54.5-1.84 1.22L1.14 10.27c-.09.23-.14.47-.14.73v2z"/></svg>`;
+const IDWA   = `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.49"/></svg>`;
+const IDEXT  = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>`;
+const TIER_L = ['','$','$$','$$$','$$$$','$$$$$'];
+const TIER_T = ['','Mais barato da lista','','','','Mais caro da lista'];
+const R  = n => 'R$ ' + Math.round(n).toLocaleString('pt-BR');
+
+// ── FINANCING HTML ────────────────────────────────────────────────────
+function finHTML(fin) {
+  if (fin.tipo === 'sem_fin') return '';
+  const anos = Math.round(fin.meses / 12);
+  const anosStr = anos <= 0 ? 'menos de 1 ano' : anos === 1 ? '1 ano' : `${anos} anos`;
+  const overCls = fin.over ? 'chip-fin-warn' : 'chip-fin';
+  const parcela = R(fin.parcela1) + (fin.over ? ' ⚠' : '');
+  return `<div class="chips-fin">
+    <span class="chip ${overCls}">1ª Parcela: ${parcela}</span>
+    <span class="chip chip-fin">Quitação em: ${anosStr}</span>
+  </div>`;
+}
+
+// ── CARD ──────────────────────────────────────────────────────────────
+function cardHTML(p) {
+  const v   = votes[p.id] || null;
+  const cls = v==='up'?'voted-up':v==='down'?'voted-down':'';
+  const condo = p.condo ? `<span class="chip chip-condo">Cond. ${R(p.condo)}</span>` : '';
+  return `
+<div class="card ${cls}" data-id="${p.id}">
+  <div class="card-head">
+    <span class="card-num">Nº ${p.num}</span>
+    <span class="tier tier-${p.tier}" title="${TIER_T[p.tier]}">${TIER_L[p.tier]}</span>
+    <div class="thumbs">
+      <button class="thumb-btn up${v==='up'?' on':''}"   onclick="castVote(${p.id},'up')"   title="Gostei">${IDUP}</button>
+      <button class="thumb-btn down${v==='down'?' on':''}" onclick="castVote(${p.id},'down')" title="Não gostei">${IDDOWN}</button>
+    </div>
+  </div>
+  <div class="card-desc">${p.desc}</div>
+  <div class="chips">
+    <span class="chip chip-area">${p.area} m²</span>
+    <span class="chip chip-pm2">${R(p.priceM2)}/m²</span>
+    ${condo}
+  </div>
+  ${finHTML(p.fin)}
+  <div class="card-price"><span class="cur">R$</span>${p.price.toLocaleString('pt-BR')}</div>
+  <div class="card-foot">
+    <a class="link-btn" href="${p.link}" target="_blank">Ver imóvel ${IDEXT}</a>
+    <button class="share-btn" onclick="shareCard(${p.id})">${IDWA} Compartilhar</button>
+  </div>
+</div>`;
+}
+
+function applySort(list) {
+  if (sortBy==='price')    return [...list].sort((a,b)=>a.price-b.price);
+  if (sortBy==='priceM2')  return [...list].sort((a,b)=>a.priceM2-b.priceM2);
+  if (sortBy==='area')     return [...list].sort((a,b)=>b.area-a.area);
+  if (sortBy==='parcela')  return [...list].sort((a,b)=>(a.fin.parcela1||999999)-(b.fin.parcela1||999999));
+  if (sortBy==='quitacao') return [...list].sort((a,b)=>(a.fin.meses||999)-(b.fin.meses||999));
+  return list;
+}
+
+// ── RENDER ────────────────────────────────────────────────────────────
+function render() {
+  const el = document.getElementById('main');
+  let list, title;
+  if (view==='aprovados') {
+    list=PROPS.filter(p=>votes[p.id]==='up'); title='👍&nbsp; Imóveis que gostei';
+  } else if (view==='reprovados') {
+    list=PROPS.filter(p=>votes[p.id]==='down'); title='👎&nbsp; Imóveis que não gostei';
+  } else if (bairro === 'todos') {
+    // Show all bairros grouped with section labels
+    const el2 = document.getElementById('main');
+    const groups = BAIRROS.map(b => {
+      const bList = applySort(PROPS.filter(p => p.bairro === b.id));
+      if (!bList.length) return '';
+      return `<div class="section-label">${b.label}</div><div class="grid">${bList.map(cardHTML).join('')}</div>`;
+    }).join('');
+    el2.innerHTML = groups;
+    return;
+  } else {
+    list=PROPS.filter(p=>p.bairro===bairro);
+    title=BAIRROS.find(b=>b.id===bairro)?.label||'';
+  }
+  if (!list.length) {
+    const msg=view==='aprovados'?'Nenhum imóvel aprovado ainda.<br>Use o 👍 nos cards para marcar.'
+      :view==='reprovados'?'Nenhum imóvel reprovado ainda.<br>Use o 👎 nos cards para marcar.'
+      :'Nenhum imóvel neste bairro.';
+    el.innerHTML=`<div class="section-label">${title}</div><div class="empty"><div class="icon">${view==='aprovados'?'👍':view==='reprovados'?'👎':'🏠'}</div><p>${msg}</p></div>`;
+    return;
+  }
+  el.innerHTML=`<div class="section-label">${title}</div><div class="grid">${applySort(list).map(cardHTML).join('')}</div>`;
+}
+
+// ── ACTIONS ───────────────────────────────────────────────────────────
+function castVote(id,dir) {
+  votes[id]===dir?delete votes[id]:votes[id]=dir;
+  saveVotes(); updateCounts(); render();
+}
+function toggleView(mode) {
+  view=view===mode?'neighborhood':mode;
+  document.getElementById('btn-up').className  ='view-btn'+(view==='aprovados' ?' active-up':'');
+  document.getElementById('btn-down').className='view-btn'+(view==='reprovados'?' active-down':'');
+  document.getElementById('filter-bar').classList.toggle('dimmed',view!=='neighborhood');
+  render();
+}
+function setBairro(id) {
+  bairro=id;
+  if (view!=='neighborhood') {
+    view='neighborhood';
+    document.getElementById('btn-up').className='view-btn';
+    document.getElementById('btn-down').className='view-btn';
+    document.getElementById('filter-bar').classList.remove('dimmed');
+  }
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.toggle('active',b.dataset.id===id));
+  render();
+}
+function setSortBy(v) { sortBy=v; render(); }
+
+function updateCounts() {
+  const vals=Object.values(votes);
+  document.getElementById('cnt-up').textContent  =vals.filter(v=>v==='up').length;
+  document.getElementById('cnt-down').textContent=vals.filter(v=>v==='down').length;
+}
+
+function shareCard(id) {
+  const p=PROPS.find(x=>x.id===id);
+  const fin=p.fin;
+  const finTxt = fin.tipo==='sem_fin' ? 'Sem financiamento necessário'
+    : `1ª parcela: ${R(fin.parcela1)} | Quitação: ${fmtMeses(fin.meses)}`;
+  window.open('https://wa.me/?text='+encodeURIComponent(
+    `🏠 *Imóveis Kelpe* — Nº ${p.num}\n${p.desc}\n${R(p.price)} | ${p.area}m² | ${R(p.priceM2)}/m²\n💳 ${finTxt}\n${p.link}`
+  ),'_blank');
+}
+
+function exportChoices() {
+  const upIds  =Object.entries(votes).filter(([,v])=>v==='up').map(([k])=>+k);
+  const downIds=Object.entries(votes).filter(([,v])=>v==='down').map(([k])=>+k);
+  if (!upIds.length&&!downIds.length){ showToast('Nenhum imóvel classificado ainda!'); return; }
+  const fmt=ids=>ids.length
+    ?ids.map(id=>{
+        const p=PROPS.find(x=>x.id===id);
+        const fin=p.fin;
+        const finTxt=fin.tipo==='sem_fin'?'Sem financiamento':`1ª parcela: ${R(fin.parcela1)} | Quitação: ${fmtMeses(fin.meses)}`;
+        return `[Nº ${p.num}] ${p.desc}\n${R(p.price)} | ${p.area}m² | ${R(p.priceM2)}/m²\n${finTxt}\n${p.link}`;
+      }).join('\n\n')
+    :'(nenhum)';
+  const body=`IMÓVEIS KELPE — MINHAS ESCOLHAS\n${'─'.repeat(36)}\n\n✅ IMÓVEIS QUE GOSTEI:\n\n${fmt(upIds)}\n\n\n❌ IMÓVEIS QUE NÃO GOSTEI:\n\n${fmt(downIds)}`;
+  window.location.href=`mailto:?subject=${encodeURIComponent('Imóveis Kelpe — Minhas Escolhas')}&body=${encodeURIComponent(body)}`;
+}
+
+function showToast(msg) {
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2600);
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────
+function init() {
+  loadVotes();
+  const fb=document.getElementById('filter-bar');
+  fb.innerHTML=BAIRROS.map(b=>{
+    const n=PROPS.filter(p=>p.bairro===b.id).length;
+    return `<button class="filter-btn${b.id===bairro?' active':''}" data-id="${b.id}" onclick="setBairro('${b.id}')">${b.label}<span class="cnt">${n}</span></button>`;
+  }).join('') + `<button class="filter-btn${bairro==='todos'?' active':''}" data-id="todos" onclick="setBairro('todos')">Todos<span class="cnt">${PROPS.length}</span></button>`;
+  document.getElementById('ftotal').textContent=PROPS.length;
+  updateCounts();
+  render();
+}
+init();
+</script>
+</body>
+</html>
