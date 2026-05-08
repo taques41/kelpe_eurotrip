@@ -174,8 +174,8 @@
 // ── DADOS ─────────────────────────────────────────────────────────────
 const PROPS = [
   // CRISTO REI (1-20)
-  {id:1,  bairro:'cristo-rei', num:'01', desc:'NOVO PELADO — N. Sra. da Luz',                         price:1691060, area:130, priceM2:13008, condo:null, link:'https://www.portocamargo.com.br/empreendimento/em-construcao-flag-curitiba-pr/54'},
-  {id:2,  bairro:'cristo-rei', num:'02', desc:'Sobrado 3 Quartos',                        price:1490000, area:200, priceM2:7450,  condo:null, link:'https://construa.com.br/imovel/comprar-sobrado-3-quartos-cristo-rei-curitiba-44459/122953'},
+  {id:1,  bairro:'cristo-rei', num:'01', desc:'FLAG Curitiba — N. Sra. da Luz',                         price:1691060, area:130, priceM2:13008, condo:null, link:'https://www.portocamargo.com.br/empreendimento/em-construcao-flag-curitiba-pr/54'},
+  {id:2,  bairro:'cristo-rei', num:'02', desc:'Sobrado — Pracinha do Araçá',                        price:1490000, area:200, priceM2:7450,  condo:null, link:'https://construa.com.br/imovel/comprar-sobrado-3-quartos-cristo-rei-curitiba-44459/122953'},
   {id:3,  bairro:'cristo-rei', num:'03', desc:'Reggia 803',                                             price:1300000, area:94,  priceM2:13829, condo:665,  link:'https://www.r2wimoveis.com.br//imovel/venda/10169122'},
   {id:4,  bairro:'cristo-rei', num:'04', desc:'Frente ao McDonalds',                                    price:1390000, area:105, priceM2:13303, condo:1110, link:'https://www.imovelweb.com.br/propriedades/apartamento-3-dorm-1-suite-2-vagas-cristo-rei-3031815609.html'},
   {id:5,  bairro:'cristo-rei', num:'05', desc:'Botânica 1 — 2 Quartos + Escritório',                   price:1350000, area:113, priceM2:11946, condo:780,  link:'https://construa.com.br/imovel/comprar-apartamento-2-quartos-cristo-rei-curitiba-44648/129231'},
@@ -222,8 +222,27 @@ const PROPS = [
   // JUVEVÊ (23, 46)
   {id:23, bairro:'juveve', num:'23', desc:'Próximo Baggio e King Temaki Juvevê',           price:1400000, area:151, priceM2:9271,  condo:1200, link:'https://www.imovelweb.com.br/propriedades/apartamento-a-venda-com-3-quartos-no-juveve-em-3027373923.html'},
   {id:46, bairro:'juveve', num:'46', desc:'Cobertura Duplex — Juvevê',                     price:1290000, area:196, priceM2:6582,  condo:1200, link:'https://www.imovelweb.com.br/propriedades/cobertura-duplex-com-196m-no-bairro-juveve-curiti-3022085487.html'},
+  {id:47, bairro:'juveve', num:'47', desc:'Augusto Severo',                price:1176000, area:138, priceM2:8522,  condo:1133, link:'https://www.imovelweb.com.br/propriedades/apartamento-com-138.8-m-3-quartos-sendo-1-suite-a-3032425103.html'},
+  {id:48, bairro:'juveve', num:'48', desc:'Próximo Al Beirut / Jacobina',  price:1090000, area:120, priceM2:9083,  condo:830,  link:'https://www.imovelweb.com.br/propriedades/apartamento-de-3-quartos-2-vagas-de-garagem-1-3034720769.html'},
+  {id:49, bairro:'juveve', num:'49', desc:'Boteco Curitiba',                price:997000,  area:96,  priceM2:10385, condo:1230, link:'https://www.imovelweb.com.br/propriedades/apartamento-a-venda-no-juveve-3-quartos-1-suite-3018742356.html'},
   // ÁGUA VERDE (24)
-  {id:24, bairro:'agua-verde', num:'24', desc:'Younique — Próximo Cemitério Água Verde',   price:1390000, area:120, priceM2:11583, condo:1000, link:'https://www.imovelweb.com.br/propriedades/apart-younique-agua-verde-ensolarado-lindamente-3031990790.html'},
+  {id:24, bairro:'agua-verde', num:'24', desc:'Younique — Próximo Cemitério Água Verde 2',   price:1390000, area:120, priceM2:11583, condo:1000, link:'https://www.imovelweb.com.br/propriedades/apart-younique-agua-verde-ensolarado-lindamente-3031990790.html'},
+  {id:50, bairro:'agua-verde', num:'50', desc:'Casa — Próximo Kennedy / Av. Água Verde',  price:1400000, area:251, priceM2:5578,  condo:null, link:'https://www.imovelweb.com.br/propriedades/casa-a-venda-na-agua-verde-3010405138.html'},
+  {id:51, bairro:'agua-verde', num:'51', desc:'Ed. Silva Marfim',                          price:1389000, area:136, priceM2:10213, condo:1143, link:'https://www.imovelweb.com.br/propriedades/ed.-silva-marfim-area-total-222-58-3-dormitorios-3014146523.html'},
+  {id:52, bairro:'agua-verde', num:'52', desc:'Casa Triplex com Piscina',                  price:1297000, area:139, priceM2:9331,  condo:600,  link:'https://www.imovelweb.com.br/propriedades/sobrado-3005505239.html'},
+  {id:53, bairro:'agua-verde', num:'53', desc:'Shop Água Verde',                           price:1295000, area:118, priceM2:10975, condo:850,  link:'https://www.imovelweb.com.br/propriedades/apartamento-semi-mobiliado-com-3-quartos-no-agua-3002442430.html'},
+  {id:54, bairro:'agua-verde', num:'54', desc:'Apartamento — Água Verde',                  price:1270000, area:98,  priceM2:12959, condo:136,  link:'https://www.imovelweb.com.br/propriedades/apartamento-com-3-quartos-e-2-vagas-a-venda-no-agua-3031160833.html'},
+  {id:55, bairro:'agua-verde', num:'55', desc:'Casa — Próximo Costelão Água Verde',        price:1250000, area:157, priceM2:7962,  condo:null, link:'https://www.imovelweb.com.br/propriedades/casa-a-venda-na-agua-verde-3023034062.html'},
+  {id:56, bairro:'agua-verde', num:'56', desc:'Casa — Praça do Paraná',                    price:1249000, area:214, priceM2:5836,  condo:null, link:'https://www.imovelweb.com.br/propriedades/sobrado-para-venda-em-agua-verde-de-214.00m-com-4-3034143712.html'},
+  {id:57, bairro:'agua-verde', num:'57', desc:'Rua Pará',                                  price:1190000, area:105, priceM2:11333, condo:983,  link:'https://www.imovelweb.com.br/propriedades/apartamento-a-venda-na-agua-verde-3026372312.html'},
+  {id:58, bairro:'agua-verde', num:'58', desc:'Próximo Kanavial',                          price:1150003, area:118, priceM2:9746,  condo:784,  link:'https://www.imovelweb.com.br/propriedades/apartamento-garden-agua-verde-3-dormitorios-2-suites-3-3008644930.html'},
+  {id:59, bairro:'agua-verde', num:'59', desc:'Garden — que visitamos',                    price:1150000, area:182, priceM2:6319,  condo:660,  link:'https://www.imovelweb.com.br/propriedades/apartamento-a-venda-na-agua-verde-3015354114.html'},
+  {id:60, bairro:'agua-verde', num:'60', desc:'Cobertura Duplex — Av. dos Estados',       price:1100000, area:186, priceM2:5914,  condo:1060, link:'https://www.imovelweb.com.br/propriedades/apartamento-a-venda-na-agua-verde-3024347322.html'},
+  {id:61, bairro:'agua-verde', num:'61', desc:'Garden — Bom Jesus Água Verde',             price:1070000, area:117, priceM2:9145,  condo:1330, link:'https://www.imovelweb.com.br/propriedades/garden-com-3-quartos-no-edificio-via-del-parco-no-agua-3026213763.html'},
+  {id:62, bairro:'agua-verde', num:'62', desc:'Cel. Dulcídio — Água Verde',                price:1050000, area:129, priceM2:8140,  condo:1650, link:'https://www.imovelweb.com.br/propriedades/apartamento-a-venda-na-agua-verde-3012868341.html'},
+  {id:63, bairro:'agua-verde', num:'63', desc:'Rep. Argentina',                            price:1050000, area:102, priceM2:10294, condo:1709, link:'https://www.imovelweb.com.br/propriedades/apartamento-a-venda-na-agua-verde-3024347437.html'},
+  {id:64, bairro:'agua-verde', num:'64', desc:'Petit Carneiro',                            price:1045000, area:154, priceM2:6786,  condo:1777, link:'https://www.imovelweb.com.br/propriedades/apartamento-com-154.33-m-3-quartos-sendo-1-suite-a-3027620340.html'},
+  {id:65, bairro:'agua-verde', num:'65', desc:'Apartamento — Água Verde',                  price:1030000, area:117, priceM2:8803,  condo:1350, link:'https://www.imovelweb.com.br/propriedades/apartamento-3-dormitorios-suite-117m-privativos-3009081566.html'},
 ];
 
 const BAIRROS = [
@@ -366,6 +385,16 @@ function render() {
     list=PROPS.filter(p=>votes[p.id]==='up'); title='👍&nbsp; Imóveis que gostei';
   } else if (view==='reprovados') {
     list=PROPS.filter(p=>votes[p.id]==='down'); title='👎&nbsp; Imóveis que não gostei';
+  } else if (bairro === 'todos') {
+    // Show all bairros grouped with section labels
+    const el2 = document.getElementById('main');
+    const groups = BAIRROS.map(b => {
+      const bList = applySort(PROPS.filter(p => p.bairro === b.id));
+      if (!bList.length) return '';
+      return `<div class="section-label">${b.label}</div><div class="grid">${bList.map(cardHTML).join('')}</div>`;
+    }).join('');
+    el2.innerHTML = groups;
+    return;
   } else {
     list=PROPS.filter(p=>p.bairro===bairro);
     title=BAIRROS.find(b=>b.id===bairro)?.label||'';
@@ -450,7 +479,7 @@ function init() {
   fb.innerHTML=BAIRROS.map(b=>{
     const n=PROPS.filter(p=>p.bairro===b.id).length;
     return `<button class="filter-btn${b.id===bairro?' active':''}" data-id="${b.id}" onclick="setBairro('${b.id}')">${b.label}<span class="cnt">${n}</span></button>`;
-  }).join('');
+  }).join('') + `<button class="filter-btn${bairro==='todos'?' active':''}" data-id="todos" onclick="setBairro('todos')">Todos<span class="cnt">${PROPS.length}</span></button>`;
   document.getElementById('ftotal').textContent=PROPS.length;
   updateCounts();
   render();
