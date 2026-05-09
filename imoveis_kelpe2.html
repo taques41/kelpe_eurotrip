@@ -173,6 +173,9 @@
 <script>
 // ── DADOS ─────────────────────────────────────────────────────────────
 const PROPS = [
+  // CRISTO REI novos (66-67)
+  {id:66, bairro:'cristo-rei', num:'66', desc:'Casa Vizinha',    price:1980000, area:293, priceM2:6758, condo:null, link:'https://jbaimoveis.com.br/imovel/633003997/sobrado-4-quartos-residencial-zella-33-cristo-rei-curitiba/'},
+  {id:67, bairro:'cristo-rei', num:'67', desc:'Casa Feijuca',    price:1750000, area:297, priceM2:5892, condo:null, link:'https://www.imovelweb.com.br/propriedades/casa-terrea-com-quintal-amplo-de-293m-a-venda-no-3009917718.html'},
   // CRISTO REI (1-20)
   {id:1,  bairro:'cristo-rei', num:'01', desc:'FLAG Curitiba — N. Sra. da Luz',                         price:1691060, area:130, priceM2:13008, condo:null, link:'https://www.portocamargo.com.br/empreendimento/em-construcao-flag-curitiba-pr/54'},
   {id:2,  bairro:'cristo-rei', num:'02', desc:'Sobrado — Pracinha do Araçá',                        price:1490000, area:200, priceM2:7450,  condo:null, link:'https://construa.com.br/imovel/comprar-sobrado-3-quartos-cristo-rei-curitiba-44459/122953'},
@@ -224,6 +227,7 @@ const PROPS = [
   {id:46, bairro:'juveve', num:'46', desc:'Cobertura Duplex — Juvevê',                     price:1290000, area:196, priceM2:6582,  condo:1200, link:'https://www.imovelweb.com.br/propriedades/cobertura-duplex-com-196m-no-bairro-juveve-curiti-3022085487.html'},
   {id:47, bairro:'juveve', num:'47', desc:'Augusto Severo',                price:1176000, area:138, priceM2:8522,  condo:1133, link:'https://www.imovelweb.com.br/propriedades/apartamento-com-138.8-m-3-quartos-sendo-1-suite-a-3032425103.html'},
   {id:48, bairro:'juveve', num:'48', desc:'Próximo Al Beirut / Jacobina',  price:1090000, area:120, priceM2:9083,  condo:830,  link:'https://www.imovelweb.com.br/propriedades/apartamento-de-3-quartos-2-vagas-de-garagem-1-3034720769.html'},
+  {id:68, bairro:'juveve', num:'68', desc:'Festval — N. Sra. da Luz',          price:1059777, area:254, priceM2:4172, condo:null, link:'https://www.imovelweb.com.br/propriedades/sobrado-triplex-com-03-quartos-aceita-pet-no-alto-3024991232.html'},
   {id:49, bairro:'juveve', num:'49', desc:'Boteco Curitiba',                price:997000,  area:96,  priceM2:10385, condo:1230, link:'https://www.imovelweb.com.br/propriedades/apartamento-a-venda-no-juveve-3-quartos-1-suite-3018742356.html'},
   // ÁGUA VERDE (24)
   {id:24, bairro:'agua-verde', num:'24', desc:'Younique — Próximo Cemitério Água Verde 2',   price:1390000, area:120, priceM2:11583, condo:1000, link:'https://www.imovelweb.com.br/propriedades/apart-younique-agua-verde-ensolarado-lindamente-3031990790.html'},
@@ -243,6 +247,11 @@ const PROPS = [
   {id:63, bairro:'agua-verde', num:'63', desc:'Rep. Argentina',                            price:1050000, area:102, priceM2:10294, condo:1709, link:'https://www.imovelweb.com.br/propriedades/apartamento-a-venda-na-agua-verde-3024347437.html'},
   {id:64, bairro:'agua-verde', num:'64', desc:'Petit Carneiro',                            price:1045000, area:154, priceM2:6786,  condo:1777, link:'https://www.imovelweb.com.br/propriedades/apartamento-com-154.33-m-3-quartos-sendo-1-suite-a-3027620340.html'},
   {id:65, bairro:'agua-verde', num:'65', desc:'Apartamento — Água Verde',                  price:1030000, area:117, priceM2:8803,  condo:1350, link:'https://www.imovelweb.com.br/propriedades/apartamento-3-dormitorios-suite-117m-privativos-3009081566.html'},
+  // JARDIM DAS AMÉRICAS (69-72)
+  {id:69, bairro:'jd-americas', num:'69', desc:'Próximo Shop Jardim das Américas',  price:1450000, area:272, priceM2:5331, condo:null, link:'https://www.imovelweb.com.br/propriedades/sobrado-de-esquina-com-272-m-a-venda-no-bairro-jardim-3022431273.html'},
+  {id:70, bairro:'jd-americas', num:'70', desc:'Fábrica Gourmet / Verdasca',         price:1350000, area:205, priceM2:6585, condo:null, link:'https://www.imovelweb.com.br/propriedades/exclusividade-no-bairro-jardim-das-americas:-br-s-3010706285.html'},
+  {id:71, bairro:'jd-americas', num:'71', desc:'Guabirotuba — Próximo God',           price:1199900, area:200, priceM2:6000, condo:null, link:'https://www.imovelweb.com.br/propriedades/sobrado-triplex-a-venda-200-metros-quadrados-4-quartos-3012477715.html'},
+  {id:72, bairro:'jd-americas', num:'72', desc:'Academia R2 / Casa Fiesta',           price:1140000, area:220, priceM2:5182, condo:null, link:'https://www.imovelweb.com.br/propriedades/sobrado-jardim-americas-220-m-3-quartos-1-3030379675.html'},
 ];
 
 const BAIRROS = [
@@ -251,6 +260,7 @@ const BAIRROS = [
   {id:'bigorrilho', label:'Bigorrilho'},
   {id:'juveve',     label:'Juvevê'},
   {id:'agua-verde', label:'Água Verde'},
+  {id:'jd-americas', label:'Jd. das Américas'},
 ];
 
 // ── TIERS ─────────────────────────────────────────────────────────────
